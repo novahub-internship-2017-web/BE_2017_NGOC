@@ -1,10 +1,11 @@
 package employee;
 
+import java.util.Scanner;
+
 public class Employee {
   protected String fullname;
   protected int yearOfBirth;
   protected String city;
-  protected String level;
   protected int coefficientsSalary;
   protected int allowance;
   
@@ -36,14 +37,6 @@ public class Employee {
     this.city = city;
   }
 	
-  public String getLevel() {
-    return level;
-  }
-	
-  public void setLevel(String level) {
-    this.level = level;
-  }
-	
   public int getCoefficientsSalary() {
     return coefficientsSalary;
   }
@@ -60,6 +53,48 @@ public class Employee {
     this.allowance = allowance;
   }
   
+  public Employee inputData() {
+    Employee employee = new Employee();
+    
+    Scanner input = new Scanner(System.in);
+    
+    System.out.print("Họ tên : ");
+    employee.setFullname(input.nextLine());
+    
+    while(true) {
+      try {
+        System.out.print("Năm sinh : ");
+        employee.setYearOfBirth(Integer.parseInt(input.nextLine()));
+        break;
+      }catch(NumberFormatException numberException) {
+        System.out.println("Năm sinh vừa nhập không hợp lệ!, mời nhập lại");
+      }
+    }
+    
+    while(true) {
+      try {
+        System.out.print("Phụ cấp  : ");
+        employee.setAllowance(Integer.parseInt(input.nextLine()));
+        break;
+      }catch(NumberFormatException numberException) {
+        System.out.println("Phụ cấp  vừa nhập không hợp lệ!, mời nhập lại");
+      }
+    }
+  
+    while(true) {
+      try {
+        System.out.print("Hệ số lương  : ");
+        employee.setCoefficientsSalary(Integer.parseInt(input.nextLine()));
+        break;
+      }catch(NumberFormatException numberException) {
+        System.out.println("Hệ số lương vừa nhập không hợp lệ!, mời nhập lại");
+      }
+    }
+    
+    input.close();
+    
+    return employee;
+  }
   
   
 }
