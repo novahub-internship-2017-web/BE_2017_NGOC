@@ -1,16 +1,29 @@
 
-d
-squid:S106"9Replace this use of System.out or System.err by a logger.(Êª ïHNRMAJORZ
+nsquid:UselessImportCheck"(Remove this unused import 'staff.Staff'.(ÊÁËèûÿÿÿÿ8ñÖÎÒ€,H—RMINORZ
 CODE_SMELL
-i
-squid:S106"9Replace this use of System.out or System.err by a logger.(¸ÚÎÿÿÿÿÿHORMAJORZ
+e
+squid:S106"9Replace this use of System.out or System.err by a logger.(Êª ïHRMAJORZ
 CODE_SMELL
-i
-squid:S106"9Replace this use of System.out or System.err by a logger.(Åø¨ûÿÿÿÿHPRMAJORZ
+j
+squid:S106"9Replace this use of System.out or System.err by a logger.(¸ÚÎÿÿÿÿÿHRMAJORZ
 CODE_SMELL
-i
-squid:S106"9Replace this use of System.out or System.err by a logger.(îÒÔ¼üÿÿÿÿHQRMAJORZ
+q
+squid:S106"9Replace this use of System.out or System.err by a logger.(Ü¶•Âşÿÿÿÿ8 ë‹Ó€,HçRMAJORZ
 CODE_SMELL
-i
-squid:S106	"9Replace this use of System.out or System.err by a logger.(››±™ûÿÿÿÿHRRMAJORZ
+¸squid:S1186!"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Àİì8ñÖÎÒ€,H•RCRITICALZ
+CODE_SMELL
+j
+squid:S106"9Replace this use of System.out or System.err by a logger.(››±™ûÿÿÿÿH‰RMAJORZ
+CODE_SMELL
+j
+squid:S106"9Replace this use of System.out or System.err by a logger.(Åø¨ûÿÿÿÿHŠRMAJORZ
+CODE_SMELL
+rsquid:UselessImportCheck",Remove this unused import 'teacher.Teacher'.(ô—ùïùÿÿÿÿ8ñÖÎÒ€,H–RMINORZ
+CODE_SMELL
+osquid:UselessImportCheck".Remove this unused import 'employee.Employee'.(¯ë÷Ë8ñÖÎÒ€,H˜RMINORZ
+CODE_SMELL
+j
+squid:S106"9Replace this use of System.out or System.err by a logger.(îÒÔ¼üÿÿÿÿH‡RMAJORZ
+CODE_SMELL
+qsquid:UselessImportCheck"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ8ñÖÎÒ€,H™RMINORZ
 CODE_SMELL
