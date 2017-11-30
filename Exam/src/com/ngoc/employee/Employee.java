@@ -79,7 +79,7 @@ public abstract class Employee {
         yearOfBirth  = Integer.parseInt(input.nextLine());
         
         if(yearOfBirth < 1900) {
-        	System.out.println("Năm sinh vừa nhập không hợp lệ!, mời nhập lại");
+        	System.out.println("Năm sinh phải >= 1900!, mời nhập lại");
         }
         else {
         	break;
@@ -105,9 +105,6 @@ public abstract class Employee {
         System.out.println("Hệ số lương vừa nhập không hợp lệ!, mời nhập lại");
       }
     }
-    
-    input.close();
-    
   }
   
   public abstract double getSalary();

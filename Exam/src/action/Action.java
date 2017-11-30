@@ -36,5 +36,4 @@ public class Action {
     
     return yourChoice;
   }
-  
 }

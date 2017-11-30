@@ -109,6 +109,5 @@ public class Staff extends Employee{
   		}
   	}
   	
-  	input.close();
   }
 }
