@@ -72,15 +72,15 @@ public class Staff extends Employee{
   	// set allowance depend on level
   	switch (this.level) {
 		case StaffHelper.HEAD_OF_DEPARTMENT_LEVEL:
-			this.allowance = 1000;
+			this.allowance = StaffHelper.HEAD_OF_DEPARTMENT_ALLOWANCE;
 			break;
 
 		case StaffHelper.DEPUTY_OF_DEPARTMENT_LEVEL:
-			this.allowance = 600;
+			this.allowance = StaffHelper.DEPUTY_OF_DEPARTMENT_ALLOWANCE;
 			break;
 			
 		case StaffHelper.STAFF_LEVEL:
-			this.allowance = 400;
+			this.allowance = StaffHelper.STAFF_ALLOWANCE;
 			break;
 			
 		default:

@@ -44,7 +44,7 @@ public class Teacher extends Employee {
   	int yourLevelChoice = 0;
   	
   	// input level
-  	System.out.println("Chọn trình độS: ");
+  	System.out.println("Chọn trình độ: ");
   	System.out.println("1. Cử nhân");
   	System.out.println("2. Thạc sĩ");
   	System.out.println("3. Tiến sĩ");
@@ -72,15 +72,15 @@ public class Teacher extends Employee {
   	// set allowance depend on level
   	switch (this.level) {
 		case TeacherHelper.BACHELOR_LEVEL:
-			this.allowance = 300;
+			this.allowance = TeacherHelper.BACHELOR_ALLOWANCE;
 			break;
 
 		case TeacherHelper.MATER_LEVEL:
-			this.allowance = 900;
+			this.allowance = TeacherHelper.MATER_ALLOWANCE;
 			break;
 			
 		case TeacherHelper.DOCTOR_OF_PHILOSOPHY_LEVEL:
-			this.allowance = 2000;
+			this.allowance = TeacherHelper.DOCTOR_OF_PHILOSOPHY_ALLOWANCE;
 			break;
 			
 		default:
