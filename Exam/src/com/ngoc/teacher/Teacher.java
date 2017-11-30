@@ -109,7 +109,6 @@ public class Teacher extends Employee {
   		}
   	}
   	
-  	input.close();
 	}
 
 }
