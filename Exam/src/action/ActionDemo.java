@@ -1,19 +1,20 @@
 package action;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.ngoc.employee.Employee;
 
 public class ActionDemo {
 
 	public static void main(String[] args) {
-		ArrayList<Employee> employeeArrayList = new ArrayList<Employee>();
+		List<Employee> employeeArrayList = new ArrayList<>();
 		Action action = new Action();
 
 		int yourChoice;
-		boolean isExit = false;
+		boolean isNotExit = true;
 
-		while (isExit == false) {
+		while (isNotExit) {
 			yourChoice = action.showMainMenu();
 
 			switch (yourChoice) {
@@ -34,7 +35,7 @@ public class ActionDemo {
 				break;
 
 			case 5:
-				isExit = true;
+				isNotExit = false;
 				System.out.println("Thoát chương trình");
 				break;
 

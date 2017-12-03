@@ -1,7 +1,7 @@
 package action;
 
+import java.util.List;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Scanner;
 
@@ -42,7 +42,7 @@ public class Action {
 		return yourChoice;
 	}
 
-	public void showMenuForFirstChoice(ArrayList<Employee> employeeArrayList) {
+	public void showMenuForFirstChoice(List<Employee> employeeList) {
 		Scanner input = new Scanner(System.in);
 
 		int yourChoice = 0;
@@ -70,29 +70,23 @@ public class Action {
 			}
 		}
 
-		switch (yourChoice) {
-		case 1:
-			addNewEmploeeInEndOfList(employeeArrayList, showMenuToChooseTypeOfEmployee());
-			break;
+		if (yourChoice == 1) {
+			addNewEmploeeInEndOfList(employeeList, showMenuToChooseTypeOfEmployee());
+		}
 
-		case 2:
-			addNewEmploeeInBeginOfList(employeeArrayList, showMenuToChooseTypeOfEmployee());
-			break;
+		if (yourChoice == 2) {
+			addNewEmploeeInBeginOfList(employeeList, showMenuToChooseTypeOfEmployee());
+		}
 
-		case 3:
-			addNewEmploeeAtKindex(employeeArrayList, showMenuToChooseTypeOfEmployee());
-			break;
+		if (yourChoice == 3) {
+			addNewEmploeeAtKindex(employeeList, showMenuToChooseTypeOfEmployee());
+		}
 
-		case 4: {
+		if (yourChoice == 4) {
 			return;
 		}
 
-		default:
-
-			break;
-		}
-
-		showMenuForFirstChoice(employeeArrayList);
+		showMenuForFirstChoice(employeeList);
 	}
 
 	public int showMenuToChooseTypeOfEmployee() {
@@ -123,46 +117,34 @@ public class Action {
 		return yourChoice;
 	}
 
-	public void addNewEmploeeInEndOfList(ArrayList<Employee> employeeArrayList, int typeOfEmployee) {
-		switch (typeOfEmployee) {
-		case 1: {
+	public void addNewEmploeeInEndOfList(List<Employee> employeeList, int typeOfEmployee) {
+		if (typeOfEmployee == 1) {
 			Teacher newTeacher = new Teacher();
 			newTeacher.inputData();
-			employeeArrayList.add(newTeacher);
-		}
-			break;
-		case 2: {
+			employeeList.add(newTeacher);
+		} else if (typeOfEmployee == 2) {
 			Staff newStaff = new Staff();
 			newStaff.inputData();
-			employeeArrayList.add(newStaff);
-		}
-			break;
-		default:
-			break;
+			employeeList.add(newStaff);
 		}
 	}
 
-	public void addNewEmploeeInBeginOfList(ArrayList<Employee> employeeArrayList, int typeOfEmployee) {
+	public void addNewEmploeeInBeginOfList(List<Employee> employeeList, int typeOfEmployee) {
 
-		switch (typeOfEmployee) {
-		case 1: {
+		if (typeOfEmployee == 1) {
 			Teacher newTeacher = new Teacher();
 			newTeacher.inputData();
-			employeeArrayList.add(0, newTeacher);
+			employeeList.add(0, newTeacher);
 		}
-			break;
-		case 2: {
+
+		if (typeOfEmployee == 2) {
 			Staff newStaff = new Staff();
 			newStaff.inputData();
-			employeeArrayList.add(0, newStaff);
-		}
-			break;
-		default:
-			break;
+			employeeList.add(0, newStaff);
 		}
 	}
 
-	public void addNewEmploeeAtKindex(ArrayList<Employee> employeeArrayList, int typeOfEmployee) {
+	public void addNewEmploeeAtKindex(List<Employee> employeeList, int typeOfEmployee) {
 		Scanner input = new Scanner(System.in);
 
 		int k;
@@ -173,8 +155,8 @@ public class Action {
 			try {
 				k = Integer.parseInt(input.nextLine());
 
-				if (k < 0 || k >= (employeeArrayList.size() - 1)) {
-					System.out.println("Xảy ra lỗi K thỏa điều kiện (0<= K <" + (employeeArrayList.size() - 1) + "): ");
+				if (k < 0 || k >= (employeeList.size() - 1)) {
+					System.out.println("Xảy ra lỗi K thỏa điều kiện (0<= K <" + (employeeList.size() - 1) + "): ");
 				} else {
 					break;
 				}
@@ -183,31 +165,25 @@ public class Action {
 			}
 		}
 
-		switch (typeOfEmployee) {
-		case 1: {
+		if (typeOfEmployee == 1) {
 			Teacher newTeacher = new Teacher();
 			newTeacher.inputData();
-			employeeArrayList.add(k + 1, newTeacher);
+			employeeList.add(k + 1, newTeacher);
 		}
-			break;
-		case 2: {
+
+		if (typeOfEmployee == 2) {
 			Staff newStaff = new Staff();
 			newStaff.inputData();
-			employeeArrayList.add(k + 1, newStaff);
-		}
-			break;
-
-		default:
-			break;
+			employeeList.add(k + 1, newStaff);
 		}
 	}
 
-	public void showMenuForSecondChoice(ArrayList<Employee> employeeArrayList) {
+	public void showMenuForSecondChoice(List<Employee> employeeList) {
 
 		int index = -1;
 		Scanner input = new Scanner(System.in);
 
-		if (employeeArrayList.isEmpty()) {
+		if (employeeList.isEmpty()) {
 			System.out.println("Danh sách rỗng!");
 			return;
 		}
@@ -215,16 +191,16 @@ public class Action {
 		Employee employee;
 
 		while (true) {
-			System.out.print("Nhập thứ tự cán bộ cần chỉnh sửa (0->" + (employeeArrayList.size() - 1) + "): ");
+			System.out.print("Nhập thứ tự cán bộ cần chỉnh sửa (0->" + (employeeList.size() - 1) + "): ");
 
 			try {
 				index = Integer.parseInt(input.nextLine());
 
-				if (!(index >= 0 && index <= (employeeArrayList.size() - 1))) {
+				if (!(index >= 0 && index <= (employeeList.size() - 1))) {
 					System.out.println("Số thứ tự không tồn tại: ");
 				} else {
 
-					employee = employeeArrayList.get(index);
+					employee = employeeList.get(index);
 					if (employee.getClass() == Staff.class) {
 						((Staff) employee).inputData();
 					} else {
@@ -241,43 +217,36 @@ public class Action {
 
 	}
 
-	public boolean showMenuForThirdChoice(ArrayList<Employee> employeeArrayList) {
-		boolean output = false;
+	public void showMenuForThirdChoice(List<Employee> employeeList) {
 		int index = -1;
 		Scanner input = new Scanner(System.in);
 
-		if (employeeArrayList.isEmpty()) {
+		if (employeeList.isEmpty()) {
 			System.out.println("Danh sách rỗng!");
-			return false;
+			return;
 		}
 
 		while (true) {
-			System.out.print("Nhập thứ tự cán bộ cần xóa (0->" + (employeeArrayList.size() - 1) + "): ");
+			System.out.print("Nhập thứ tự cán bộ cần xóa (0->" + (employeeList.size() - 1) + "): ");
 
 			try {
 				index = Integer.parseInt(input.nextLine());
 
-				if (!(index >= 0 && index <= (employeeArrayList.size() - 1))) {
+				if (!(index >= 0 && index <= (employeeList.size() - 1))) {
 					System.out.println("Số thứ tự không tồn tại: ");
 				} else {
-					output = true;
+					employeeList.remove(index);
+					System.out.println("Xoá cán bộ thành công");
+					break;
 				}
 
 			} catch (NumberFormatException numberException) {
 				System.out.println("Số thứ tự không hợp lệ!");
 			}
-
-			if (output == true) {
-				employeeArrayList.remove(index);
-				System.out.println("Xoá cán bộ thành công");
-				break;
-			}
 		}
-
-		return output;
 	}
 
-	public void showMenuForFourthChoice(ArrayList<Employee> employeeArrayList) {
+	public void showMenuForFourthChoice(List<Employee> employeeList) {
 		System.out.println("--------------------------------------------------");
 		System.out.println("1. Hiện thị danh sách hiện tại.");
 		System.out.println("2. Hiện thị danh sách sắp xếp tăng dần theo lương.");
@@ -306,23 +275,23 @@ public class Action {
 
 		switch (yourChoice) {
 		case 1:
-			showAllEmployees(employeeArrayList);
+			showAllEmployees(employeeList);
 			break;
 
 		case 2:
-			showAllEmployeesOrderBySalary(employeeArrayList);
+			showAllEmployeesOrderBySalary(employeeList);
 			break;
 
 		case 3:
-			showAllEmployeesOrderByName(employeeArrayList);
+			showAllEmployeesOrderByName(employeeList);
 			break;
 
 		case 4:
-			showEmployeesByFindName(employeeArrayList);
+			showEmployeesByFindName(employeeList);
 			break;
 
 		case 5:
-			showEmployeesByFindYearOfBirth(employeeArrayList);
+			showEmployeesByFindYearOfBirth(employeeList);
 			break;
 
 		default:
@@ -331,10 +300,10 @@ public class Action {
 
 	}
 
-	public void showAllEmployees(ArrayList<Employee> employeeArrayList) {
+	public void showAllEmployees(List<Employee> employeeList) {
 		System.out.println(Employee.showHeader());
 		int index = 0;
-		for (Employee employee : employeeArrayList) {
+		for (Employee employee : employeeList) {
 
 			if (employee.getClass() == Staff.class) {
 				System.out.println(((Staff) employee).toString(index));
@@ -348,61 +317,68 @@ public class Action {
 		}
 	}
 
-	public void showAllEmployeesOrderBySalary(ArrayList<Employee> employeeArrayList) {
-		ArrayList<Employee> employeeArrayListTemp = (ArrayList<Employee>) employeeArrayList.clone();
+	public void showAllEmployeesOrderBySalary(List<Employee> employeeList) {
+		List<Employee> employeeListTemp = new ArrayList<>();
 
-		Double employeeSalary, otherEmployeeSalary;
-		employeeSalary = 0.0;
-		otherEmployeeSalary = 0.0;
+		for (Employee employee : employeeList) {
+			employeeListTemp.add(employee);
+		}
 
-		for (int i = 0; i < employeeArrayListTemp.size() - 1; i++) {
-			for (int j = i + 1; j < employeeArrayListTemp.size(); j++) {
-				if (employeeArrayListTemp.get(i).getClass() == Staff.class) {
-					employeeSalary = ((Staff) employeeArrayListTemp.get(i)).getSalary();
+		Double employeeSalary;
+		Double otherEmployeeSalary;
+
+		for (int i = 0; i < employeeListTemp.size() - 1; i++) {
+			for (int j = i + 1; j < employeeListTemp.size(); j++) {
+				if (employeeListTemp.get(i).getClass() == Staff.class) {
+					employeeSalary = ((Staff) employeeListTemp.get(i)).getSalary();
 				} else {
-					employeeSalary = ((Teacher) employeeArrayListTemp.get(i)).getSalary();
+					employeeSalary = ((Teacher) employeeListTemp.get(i)).getSalary();
 				}
 
-				if (employeeArrayListTemp.get(j).getClass() == Staff.class) {
-					otherEmployeeSalary = ((Staff) employeeArrayListTemp.get(j)).getSalary();
+				if (employeeListTemp.get(j).getClass() == Staff.class) {
+					otherEmployeeSalary = ((Staff) employeeListTemp.get(j)).getSalary();
 				} else {
-					otherEmployeeSalary = ((Teacher) employeeArrayListTemp.get(j)).getSalary();
+					otherEmployeeSalary = ((Teacher) employeeListTemp.get(j)).getSalary();
 				}
 
 				if (employeeSalary > otherEmployeeSalary) {
-					Collections.swap(employeeArrayListTemp, i, j);
+					Collections.swap(employeeListTemp, i, j);
 				}
 
 			}
 		}
 
-		showAllEmployees(employeeArrayListTemp);
+		showAllEmployees(employeeListTemp);
 
 	}
 
-	public void showAllEmployeesOrderByName(ArrayList<Employee> employeeArrayList) {
-		ArrayList<Employee> employeeArrayListTemp = (ArrayList<Employee>) employeeArrayList.clone();
+	public void showAllEmployeesOrderByName(List<Employee> employeeList) {
+		List<Employee> employeeListTemp = new ArrayList<>();
+
+		for (Employee employee : employeeList) {
+			employeeListTemp.add(employee);
+		}
 
 		String name = null;
 		String otherName = null;
 
-		for (int i = 0; i < employeeArrayListTemp.size() - 1; i++) {
-			for (int j = i + 1; j < employeeArrayListTemp.size(); j++) {
-				name = employeeArrayListTemp.get(i).getFullname();
-				otherName = employeeArrayListTemp.get(j).getFullname();
+		for (int i = 0; i < employeeListTemp.size() - 1; i++) {
+			for (int j = i + 1; j < employeeListTemp.size(); j++) {
+				name = employeeListTemp.get(i).getFullname();
+				otherName = employeeListTemp.get(j).getFullname();
 
-				if (name.compareTo(otherName) == 1) {
-					Collections.swap(employeeArrayListTemp, i, j);
+				if (name.compareTo(otherName) > 0) {
+					Collections.swap(employeeListTemp, i, j);
 				}
 			}
 		}
 
-		showAllEmployees(employeeArrayListTemp);
+		showAllEmployees(employeeListTemp);
 
 	}
 
-	public void showEmployeesByFindName(ArrayList<Employee> employeeArrayList) {
-		ArrayList<Employee> employeeArrayListFinded = new ArrayList<>();
+	public void showEmployeesByFindName(List<Employee> employeeList) {
+		List<Employee> employeeListFinded = new ArrayList<>();
 
 		Scanner input = new Scanner(System.in);
 		String name = "";
@@ -413,25 +389,25 @@ public class Action {
 		int countEmployeesFinded = 0;
 		String employeeName = "";
 
-		for (Employee employee : employeeArrayList) {
+		for (Employee employee : employeeList) {
 			employeeName = employee.getFullname();
 
 			if (employeeName.toLowerCase().contains(name.toLowerCase())) {
 				countEmployeesFinded++;
-				employeeArrayListFinded.add(employee);
+				employeeListFinded.add(employee);
 			}
 		}
 
 		if (countEmployeesFinded == 0) {
 			System.out.println("Không tìm thấy");
 		} else {
-			showAllEmployees(employeeArrayListFinded);
+			showAllEmployees(employeeListFinded);
 		}
 
 	}
 
-	public void showEmployeesByFindYearOfBirth(ArrayList<Employee> employeeArrayList) {
-		ArrayList<Employee> employeeArrayListFinded = new ArrayList<>();
+	public void showEmployeesByFindYearOfBirth(List<Employee> employeeList) {
+		List<Employee> employeeListFinded = new ArrayList<>();
 
 		Scanner input = new Scanner(System.in);
 		int yearOfBirth = 0;
@@ -456,19 +432,19 @@ public class Action {
 		int countEmployeesFinded = 0;
 		int employeeYearOfBirth = 0;
 
-		for (Employee employee : employeeArrayList) {
+		for (Employee employee : employeeList) {
 			employeeYearOfBirth = employee.getYearOfBirth();
 
 			if (employeeYearOfBirth == yearOfBirth) {
 				countEmployeesFinded++;
-				employeeArrayListFinded.add(employee);
+				employeeListFinded.add(employee);
 			}
 		}
 
 		if (countEmployeesFinded == 0) {
 			System.out.println("Không tìm thấy");
 		} else {
-			showAllEmployees(employeeArrayListFinded);
+			showAllEmployees(employeeListFinded);
 		}
 
 	}

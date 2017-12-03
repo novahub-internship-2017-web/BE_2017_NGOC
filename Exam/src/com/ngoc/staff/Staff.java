@@ -36,61 +36,63 @@ public class Staff extends Employee {
 	}
 
 	public String toString(int stt) {
-		String output = "";
 
-		output += stt;
+		StringBuilder output = new StringBuilder();
+		
+		output.append(stt);
+		
 		for (int i = 0; i < (6 - String.valueOf(stt).length()); i++)
-			output += " ";
+			output.append(" ");
 
-		output += this.getFullname();
+		output.append(this.fullname);
 		int lengthOfFullname = this.fullname.length();
 		for (int i = 0; i < (21 - lengthOfFullname); i++)
-			output += " ";
+			output.append(" ");
 
-		output += this.getYearOfBirth();
+		output.append(this.yearOfBirth);
 		int lengthOfYearOfBirth = String.valueOf(this.yearOfBirth).length();
 		for (int i = 0; i < (10 - lengthOfYearOfBirth); i++)
-			output += " ";
+			output.append(" ");
 
-		output += this.getCity();
+		output.append(this.city);
 		int lengthOfCity = this.city.length();
 		for (int i = 0; i < (10 - lengthOfCity); i++)
-			output += " ";
+			output.append(" ");
 
-		output += "NV    ";
+		output.append("NV    ");
 
-		output += this.department;
+		output.append(this.department);
 		int lengthOfDepartment = this.department.length();
 		for (int i = 0; i < (6 - lengthOfDepartment); i++)
-			output += " ";
+			output.append(" ");
 
 		switch (this.level) {
 		case StaffHelper.DEPUTY_OF_DEPARTMENT_LEVEL:
-			output += "PP    ";
+			output.append("PP    ");
 			break;
 		case StaffHelper.HEAD_OF_DEPARTMENT_LEVEL:
-			output += "TP    ";
+			output.append("TP    ");
 			break;
 		case StaffHelper.STAFF_LEVEL:
-			output += "NV    ";
+			output.append("NV    ");
 			break;
 		default:
 			break;
 		}
 
-		output += this.allowance;
+		output.append(this.allowance);
 		int lengthOfAllowance = String.valueOf(this.allowance).length();
 		for(int i = 0; i < (6 - lengthOfAllowance); i++)
-			output += " ";
+			output.append(" ");
 		
-		output += this.daysOfWork;
+		output.append(this.daysOfWork);
 		int lengthOfDayOfWork = String.valueOf(this.daysOfWork).length();
 		for(int i = 0; i < (6 - lengthOfDayOfWork); i++)
-			output += " ";
+			output.append(" ");
 		
-		output += this.coefficientsSalary;
+		output.append(this.coefficientsSalary);
 		
-		return output;
+		return output.toString();
 	}
 
 	@Override
