@@ -35,6 +35,64 @@ public class Teacher extends Employee {
 		return salary;
 	}
 
+	public String toString(int stt) {
+		String output = "";
+
+		output += stt;
+		for (int i = 0; i < (6 - String.valueOf(stt).length()); i++)
+			output += " ";
+
+		output += this.getFullname();
+		int lengthOfFullname = this.fullname.length();
+		for (int i = 0; i < (21 - lengthOfFullname); i++)
+			output += " ";
+
+		output += this.getYearOfBirth();
+		int lengthOfYearOfBirth = String.valueOf(this.yearOfBirth).length();
+		for (int i = 0; i < (10 - lengthOfYearOfBirth); i++)
+			output += " ";
+
+		output += this.getCity();
+		int lengthOfCity = this.city.length();
+		for (int i = 0; i < (10 - lengthOfCity); i++)
+			output += " ";
+
+		output += "GV    ";
+
+		output += this.major;
+		int lengthOfMajor = this.major.length();
+		for (int i = 0; i < (6 - lengthOfMajor); i++)
+			output += " ";
+
+		switch (this.level) {
+		case TeacherHelper.DOCTOR_OF_PHILOSOPHY_LEVEL:
+			output += "TS    ";
+			break;
+		case TeacherHelper.MATER_LEVEL:
+			output += "PTS   ";
+			break;
+		case TeacherHelper.BACHELOR_LEVEL:
+			output += "CN    ";
+			break;
+		default:
+			break;
+		}
+
+		output += this.allowance;
+		int lengthOfAllowance = String.valueOf(this.allowance).length();
+		for(int i = 0; i < (6 - lengthOfAllowance); i++)
+			output += " ";
+		
+		output += this.numberOfLessons;
+		int lengthOfNumberOfLessons = String.valueOf(this.numberOfLessons).length();
+		for(int i = 0; i < (6 - lengthOfNumberOfLessons); i++)
+			output += " ";
+		
+		output += this.coefficientsSalary;
+		
+		return output;
+	}
+	
 	@Override
 	public void  inputData() {
 		super.inputData();

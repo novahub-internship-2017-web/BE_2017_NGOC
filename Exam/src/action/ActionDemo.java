@@ -1,6 +1,5 @@
 package action;
 
-import java.nio.channels.ShutdownChannelGroupException;
 import java.util.ArrayList;
 
 import com.ngoc.employee.Employee;
@@ -12,30 +11,36 @@ public class ActionDemo {
 		Action action = new Action();
 
 		int yourChoice;
-		
-		while (true) {
+		boolean isExit = false;
+
+		while (isExit == false) {
 			yourChoice = action.showMainMenu();
-			
+
 			switch (yourChoice) {
 			case 1:
-					action.showMenuForFirstChoice(employeeArrayList);
+				action.showMenuForFirstChoice(employeeArrayList);
 				break;
-					
+
 			case 2:
+				action.showMenuForSecondChoice(employeeArrayList);
 				break;
-				
+
 			case 3:
-					action.showMenuForThirdChoice(employeeArrayList);
+				action.showMenuForThirdChoice(employeeArrayList);
 				break;
+
 			case 4:
+				action.showMenuForFourthChoice(employeeArrayList);
 				break;
-				
+
+			case 5:
+				isExit = true;
+				System.out.println("Thoát chương trình");
+				break;
+
 			default:
 				break;
 			}
-			
-			if(yourChoice == 5)
-				break;
 		}
 	}
 }

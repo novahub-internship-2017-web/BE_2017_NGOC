@@ -1,6 +1,8 @@
 package action;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Scanner;
 
 import com.ngoc.employee.Employee;
@@ -40,7 +42,6 @@ public class Action {
 		return yourChoice;
 	}
 
-	
 	public void showMenuForFirstChoice(ArrayList<Employee> employeeArrayList) {
 		Scanner input = new Scanner(System.in);
 
@@ -172,7 +173,7 @@ public class Action {
 			try {
 				k = Integer.parseInt(input.nextLine());
 
-				if (k < 0 | k >= (employeeArrayList.size() - 1)) {
+				if (k < 0 || k >= (employeeArrayList.size() - 1)) {
 					System.out.println("Xảy ra lỗi K thỏa điều kiện (0<= K <" + (employeeArrayList.size() - 1) + "): ");
 				} else {
 					break;
@@ -195,21 +196,23 @@ public class Action {
 			employeeArrayList.add(k + 1, newStaff);
 		}
 			break;
+
 		default:
 			break;
 		}
 	}
 
-	
-	public int showMenuForSecondChoice(ArrayList<Employee> employeeArrayList) {
+	public void showMenuForSecondChoice(ArrayList<Employee> employeeArrayList) {
 
 		int index = -1;
 		Scanner input = new Scanner(System.in);
 
 		if (employeeArrayList.isEmpty()) {
 			System.out.println("Danh sách rỗng!");
-			return -1;
+			return;
 		}
+
+		Employee employee;
 
 		while (true) {
 			System.out.print("Nhập thứ tự cán bộ cần chỉnh sửa (0->" + (employeeArrayList.size() - 1) + "): ");
@@ -220,6 +223,14 @@ public class Action {
 				if (!(index >= 0 && index <= (employeeArrayList.size() - 1))) {
 					System.out.println("Số thứ tự không tồn tại: ");
 				} else {
+
+					employee = employeeArrayList.get(index);
+					if (employee.getClass() == Staff.class) {
+						((Staff) employee).inputData();
+					} else {
+						((Teacher) employee).inputData();
+					}
+
 					break;
 				}
 
@@ -228,7 +239,6 @@ public class Action {
 			}
 		}
 
-		return index;
 	}
 
 	public boolean showMenuForThirdChoice(ArrayList<Employee> employeeArrayList) {
@@ -256,10 +266,10 @@ public class Action {
 			} catch (NumberFormatException numberException) {
 				System.out.println("Số thứ tự không hợp lệ!");
 			}
-			
-			if(output == true) {
+
+			if (output == true) {
 				employeeArrayList.remove(index);
-				System.out.println("Xoá cán bộ thành công");				
+				System.out.println("Xoá cán bộ thành công");
 				break;
 			}
 		}
@@ -267,7 +277,8 @@ public class Action {
 		return output;
 	}
 
-	public int showMenuForFourthChoice() {
+	public void showMenuForFourthChoice(ArrayList<Employee> employeeArrayList) {
+		System.out.println("--------------------------------------------------");
 		System.out.println("1. Hiện thị danh sách hiện tại.");
 		System.out.println("2. Hiện thị danh sách sắp xếp tăng dần theo lương.");
 		System.out.println("3. Hiện thị danh sách sắp xếp tên theo tên.");
@@ -293,7 +304,173 @@ public class Action {
 			}
 		}
 
-		return yourChoice;
+		switch (yourChoice) {
+		case 1:
+			showAllEmployees(employeeArrayList);
+			break;
+
+		case 2:
+			showAllEmployeesOrderBySalary(employeeArrayList);
+			break;
+
+		case 3:
+			showAllEmployeesOrderByName(employeeArrayList);
+			break;
+
+		case 4:
+			showEmployeesByFindName(employeeArrayList);
+			break;
+
+		case 5:
+			showEmployeesByFindYearOfBirth(employeeArrayList);
+			break;
+
+		default:
+			break;
+		}
+
+	}
+
+	public void showAllEmployees(ArrayList<Employee> employeeArrayList) {
+		System.out.println(Employee.showHeader());
+		int index = 0;
+		for (Employee employee : employeeArrayList) {
+
+			if (employee.getClass() == Staff.class) {
+				System.out.println(((Staff) employee).toString(index));
+			}
+
+			if (employee.getClass() == Teacher.class) {
+				System.out.println(((Teacher) employee).toString(index));
+			}
+
+			index++;
+		}
+	}
+
+	public void showAllEmployeesOrderBySalary(ArrayList<Employee> employeeArrayList) {
+		ArrayList<Employee> employeeArrayListTemp = (ArrayList<Employee>) employeeArrayList.clone();
+
+		Double employeeSalary, otherEmployeeSalary;
+		employeeSalary = 0.0;
+		otherEmployeeSalary = 0.0;
+
+		for (int i = 0; i < employeeArrayListTemp.size() - 1; i++) {
+			for (int j = i + 1; j < employeeArrayListTemp.size(); j++) {
+				if (employeeArrayListTemp.get(i).getClass() == Staff.class) {
+					employeeSalary = ((Staff) employeeArrayListTemp.get(i)).getSalary();
+				} else {
+					employeeSalary = ((Teacher) employeeArrayListTemp.get(i)).getSalary();
+				}
+
+				if (employeeArrayListTemp.get(j).getClass() == Staff.class) {
+					otherEmployeeSalary = ((Staff) employeeArrayListTemp.get(j)).getSalary();
+				} else {
+					otherEmployeeSalary = ((Teacher) employeeArrayListTemp.get(j)).getSalary();
+				}
+
+				if (employeeSalary > otherEmployeeSalary) {
+					Collections.swap(employeeArrayListTemp, i, j);
+				}
+
+			}
+		}
+
+		showAllEmployees(employeeArrayListTemp);
+
+	}
+
+	public void showAllEmployeesOrderByName(ArrayList<Employee> employeeArrayList) {
+		ArrayList<Employee> employeeArrayListTemp = (ArrayList<Employee>) employeeArrayList.clone();
+
+		String name = null;
+		String otherName = null;
+
+		for (int i = 0; i < employeeArrayListTemp.size() - 1; i++) {
+			for (int j = i + 1; j < employeeArrayListTemp.size(); j++) {
+				name = employeeArrayListTemp.get(i).getFullname();
+				otherName = employeeArrayListTemp.get(j).getFullname();
+
+				if (name.compareTo(otherName) == 1) {
+					Collections.swap(employeeArrayListTemp, i, j);
+				}
+			}
+		}
+
+		showAllEmployees(employeeArrayListTemp);
+
+	}
+
+	public void showEmployeesByFindName(ArrayList<Employee> employeeArrayList) {
+		ArrayList<Employee> employeeArrayListFinded = new ArrayList<>();
+
+		Scanner input = new Scanner(System.in);
+		String name = "";
+
+		System.out.print("Nhập tên cần tìm kiếm: ");
+		name = input.nextLine();
+
+		int countEmployeesFinded = 0;
+		String employeeName = "";
+
+		for (Employee employee : employeeArrayList) {
+			employeeName = employee.getFullname();
+
+			if (employeeName.toLowerCase().contains(name.toLowerCase())) {
+				countEmployeesFinded++;
+				employeeArrayListFinded.add(employee);
+			}
+		}
+
+		if (countEmployeesFinded == 0) {
+			System.out.println("Không tìm thấy");
+		} else {
+			showAllEmployees(employeeArrayListFinded);
+		}
+
+	}
+
+	public void showEmployeesByFindYearOfBirth(ArrayList<Employee> employeeArrayList) {
+		ArrayList<Employee> employeeArrayListFinded = new ArrayList<>();
+
+		Scanner input = new Scanner(System.in);
+		int yearOfBirth = 0;
+
+		while (true) {
+			System.out.print("Nhập năm sinh cần tìm kiếm: ");
+
+			try {
+				yearOfBirth = Integer.parseInt(input.nextLine());
+
+				if (yearOfBirth < 1900) {
+					System.out.println("Năm sinh phải >= 1900");
+				} else {
+					break;
+				}
+			} catch (NumberFormatException numberException) {
+				System.out.println("Năm sinh không hợp lệ");
+			}
+
+		}
+
+		int countEmployeesFinded = 0;
+		int employeeYearOfBirth = 0;
+
+		for (Employee employee : employeeArrayList) {
+			employeeYearOfBirth = employee.getYearOfBirth();
+
+			if (employeeYearOfBirth == yearOfBirth) {
+				countEmployeesFinded++;
+				employeeArrayListFinded.add(employee);
+			}
+		}
+
+		if (countEmployeesFinded == 0) {
+			System.out.println("Không tìm thấy");
+		} else {
+			showAllEmployees(employeeArrayListFinded);
+		}
+
 	}
 
 }
