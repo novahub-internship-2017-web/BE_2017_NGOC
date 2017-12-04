@@ -1,4 +1,4 @@
-package action;
+package com.ngoc.action;
 
 import java.util.List;
 import java.util.ArrayList;
