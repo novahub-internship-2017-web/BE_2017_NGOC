@@ -1,5 +1,6 @@
 package com.ngoc.employee;
 
+import java.util.Calendar;
 import java.util.Scanner;
 
 public abstract class Employee {
@@ -71,14 +72,19 @@ public abstract class Employee {
 
 		System.out.print("Thành phố : ");
 		this.setCity(input.nextLine());
-
+		
+		Calendar now = Calendar.getInstance();
+		
+		int yearLimit;
+		yearLimit =  now.get(Calendar.YEAR) - 15;
+		
 		while (true) {
 			System.out.print("Năm sinh : ");
 
 			try {
 				yearOfBirth = Integer.parseInt(input.nextLine());
 
-				if (yearOfBirth < 1900) {
+				if (yearOfBirth < 1900 || yearOfBirth > yearLimit) {
 					System.out.println("Năm sinh phải >= 1900!, mời nhập lại");
 				} else {
 					break;
@@ -105,6 +111,61 @@ public abstract class Employee {
 		}
 	}
 
+	public void editData() {
+		Scanner input = new Scanner(System.in);
+
+		System.out.println("Họ tên cũ : " + this.fullname);		
+		System.out.print("Họ tên : ");
+		this.setFullname(input.nextLine());
+
+		System.out.println("Thành phố cũ : " + this.city);		
+		System.out.print("Thành phố : ");
+		this.setCity(input.nextLine());
+		
+		Calendar now = Calendar.getInstance();
+		
+		int yearLimit;
+		yearLimit =  now.get(Calendar.YEAR) - 15;
+		
+		System.out.println("Năm sinh cũ : " + this.yearOfBirth);		
+		while (true) {
+			System.out.print("Năm sinh : ");
+
+			try {
+				yearOfBirth = Integer.parseInt(input.nextLine());
+
+				if (yearOfBirth < 1900) {
+					System.out.println("Năm sinh phải >= 1900!, mời nhập lại");
+				} 
+				else if(yearOfBirth > yearLimit){
+					System.out.println("Bạn chưa đủ 18 tuổi!, mời nhập lại");
+				}
+				else {
+					break;
+				}
+			} catch (NumberFormatException numberException) {
+				System.out.println("Năm sinh vừa nhập không hợp lệ!, mời nhập lại");
+			}
+		}
+
+		System.out.println("Hệ số lương : " + this.coefficientsSalary);
+		while (true) {
+			System.out.print("Hệ số lương  : ");
+
+			try {
+				coefficientsSalary = Double.parseDouble(input.nextLine());
+
+				if (coefficientsSalary < 0) {
+					System.out.println("Hệ số lương vừa nhập không hợp lệ!, mời nhập lại");
+				} else {
+					break;
+				}
+			} catch (NumberFormatException numberException) {
+				System.out.println("Hệ số lương vừa nhập không hợp lệ!, mời nhập lại");
+			}
+		}
+	}
+	
 	public static String showHeader() {
 		String output;
 		output = "--------------------------------------------------------------------------\n";

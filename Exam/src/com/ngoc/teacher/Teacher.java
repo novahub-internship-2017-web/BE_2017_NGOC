@@ -157,7 +157,7 @@ public class Teacher extends Employee {
   			this.numberOfLessons = Integer.parseInt(input.nextLine());
   			
   			if(this.numberOfLessons < 0) {
-  				System.out.println("Số ngày công không hợp lệ, mời nhập lại!");
+  				System.out.println("Số ngày công phải lớn hơn hoặc bằng 0, mời nhập lại!");
   			}
   			else {
   				break;
@@ -170,4 +170,100 @@ public class Teacher extends Employee {
   	
 	}
 
+	@Override
+	public void editData() {
+		super.editData();
+		
+		
+		
+		Scanner input = new Scanner(System.in);
+  	
+  	int yourLevelChoice = 0;
+  	
+  	System.out.print("Trình độ cũ : ");
+		switch (this.level) {
+		case TeacherHelper.BACHELOR_LEVEL:
+				System.out.print(TeacherHelper.BACHELOR_NAME);
+			break;
+		
+		case TeacherHelper.DOCTOR_OF_PHILOSOPHY_LEVEL:
+			System.out.print(TeacherHelper.DOCTOR_OF_PHILOSOPHY_NAME);
+			break;
+			
+		case TeacherHelper.MATER_LEVEL:
+			System.out.print(TeacherHelper.MATER_NAME);
+			break;
+			
+		default:
+			break;
+		}
+  	
+  	// input level
+  	System.out.println("Chọn trình độ: ");
+  	System.out.println("1. Cử nhân");
+  	System.out.println("2. Thạc sĩ");
+  	System.out.println("3. Tiến sĩ");
+  	
+  	while(true) {
+  		System.out.print("Nhập lựa chọn (1->3): ");
+  		
+  		try {
+  			yourLevelChoice = Integer.parseInt(input.nextLine());
+  			
+  			if(!(yourLevelChoice >= 1 && yourLevelChoice <= 3)) {
+  				System.out.println("Lựa chọn của bạn không tồn tại, mời nhập lại!");
+  			}
+  			else {
+  				super.level = yourLevelChoice;			
+  				
+  				break;
+  			}
+  		}
+  		catch(NumberFormatException numberException) {
+  			System.out.println("Lựa chọn của bạn không hợp lệ, mời nhập lại!");
+  		}
+  	}
+  	
+  	// set allowance depend on level
+  	switch (this.level) {
+		case TeacherHelper.BACHELOR_LEVEL:
+			this.allowance = TeacherHelper.BACHELOR_ALLOWANCE;
+			break;
+
+		case TeacherHelper.MATER_LEVEL:
+			this.allowance = TeacherHelper.MATER_ALLOWANCE;
+			break;
+			
+		case TeacherHelper.DOCTOR_OF_PHILOSOPHY_LEVEL:
+			this.allowance = TeacherHelper.DOCTOR_OF_PHILOSOPHY_ALLOWANCE;
+			break;
+			
+		default:
+			break;
+		}
+  	
+  	System.out.println("Khoa cũ : " + this.major);
+  	// input major (khoa)
+  	System.out.print("Nhập khoa: ");
+  	this.major = input.nextLine();	
+  	
+  	System.out.println("Số tiết dạy trong tháng cũ : " + this.numberOfLessons);
+  	while(true) {
+  		System.out.print("Nhập số tiết dạy trong tháng: ");
+  		
+  		try {
+  			this.numberOfLessons = Integer.parseInt(input.nextLine());
+  			
+  			if(this.numberOfLessons < 0) {
+  				System.out.println("Số ngày công không hợp lệ, mời nhập lại!");
+  			}
+  			else {
+  				break;
+  			}
+  		}
+  		catch(NumberFormatException numberException) {
+  			System.out.println("Số ngày công không hợp lệ, mời nhập lại!");
+  		}
+  	}
+	}
 }

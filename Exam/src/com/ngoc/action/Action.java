@@ -14,7 +14,9 @@ public class Action {
 		Scanner input = new Scanner(System.in);
 
 		int yourChoice = 0;
-
+		
+		System.out.println("-----------------------------");
+		System.out.println("|         MAIN MENU         |");
 		System.out.println("-----------------------------");
 		System.out.println("1. Thêm mới cán bộ.");
 		System.out.println("2. Chỉnh sửa thông tin cán bộ.");
@@ -48,10 +50,10 @@ public class Action {
 		int yourChoice = 0;
 
 		System.out.println("------------------------------------");
-		System.out.println("1. Thêm cán bộ vào cuối danh sách.");
-		System.out.println("2. Thêm cán bộ vào đầu danh sách.");
-		System.out.println("3. Thêm cán bộ vào sau vị trí thứ k.");
-		System.out.println("4. Quay lại mục trước.");
+		System.out.println("1.1 Thêm cán bộ vào cuối danh sách.");
+		System.out.println("1.2 Thêm cán bộ vào đầu danh sách.");
+		System.out.println("1.3 Thêm cán bộ vào sau vị trí thứ k.");
+		System.out.println("1.4 Quay lại mục trước.");
 
 		while (true) {
 
@@ -79,7 +81,7 @@ public class Action {
 		}
 
 		if (yourChoice == 3) {
-			addNewEmploeeAtKindex(employeeList, showMenuToChooseTypeOfEmployee());
+			addNewEmploeeAtKindex(employeeList);
 		}
 
 		if (yourChoice == 4) {
@@ -144,7 +146,7 @@ public class Action {
 		}
 	}
 
-	public void addNewEmploeeAtKindex(List<Employee> employeeList, int typeOfEmployee) {
+	public void addNewEmploeeAtKindex(List<Employee> employeeList) {
 		Scanner input = new Scanner(System.in);
 
 		int k;
@@ -155,8 +157,8 @@ public class Action {
 			try {
 				k = Integer.parseInt(input.nextLine());
 
-				if (k < 0 || k >= (employeeList.size() - 1)) {
-					System.out.println("Xảy ra lỗi K thỏa điều kiện (0<= K <" + (employeeList.size() - 1) + "): ");
+				if (k < 0 || k > (employeeList.size())) {
+					System.out.println("Xảy ra lỗi K thỏa điều kiện (0<= K <=" + (employeeList.size()) + "): ");
 				} else {
 					break;
 				}
@@ -165,19 +167,30 @@ public class Action {
 			}
 		}
 
+		int typeOfEmployee = showMenuToChooseTypeOfEmployee();
+		
 		if (typeOfEmployee == 1) {
 			Teacher newTeacher = new Teacher();
 			newTeacher.inputData();
-			employeeList.add(k + 1, newTeacher);
+			
+			if(!employeeList.isEmpty())
+				employeeList.add(k + 1, newTeacher);
+			else
+				employeeList.add(newTeacher);
 		}
 
 		if (typeOfEmployee == 2) {
 			Staff newStaff = new Staff();
 			newStaff.inputData();
-			employeeList.add(k + 1, newStaff);
+			
+			if(!employeeList.isEmpty())
+				employeeList.add(k + 1, newStaff);
+			else
+				employeeList.add(newStaff);
 		}
 	}
 
+	
 	public void showMenuForSecondChoice(List<Employee> employeeList) {
 
 		int index = -1;
@@ -202,9 +215,9 @@ public class Action {
 
 					employee = employeeList.get(index);
 					if (employee.getClass() == Staff.class) {
-						((Staff) employee).inputData();
+						((Staff) employee).editData();;
 					} else {
-						((Teacher) employee).inputData();
+						((Teacher) employee).editData();
 					}
 
 					break;
@@ -217,6 +230,7 @@ public class Action {
 
 	}
 
+	
 	public void showMenuForThirdChoice(List<Employee> employeeList) {
 		int index = -1;
 		Scanner input = new Scanner(System.in);
@@ -246,24 +260,26 @@ public class Action {
 		}
 	}
 
+	
 	public void showMenuForFourthChoice(List<Employee> employeeList) {
 		System.out.println("--------------------------------------------------");
-		System.out.println("1. Hiện thị danh sách hiện tại.");
-		System.out.println("2. Hiện thị danh sách sắp xếp tăng dần theo lương.");
-		System.out.println("3. Hiện thị danh sách sắp xếp tên theo tên.");
-		System.out.println("4. Tìm kiếm cán bộ theo tên.");
-		System.out.println("5. Tìm kiếm cán bộ theo năm sinh.");
+		System.out.println("4.1 Hiện thị danh sách hiện tại.");
+		System.out.println("4.2 Hiện thị danh sách sắp xếp tăng dần theo lương.");
+		System.out.println("4.3 Hiện thị danh sách sắp xếp tên theo tên.");
+		System.out.println("4.4 Tìm kiếm cán bộ theo tên.");
+		System.out.println("4.5 Tìm kiếm cán bộ theo năm sinh.");
+		System.out.println("4.6 Quay lại mục trước");
 
 		int yourChoice = 0;
 		Scanner input = new Scanner(System.in);
 
 		while (true) {
-			System.out.print("Nhập lựa chọn(1->5): ");
+			System.out.print("Nhập lựa chọn(1->6): ");
 
 			try {
 				yourChoice = Integer.parseInt(input.nextLine());
 
-				if (!(yourChoice >= 1 && yourChoice <= 5)) {
+				if (!(yourChoice >= 1 && yourChoice <= 6)) {
 					System.out.println("Lựa chọn không tồn tại, mời nhập lại!");
 				} else {
 					break;
@@ -293,14 +309,25 @@ public class Action {
 		case 5:
 			showEmployeesByFindYearOfBirth(employeeList);
 			break;
-
+			
+		case 6:
+			return;
+			
 		default:
 			break;
 		}
-
+		
+		showMenuForFourthChoice(employeeList);
+		
 	}
 
 	public void showAllEmployees(List<Employee> employeeList) {
+		
+		if(employeeList.isEmpty()){
+			System.out.println("Danh sách rỗng!");
+			return;
+		}
+		
 		System.out.println(Employee.showHeader());
 		int index = 0;
 		for (Employee employee : employeeList) {
