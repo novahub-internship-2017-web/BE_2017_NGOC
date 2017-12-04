@@ -70,7 +70,7 @@ public class Teacher extends Employee {
 			output.append("TS    ");
 			break;
 		case TeacherHelper.MATER_LEVEL:
-			output.append("PTS   ");
+			output.append("ThS   ");
 			break;
 		case TeacherHelper.BACHELOR_LEVEL:
 			output.append("CN    ");
