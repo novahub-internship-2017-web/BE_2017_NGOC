@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="EmployeeManagement:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/EmployeeManagement_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="EmployeeManagement/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="EmployeeManagement" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="module" name="JUnit4" module-name="EmployeeManagement" />
+        </element>
+      </element>
+      <element id="javaee-facet-resources" facet="EmployeeManagement/web/Web2" />
+    </root>
+  </artifact>
+</component>
