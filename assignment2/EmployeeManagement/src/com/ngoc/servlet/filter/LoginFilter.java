@@ -46,7 +46,6 @@ public class LoginFilter implements Filter {
 
         String requestURI = request.getRequestURI();
 
-
         if(requestURI.contains("/templates") == true){
             chain.doFilter(req, resp);
         }

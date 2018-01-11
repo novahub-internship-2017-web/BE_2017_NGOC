@@ -166,6 +166,22 @@ public class GetAndValidateData {
         return username;
     }
 
+    public String getAndValidateWordSearching(HttpServletRequest request){
+        String words = "";
+        words = request.getParameter("words");
+
+        for(int i = 0; i < words.length(); i++){
+            if(!(words.charAt(i) >= 48 && words.charAt(i) <= 57)
+                    && !(words.charAt(i) >= 65 && words.charAt(i) <= 90)
+                    && !(words.charAt(i) >= 97 && words.charAt(i) <= 122)){
+                error += "Từ khóa tìm kiếm chỉ chứa (a-z, A-Z, 0-9)\n";
+                break;
+            }
+        }
+
+        return words;
+    }
+
     public String getAndValidatePassword(HttpServletRequest request){
         String password = "";
         password = request.getParameter("password");

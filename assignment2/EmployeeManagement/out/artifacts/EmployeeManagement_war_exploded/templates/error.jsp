@@ -3,7 +3,7 @@
     String error = (String) session.getAttribute("error");
 %>
 <style>
-    #errorMessage{
+    #listErrorMessage{
         background-color: #d43f3a;
         position: relative;
         border-radius: 5px;
@@ -17,7 +17,7 @@
 <div class="row" <% if(error == null){%> hidden <%}%>>
     <div class="col-sm-4"></div>
     <div class="col-sm-4">
-        <ul id="errorMessage">
+        <ul id="listErrorMessage">
             <%
                 if(error != null){
                     String[] errors = error.split("\n");

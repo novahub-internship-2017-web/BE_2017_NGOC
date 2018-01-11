@@ -26,15 +26,36 @@
     <%@include file="/templates/error.jsp"%>
     <%@include file="/templates/success.jsp"%>
 
+    <script>
+        function validateWordsChanged() {
+            var wordsSearching = document.getElementById("wordsSearching").value;
+            var errorMessage = document.getElementById("errorMessage");
+
+            errorMessage.hidden = true;
+
+            for(i = 0; i < wordsSearching.length; i++){
+                if(wordsSearching[i] == '\\'){
+                    errorMessage.hidden = false;
+                    errorMessage.innerHTML = "Từ tìm kiếm không được chứa kí tự '\\'";
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    </script>
+
     <div class="col-sm-1"></div>
     <div class="col-sm-10">
 
-        <form class="input-group" role="search" method="post">
-                <input type="text" class="form-control" value="<%=word%>" name="words" id="srch-term">
+        <form class="input-group" role="search" method="post" onsubmit="return validateWordsChanged()">
+                <input type="text" class="form-control" value="<%=word%>" name="words" id="wordsSearching" onkeyup="return validateWordsChanged()">
                 <div class="input-group-btn">
                     <button class="btn btn-default form-control" type="submit"><i class="glyphicon glyphicon-search"></i></button>
                 </div>
         </form>
+        <label id="errorMessage" style="color: red;" hidden></label>
+        <br/>
 
         <%
             if(userArrayList != null){

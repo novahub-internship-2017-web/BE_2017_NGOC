@@ -41,7 +41,7 @@ public class ManagementServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String words = request.getParameter("words");
 
-        ArrayList<User> userArrayList = selectByName(words);
+        ArrayList<User> userArrayList = null;
 
         HttpSession session = request.getSession();
 
