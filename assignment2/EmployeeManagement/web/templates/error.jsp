@@ -39,7 +39,7 @@
 
 <script>
     setTimeout(function () {
-    document.getElementById('errorMessage').hidden = true;
+    document.getElementById('listErrorMessage').hidden = true;
     }, 2500);
 </script>
 
