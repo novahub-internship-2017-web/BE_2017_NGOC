@@ -38,21 +38,18 @@ public class CreateEmployeeServlet extends HttpServlet {
         fullname = getAndValidateData.getAndValidateFullname(request);
         yearOfBirth = getAndValidateData.getAndValidateYearOfBirth(request);
         country = getAndValidateData.getAndValidateCountry(request);
-        level = getAndValidateData.getAndValidateLevel(request);
         coefficientsSalary = getAndValidateData.getAndValidateCoefficientsSalary(request);
 
         switch (typeOfEmployee) {
             case User.STAFF_ACCESS: {
                 department = getAndValidateData.getAndValidateDepartment(request);
                 daysOfWork = getAndValidateData.getAndValidateDaysOfWork(request);
-                level = getAndValidateData.getAndValidateLevel(request);
             }
             break;
 
             case User.TEACHER_ACCESS: {
                 major = getAndValidateData.getAndValidateMajor(request);
                 numberOfLessons = getAndValidateData.getAndValidateNumberOfLessons(request);
-                level = getAndValidateData.getAndValidateLevel(request);
             }
             break;
         }

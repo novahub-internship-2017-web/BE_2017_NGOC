@@ -72,7 +72,7 @@ public class DBHelper extends HttpServlet{
         return idUser;
     }
 
-    public static void updateUserInfoTable(Connection connection, int idUser, String fullname, int yearOfBirth, String country, double coefficientsSalary, int level) throws ServletException {
+    public static void updateUserInfoTable(Connection connection, int idUser, int userAccess, String fullname, int yearOfBirth, String country, double coefficientsSalary, int level) throws ServletException {
         PreparedStatement preparedStatement = null;
         String query;
         try{
@@ -90,7 +90,7 @@ public class DBHelper extends HttpServlet{
             preparedStatement.setInt(2, yearOfBirth);
             preparedStatement.setString(3, country);
             preparedStatement.setDouble(4, coefficientsSalary);
-            preparedStatement.setDouble(5, StaffHelper.getAllowance(level));
+            preparedStatement.setDouble(5, ((userAccess == User.TEACHER_ACCESS) ? TeacherHelper.getAllowance(level) : StaffHelper.getAllowance(level)));
             preparedStatement.setInt(6, level);
             preparedStatement.setInt(7, idUser);
             preparedStatement.executeUpdate();
@@ -122,68 +122,6 @@ public class DBHelper extends HttpServlet{
             preparedStatement.setInt(3, yearOfBirth);
             preparedStatement.setString(4, country);
             preparedStatement.setDouble(5, ((userAccess == User.STAFF_ACCESS) ? StaffHelper.getAllowance(level) : TeacherHelper.getAllowance(level)));
-            preparedStatement.setDouble(6, coefficientsSalary);
-            preparedStatement.setInt(7, level);
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            logger.error("Database connection problem");
-            throw new ServletException("DB Connection problem.");
-        }finally{
-            try {
-                preparedStatement.close();
-            } catch (SQLException e) {
-                logger.error("SQLException in closing PreparedStatement or ResultSet");;
-            }
-        }
-    }
-
-    public static void insertUserInfoTableForStaff(Connection connection, int idUser, String fullname, int yearOfBirth, String country, double coefficientsSalary, int level) throws ServletException {
-        PreparedStatement preparedStatement = null;
-        String query = "";
-
-        try {
-            // insert user_info
-            query = "INSERT INTO User_info\n" +
-                    "VALUE (?,?,?,?,?,?,?)";
-            preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, idUser);
-            preparedStatement.setString(2, fullname);
-            preparedStatement.setInt(3, yearOfBirth);
-            preparedStatement.setString(4, country);
-            preparedStatement.setDouble(5, StaffHelper.getAllowance(level));
-            preparedStatement.setDouble(6, coefficientsSalary);
-            preparedStatement.setInt(7, level);
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            logger.error("Database connection problem");
-            throw new ServletException("DB Connection problem.");
-        }finally{
-            try {
-                preparedStatement.close();
-            } catch (SQLException e) {
-                logger.error("SQLException in closing PreparedStatement or ResultSet");;
-            }
-        }
-    }
-
-    public static void insertUserInfoTableForTeacher(Connection connection, int idUser, String fullname, int yearOfBirth, String country, double coefficientsSalary, int level) throws ServletException {
-        PreparedStatement preparedStatement = null;
-        String query = "";
-
-        try {
-            // insert user_info
-            query = "INSERT INTO User_info\n" +
-                    "VALUE (?,?,?,?,?,?,?)";
-            preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, idUser);
-            preparedStatement.setString(2, fullname);
-            preparedStatement.setInt(3, yearOfBirth);
-            preparedStatement.setString(4, country);
-            preparedStatement.setDouble(5, TeacherHelper.getAllowance(level));
             preparedStatement.setDouble(6, coefficientsSalary);
             preparedStatement.setInt(7, level);
             preparedStatement.executeUpdate();

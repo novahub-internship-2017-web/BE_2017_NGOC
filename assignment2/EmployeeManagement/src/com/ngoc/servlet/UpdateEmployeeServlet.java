@@ -1,5 +1,6 @@
 package com.ngoc.servlet;
 
+import com.ngoc.model.StaffHelper;
 import com.ngoc.model.User;
 import com.ngoc.servlet.errorhandler.PageNotFoundException;
 import com.ngoc.util.DBHelper;
@@ -82,11 +83,14 @@ public class UpdateEmployeeServlet extends HttpServlet {
         GetAndValidateData getAndValidateDate = new GetAndValidateData();
 
         fullname = getAndValidateDate.getAndValidateFullname(request);
+
+
         yearOfBirth = getAndValidateDate.getAndValidateYearOfBirth(request);
         country = getAndValidateDate.getAndValidateCountry(request);
-        typeOfEmployee = Integer.parseInt(request.getParameter("typeOfEmployee"));
+        typeOfEmployee = getAndValidateDate.getTypeOfEmployee(request);
 
         switch (typeOfEmployee) {
+            case User.ADMIN_ACCESS:
             case User.STAFF_ACCESS: {
                 department = getAndValidateDate.getAndValidateDepartment(request);
                 daysOfWork = getAndValidateDate.getAndValidateDaysOfWork(request);
@@ -99,11 +103,15 @@ public class UpdateEmployeeServlet extends HttpServlet {
             break;
         }
 
-        changingPassword = Integer.parseInt(request.getParameter("changingPassword"));
-
         coefficientsSalary = getAndValidateDate.getAndValidateCoefficientsSalary(request);
-        level = getAndValidateDate.getAndValidateLevel(request);
+        if(userUpdating.getAccess() == User.ADMIN_ACCESS){
+            level = StaffHelper.ADMIN_LEVEL;
+        }
+        else {
+            level = getAndValidateDate.getAndValidateLevel(request, typeOfEmployee);
+        }
 
+        changingPassword = Integer.parseInt(request.getParameter("changingPassword"));
         if (changingPassword == 2) {
             password = getAndValidateDate.getAndValidatePassword(request);
             getAndValidateDate.validateRepassword(password, request);
@@ -117,21 +125,19 @@ public class UpdateEmployeeServlet extends HttpServlet {
         }
         else {
 
-            switch (typeOfEmployee) {
-                case User.STAFF_ACCESS: {
+            if(userUpdating.getAccess() == User.TEACHER_ACCESS) {
+                DBHelper.changeTypeOfEmployeeToTeacher(connection, userUpdating.getId());
+                DBHelper.updateTeacherTable(connection, userUpdating.getId(), major, numberOfLessons);
+            }
+            else {
+                if(userUpdating.getAccess() == User.STAFF_ACCESS) {
                     DBHelper.changeTypeOfEmployeeToStaff(connection, userUpdating.getId());
-                    DBHelper.updateStaffTable(connection, userUpdating.getId(), department, daysOfWork);
                 }
-                break;
-                case User.TEACHER_ACCESS: {
-                    DBHelper.changeTypeOfEmployeeToTeacher(connection, userUpdating.getId());
-                    DBHelper.updateTeacherTable(connection, userUpdating.getId(), major, numberOfLessons);
-                }
-                break;
+                DBHelper.updateStaffTable(connection, userUpdating.getId(), department, daysOfWork);
             }
 
             // update User_info
-            DBHelper.updateUserInfoTable(connection, userUpdating.getId(), fullname, yearOfBirth, country, coefficientsSalary, level);
+            DBHelper.updateUserInfoTable(connection, userUpdating.getId(), userUpdating.getAccess(), fullname, yearOfBirth, country, coefficientsSalary, level);
 
             if (changingPassword == 2) {
                 DBHelper.changePassword(connection, userUpdating.getId(), password);

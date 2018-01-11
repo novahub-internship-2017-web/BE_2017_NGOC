@@ -119,7 +119,7 @@
 
             if(check == true) {
 
-                var r = confirm("Are you sure you want to create new Employee?");
+                var r = confirm("Are you sure you want to update Employee?");
 
                 return r;
             }
@@ -150,8 +150,8 @@
         <div class="form-group" >
             <label class="control-label col-sm-3">Loại nhân viên : </label>
             <div class="col-sm-5">
-                <select class="form-control" name="typeOfEmployee" id="typeOfEmployee" onchange="chooseTypeEmployee()" <%if(currentUser.getAccess() == User.ADMIN_ACCESS){%> disabled <%}%>>
-                    <option value="<%=User.STAFF_ACCESS%>" <%if(currentUser.getAccess() == User.ADMIN_ACCESS || currentUser.getAccess() == User.STAFF_ACCESS){%> selected <%}%>><%=User.STAFF_NAME%></option>
+                <select class="form-control" name="typeOfEmployee" id="typeOfEmployee" onchange="chooseTypeEmployee()" <%if(currentUser.getAccess() == User.ADMIN_ACCESS){%> disabled<%}%>>
+                    <option value="<%=User.STAFF_ACCESS%>" <%if(currentUser.getAccess() == User.STAFF_ACCESS || currentUser.getAccess() == User.ADMIN_ACCESS){%> selected <%}%>><%=User.STAFF_NAME%></option>
                     <option value="<%=User.TEACHER_ACCESS%>" <%if(currentUser.getAccess() == User.TEACHER_ACCESS){%> selected <%}%>><%=User.TEACHER_NAME%></option>
                 </select>
             </div>
@@ -255,7 +255,7 @@
         <div id="levelStaff" class="form-group" <%if(!(currentUser.getAccess() == User.STAFF_ACCESS || currentUser.getAccess() == User.ADMIN_ACCESS)){%> hidden <%}%>>
             <label class="control-label col-sm-3">Chức vụ : </label>
             <div class="col-sm-5">
-                <select class="form-control" name="level" <%if(currentUser.getAccess() == User.ADMIN_ACCESS){%> disabled <%}%>>
+                <select class="form-control" name="levelStaff" <%if(currentUser.getAccess() == User.ADMIN_ACCESS){%> disabled <%}%>>
                     <option value="<%=StaffHelper.HEAD_OF_DEPARTMENT_LEVEL%>" <%if(staff != null && staff.getLevel() == StaffHelper.HEAD_OF_DEPARTMENT_LEVEL){%> selected <%}%>><%=StaffHelper.HEAD_OF_DEPARTMENT_NAME%></option>
                     <option value="<%=StaffHelper.DEPUTY_OF_DEPARTMENT_LEVEL%>" <%if(staff != null && staff.getLevel() == StaffHelper.DEPUTY_OF_DEPARTMENT_LEVEL){%> selected <%}%>><%=StaffHelper.DEPUTY_OF_DEPARTMENT_NAME%></option>
                     <option value="<%=StaffHelper.STAFF_LEVEL%>" <%if(staff != null && staff.getLevel() == StaffHelper.STAFF_LEVEL){%> selected <%}%>><%=StaffHelper.STAFF_NAME%></option>
@@ -269,7 +269,7 @@
         <div id="levelTeacher" class="form-group" <%if(!(currentUser.getAccess() == User.TEACHER_ACCESS)){%> hidden <%}%>>
             <label class="control-label col-sm-3">Chức vụ : </label>
             <div class="col-sm-5">
-                <select class="form-control" name="level">
+                <select class="form-control" name="levelTeacher">
                     <option value="<%=TeacherHelper.BACHELOR_LEVEL%>" <%if(teacher != null && teacher.getLevel() == TeacherHelper.BACHELOR_LEVEL){%> selected <%}%>><%=TeacherHelper.BACHELOR_NAME%></option>
                     <option value="<%=TeacherHelper.MATER_LEVEL%>" <%if(teacher != null && teacher.getLevel() == TeacherHelper.MATER_LEVEL){%> selected <%}%>><%=TeacherHelper.MATER_NAME%></option>
                     <option value="<%=TeacherHelper.DOCTOR_OF_PHILOSOPHY_LEVEL%>" <%if(teacher != null && teacher.getLevel() == TeacherHelper.DOCTOR_OF_PHILOSOPHY_LEVEL){%> selected <%}%>><%=TeacherHelper.DOCTOR_OF_PHILOSOPHY_NAME%></option>

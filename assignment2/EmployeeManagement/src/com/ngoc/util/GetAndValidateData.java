@@ -1,5 +1,6 @@
 package com.ngoc.util;
 
+import com.ngoc.model.User;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -123,10 +124,13 @@ public class GetAndValidateData {
         return coefficientsSalary;
     }
 
-    public int getAndValidateLevel(HttpServletRequest request){
+    public int getAndValidateLevel(HttpServletRequest request, int typeOfEmployee){
         int level = -1;
         try{
-            level = Integer.parseInt(request.getParameter("level"));
+            if(typeOfEmployee == User.TEACHER_ACCESS)
+                level = Integer.parseInt(request.getParameter("levelTeacher"));
+            else
+                level = Integer.parseInt(request.getParameter("levelStaff"));
         }catch(NumberFormatException ex){
             error += "Chức vụ lựa chọn không đúng\n";
         }
@@ -229,5 +233,18 @@ public class GetAndValidateData {
                 logger.error("SQLException in closing PreparedStatement or ResultSet");;
             }
         }
+    }
+
+    public int getTypeOfEmployee(HttpServletRequest request) {
+        int typeOfEmployee = User.ADMIN_ACCESS;
+
+        try {
+            typeOfEmployee = Integer.parseInt(request.getParameter("typeOfEmployee"));
+        }
+        catch (NumberFormatException ex){
+            error += "type of employee phai la so nguyen\n";
+        }
+
+        return typeOfEmployee;
     }
 }

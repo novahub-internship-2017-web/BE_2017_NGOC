@@ -27,25 +27,14 @@
     <option name="HIDE_WARNINGS" value="true" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="validate.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/web/templates/javascript/validate.js">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="updateEmployee.jsp" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/web/templates/admin/updateEmployee.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="191" column="0" lean-forward="true" selection-start-line="191" selection-start-column="0" selection-end-line="191" selection-end-column="0" />
+            <state relative-caret-position="414">
+              <caret line="23" column="32" lean-forward="false" selection-start-line="23" selection-start-column="32" selection-end-line="23" selection-end-column="32" />
               <folding>
-                <element signature="n#!!block;n#validateUsername#0" expanded="false" />
-                <element signature="n#!!block;n#validateCurrentPassword#0" expanded="false" />
-                <element signature="n#!!block;n#validatePassword#0" expanded="false" />
-                <element signature="n#!!block;n#validateRepassword#0" expanded="false" />
-                <element signature="n#!!block;n#validateFullname#0" expanded="false" />
-                <element signature="n#!!block;n#validateYearOfBirth#0" expanded="false" />
-                <element signature="n#!!block;n#validateCountry#0" expanded="false" />
-                <element signature="n#!!block;n#validateDepartment#0" expanded="false" />
-                <element signature="n#!!block;n#validateDaysOfWork#0" expanded="false" />
-                <element signature="n#!!block;n#validateMajor#0" expanded="false" />
-                <element signature="n#!!block;n#validateNumberOfLessons#0" expanded="false" />
-                <element signature="n#!!block;n#validateCoefficientsSalary#0" expanded="false" />
+                <element signature="n#style#0;n#label#1;n#div#3;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -114,7 +103,6 @@
         <option value="$PROJECT_DIR$/src/com/ngoc/servlet/HomeServlet.java" />
         <option value="$PROJECT_DIR$/web/templates/login.jsp" />
         <option value="$PROJECT_DIR$/src/com/ngoc/servlet/LogoutServlet.java" />
-        <option value="$PROJECT_DIR$/web/templates/admin/updateEmployee.jsp" />
         <option value="$PROJECT_DIR$/src/com/ngoc/servlet/DeleteServlet.java" />
         <option value="$PROJECT_DIR$/web/templates/error.jsp" />
         <option value="$PROJECT_DIR$/web/templates/success.jsp" />
@@ -125,10 +113,11 @@
         <option value="$PROJECT_DIR$/src/com/ngoc/servlet/LoginServlet.java" />
         <option value="$PROJECT_DIR$/src/com/ngoc/servlet/ManagementServlet.java" />
         <option value="$PROJECT_DIR$/src/com/ngoc/servlet/ChangePasswordServlet.java" />
-        <option value="$PROJECT_DIR$/src/com/ngoc/util/DBHelper.java" />
-        <option value="$PROJECT_DIR$/src/com/ngoc/util/GetAndValidateData.java" />
-        <option value="$PROJECT_DIR$/src/com/ngoc/servlet/UpdateEmployeeServlet.java" />
         <option value="$PROJECT_DIR$/src/com/ngoc/servlet/filter/LoginFilter.java" />
+        <option value="$PROJECT_DIR$/src/com/ngoc/util/DBHelper.java" />
+        <option value="$PROJECT_DIR$/web/templates/admin/updateEmployee.jsp" />
+        <option value="$PROJECT_DIR$/src/com/ngoc/servlet/UpdateEmployeeServlet.java" />
+        <option value="$PROJECT_DIR$/src/com/ngoc/util/GetAndValidateData.java" />
         <option value="$PROJECT_DIR$/src/com/ngoc/servlet/CreateEmployeeServlet.java" />
       </list>
     </option>
@@ -169,6 +158,7 @@
     <panes>
       <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
@@ -231,7 +221,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -488,6 +477,7 @@
       <workItem from="1515514599983" duration="16468000" />
       <workItem from="1515552204162" duration="8901000" />
       <workItem from="1515561418790" duration="20450000" />
+      <workItem from="1515633748050" duration="8529000" />
     </task>
     <servers />
   </component>
@@ -503,14 +493,14 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="252407000" />
+    <option name="totallyTimeSpent" value="260936000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="-4" width="1368" height="730" extended-state="6" />
+    <frame x="682" y="-4" width="1368" height="737" extended-state="6" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3255102" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3248" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -523,7 +513,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19619326" sideWeight="0.44117647" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19619326" sideWeight="0.44117647" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20790629" sideWeight="0.5588235" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -548,18 +538,26 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="172" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/ngoc/servlet/UpdateEmployeeServlet.java</url>
+          <line>82</line>
+          <properties />
+          <option name="timeStamp" value="178" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/ngoc/servlet/UpdateEmployeeServlet.java</url>
+          <line>84</line>
+          <properties />
+          <option name="timeStamp" value="179" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="181" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/web/templates/admin/create.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="18" column="22" lean-forward="false" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/web/templates/admin/create.jsp" />
     <entry file="file://$PROJECT_DIR$/web/templates/logout.jsp" />
     <entry file="file://$PROJECT_DIR$/src/com/ngoc/model/StaffHelper.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -613,29 +611,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/templates/admin/createStaff.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/templates/admin/createTeacher.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="40" column="55" lean-forward="true" selection-start-line="40" selection-start-column="55" selection-end-line="40" selection-end-column="55" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/ngoc/servlet/CreateTeacherServlet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="30" column="43" lean-forward="false" selection-start-line="30" selection-start-column="43" selection-end-line="30" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/web/templates/admin/createStaff.jsp" />
+    <entry file="file://$PROJECT_DIR$/web/templates/admin/createTeacher.jsp" />
+    <entry file="file://$PROJECT_DIR$/src/com/ngoc/servlet/CreateTeacherServlet.java" />
     <entry file="file://$PROJECT_DIR$/src/com/ngoc/model/Staff.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -646,13 +624,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/templates/public/teacher/home.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="882">
-          <caret line="49" column="52" lean-forward="false" selection-start-line="49" selection-start-column="52" selection-end-line="49" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/web/templates/public/teacher/home.jsp" />
     <entry file="file://$PROJECT_DIR$/web/WEB-INF/web.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -665,7 +637,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="450">
           <caret line="25" column="22" lean-forward="false" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -683,20 +654,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/ngoc/servlet/CreateStaffServlet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="630">
-          <caret line="51" column="35" lean-forward="true" selection-start-line="51" selection-start-column="35" selection-end-line="51" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/templates/public/staff/home.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="769">
-          <caret line="66" column="32" lean-forward="true" selection-start-line="66" selection-start-column="32" selection-end-line="66" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/ngoc/servlet/CreateStaffServlet.java" />
+    <entry file="file://$PROJECT_DIR$/web/templates/public/staff/home.jsp" />
     <entry file="file://$PROJECT_DIR$/src/com/ngoc/util/DBConnectionManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
@@ -704,45 +663,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/ngoc/servlet/CreateServlet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="15" column="107" lean-forward="false" selection-start-line="15" selection-start-column="107" selection-end-line="15" selection-end-column="107" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/ngoc/servlet/HomeServlet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="19" column="52" lean-forward="false" selection-start-line="19" selection-start-column="52" selection-end-line="19" selection-end-column="52" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/templates/admin/createEmployee.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="17" column="6" lean-forward="false" selection-start-line="17" selection-start-column="6" selection-end-line="17" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/ngoc/servlet/CreateServlet.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/ngoc/servlet/HomeServlet.java" />
     <entry file="file://$PROJECT_DIR$/src/com/ngoc/model/User.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="383">
           <caret line="57" column="20" lean-forward="false" selection-start-line="57" selection-start-column="20" selection-end-line="57" selection-end-column="20" />
           <folding>
-            <element signature="e#1324#1325#0" expanded="true" />
-            <element signature="e#1358#1359#0" expanded="true" />
+            <element signature="e#1324#1325#0" expanded="false" />
+            <element signature="e#1358#1359#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/templates/admin/changePassword.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
-          <caret line="19" column="0" lean-forward="true" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -769,9 +699,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
           <caret line="13" column="120" lean-forward="false" selection-start-line="13" selection-start-column="120" selection-end-line="13" selection-end-column="120" />
-          <folding>
-            <element signature="method#doGet#0;class#LogoutServlet#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -783,121 +710,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/templates/admin/management.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="3" column="20" lean-forward="true" selection-start-line="3" selection-start-column="20" selection-end-line="3" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/ngoc/util/DBHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-148">
-          <caret line="110" column="201" lean-forward="false" selection-start-line="110" selection-start-column="201" selection-end-line="110" selection-end-column="201" />
-          <folding>
-            <element signature="method#insertUser#0;class#DBHelper#0" expanded="false" />
-            <element signature="method#getIdUser#0;class#DBHelper#0" expanded="false" />
-            <element signature="method#updateUserInfoTable#0;class#DBHelper#0" expanded="false" />
-            <element signature="method#insertUserInfo#0;class#DBHelper#0" expanded="false" />
-            <element signature="method#insertUserInfoTableForStaff#0;class#DBHelper#0" expanded="false" />
-            <element signature="method#insertUserInfoTableForTeacher#0;class#DBHelper#0" expanded="false" />
-            <element signature="method#insertStaffTable#0;class#DBHelper#0" expanded="false" />
-            <element signature="method#updateStaffTable#0;class#DBHelper#0" expanded="false" />
-            <element signature="method#updateTeacherTable#0;class#DBHelper#0" expanded="false" />
-            <element signature="method#insertTeacherTable#0;class#DBHelper#0" expanded="false" />
-            <element signature="method#deleteUser#0;class#DBHelper#0" expanded="false" />
-            <element signature="method#getTeacher#0;class#DBHelper#0" expanded="false" />
-            <element signature="method#getListTeacherByFullname#0;class#DBHelper#0" expanded="false" />
-            <element signature="method#getStaff#0;class#DBHelper#0" expanded="false" />
-            <element signature="method#getListStaffByFullname#0;class#DBHelper#0" expanded="false" />
-            <element signature="method#getUser#0;class#DBHelper#0" expanded="false" />
-            <element signature="method#getUser#1;class#DBHelper#0" expanded="false" />
-            <element signature="method#getPassword#0;class#DBHelper#0" expanded="false" />
-            <element signature="method#changePassword#0;class#DBHelper#0" expanded="false" />
-            <element signature="method#changeTypeOfEmployeeToStaff#0;class#DBHelper#0" expanded="false" />
-            <element signature="method#changeTypeOfEmployeeToTeacher#0;class#DBHelper#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/ngoc/util/GetAndValidateData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="412">
-          <caret line="205" column="106" lean-forward="false" selection-start-line="205" selection-start-column="106" selection-end-line="205" selection-end-column="106" />
-          <folding>
-            <element signature="method#getAndValidateFullname#0;class#GetAndValidateData#0" expanded="false" />
-            <element signature="method#getAndValidateYearOfBirth#0;class#GetAndValidateData#0" expanded="false" />
-            <element signature="method#getAndValidateCountry#0;class#GetAndValidateData#0" expanded="false" />
-            <element signature="method#getAndValidateMajor#0;class#GetAndValidateData#0" expanded="false" />
-            <element signature="method#getAndValidateNumberOfLessons#0;class#GetAndValidateData#0" expanded="false" />
-            <element signature="method#getAndValidateDepartment#0;class#GetAndValidateData#0" expanded="false" />
-            <element signature="method#getAndValidateDaysOfWork#0;class#GetAndValidateData#0" expanded="false" />
-            <element signature="method#getAndValidateCoefficientsSalary#0;class#GetAndValidateData#0" expanded="false" />
-            <element signature="method#getAndValidateLevel#0;class#GetAndValidateData#0" expanded="false" />
-            <element signature="method#getAndValidateUsername#0;class#GetAndValidateData#0" expanded="false" />
-            <element signature="method#getAndValidatePassword#0;class#GetAndValidateData#0" expanded="false" />
-            <element signature="method#validateRepassword#0;class#GetAndValidateData#0" expanded="false" />
-            <element signature="method#validateDuplicateUsername#0;class#GetAndValidateData#0" expanded="false" />
-            <marker date="1515581193908" expanded="true" signature="6754:6797" ph="SELECT id_us... User" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/templates/error.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="11" column="24" lean-forward="false" selection-start-line="11" selection-start-column="24" selection-end-line="11" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/ngoc/servlet/UpdateEmployeeServlet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1064">
-          <caret line="61" column="48" lean-forward="false" selection-start-line="61" selection-start-column="48" selection-end-line="61" selection-end-column="48" />
-          <folding>
-            <element signature="method#doGet#0;class#UpdateEmployeeServlet#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/templates/login.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="27" column="90" lean-forward="false" selection-start-line="27" selection-start-column="90" selection-end-line="27" selection-end-column="90" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/templates/admin/updateEmployee.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="157" column="21" lean-forward="false" selection-start-line="157" selection-start-column="21" selection-end-line="157" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/templates/success.jsp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="36">
           <caret line="2" column="66" lean-forward="false" selection-start-line="2" selection-start-column="65" selection-end-line="2" selection-end-column="66" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/ngoc/servlet/ManagementServlet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="19" column="16" lean-forward="true" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
-          <folding>
-            <element signature="method#doGet#0;class#ManagementServlet#0" expanded="false" />
-            <element signature="method#doPost#0;class#ManagementServlet#0" expanded="false" />
-            <element signature="method#selectByName#0;class#ManagementServlet#0" expanded="false" />
-            <element signature="e#1891#1897#0" expanded="true" />
-            <element signature="e#1951#1958#0" expanded="true" />
-            <element signature="e#2016#2025#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -913,12 +730,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="222">
           <caret line="89" column="9" lean-forward="false" selection-start-line="89" selection-start-column="9" selection-end-line="89" selection-end-column="9" />
-          <folding>
-            <element signature="method#init#0;class#LoginFilter#0" expanded="false" />
-            <element signature="method#isWhiteURL#0;class#LoginFilter#0" expanded="false" />
-            <element signature="method#isAdminURL#0;class#LoginFilter#0" expanded="false" />
-            <element signature="method#isEmployeeURL#0;class#LoginFilter#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -926,7 +737,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
           <caret line="17" column="76" lean-forward="false" selection-start-line="17" selection-start-column="76" selection-end-line="17" selection-end-column="76" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -934,7 +744,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
           <caret line="17" column="22" lean-forward="false" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -942,7 +751,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
           <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -958,7 +766,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="149">
           <caret line="56" column="0" lean-forward="true" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -966,15 +773,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
           <caret line="38" column="21" lean-forward="false" selection-start-line="38" selection-start-column="21" selection-end-line="38" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/ngoc/servlet/CreateEmployeeServlet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="633">
-          <caret line="93" column="0" lean-forward="false" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -998,10 +796,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/web/templates/admin/management.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-200">
+          <caret line="3" column="20" lean-forward="false" selection-start-line="3" selection-start-column="20" selection-end-line="3" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/web/templates/javascript/validate.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="191" column="0" lean-forward="true" selection-start-line="191" selection-start-column="0" selection-end-line="191" selection-end-column="0" />
+        <state relative-caret-position="396">
+          <caret line="311" column="30" lean-forward="true" selection-start-line="311" selection-start-column="30" selection-end-line="311" selection-end-column="30" />
           <folding>
             <element signature="n#!!block;n#validateUsername#0" expanded="false" />
             <element signature="n#!!block;n#validateCurrentPassword#0" expanded="false" />
@@ -1015,6 +821,132 @@
             <element signature="n#!!block;n#validateMajor#0" expanded="false" />
             <element signature="n#!!block;n#validateNumberOfLessons#0" expanded="false" />
             <element signature="n#!!block;n#validateCoefficientsSalary#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/ngoc/servlet/ManagementServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="19" column="16" lean-forward="true" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
+          <folding>
+            <element signature="method#doGet#0;class#ManagementServlet#0" expanded="false" />
+            <element signature="method#doPost#0;class#ManagementServlet#0" expanded="false" />
+            <element signature="method#selectByName#0;class#ManagementServlet#0" expanded="false" />
+            <element signature="e#1891#1897#0" expanded="false" />
+            <element signature="e#1951#1958#0" expanded="false" />
+            <element signature="e#2016#2025#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/templates/login.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="486">
+          <caret line="27" column="90" lean-forward="false" selection-start-line="27" selection-start-column="90" selection-end-line="27" selection-end-column="90" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/templates/error.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-103">
+          <caret line="11" column="24" lean-forward="false" selection-start-line="11" selection-start-column="24" selection-end-line="11" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/templates/admin/changePassword.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="214">
+          <caret line="19" column="0" lean-forward="true" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/templates/admin/createEmployee.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1638">
+          <caret line="17" column="6" lean-forward="false" selection-start-line="17" selection-start-column="6" selection-end-line="17" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/ngoc/util/DBHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="92" column="117" lean-forward="false" selection-start-line="92" selection-start-column="117" selection-end-line="92" selection-end-column="117" />
+          <folding>
+            <element signature="method#insertUser#0;class#DBHelper#0" expanded="false" />
+            <element signature="method#getIdUser#0;class#DBHelper#0" expanded="false" />
+            <element signature="method#insertUserInfo#0;class#DBHelper#0" expanded="false" />
+            <element signature="method#insertStaffTable#0;class#DBHelper#0" expanded="false" />
+            <element signature="method#updateStaffTable#0;class#DBHelper#0" expanded="false" />
+            <element signature="method#updateTeacherTable#0;class#DBHelper#0" expanded="false" />
+            <element signature="method#insertTeacherTable#0;class#DBHelper#0" expanded="false" />
+            <element signature="method#deleteUser#0;class#DBHelper#0" expanded="false" />
+            <element signature="method#getTeacher#0;class#DBHelper#0" expanded="false" />
+            <element signature="method#getListTeacherByFullname#0;class#DBHelper#0" expanded="false" />
+            <element signature="method#getStaff#0;class#DBHelper#0" expanded="false" />
+            <element signature="method#getListStaffByFullname#0;class#DBHelper#0" expanded="false" />
+            <element signature="method#getUser#0;class#DBHelper#0" expanded="false" />
+            <element signature="method#getUser#1;class#DBHelper#0" expanded="false" />
+            <element signature="method#getPassword#0;class#DBHelper#0" expanded="false" />
+            <element signature="method#changePassword#0;class#DBHelper#0" expanded="false" />
+            <element signature="method#changeTypeOfEmployeeToStaff#0;class#DBHelper#0" expanded="false" />
+            <element signature="method#changeTypeOfEmployeeToTeacher#0;class#DBHelper#0" expanded="false" />
+            <marker date="1515681579583" expanded="true" signature="2853:3189" ph="UPDATE User_info... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/ngoc/servlet/CreateEmployeeServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-626">
+          <caret line="40" column="8" lean-forward="false" selection-start-line="40" selection-start-column="8" selection-end-line="40" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/ngoc/util/GetAndValidateData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="232">
+          <caret line="126" column="82" lean-forward="false" selection-start-line="126" selection-start-column="82" selection-end-line="126" selection-end-column="82" />
+          <folding>
+            <element signature="method#getAndValidateFullname#0;class#GetAndValidateData#0" expanded="false" />
+            <element signature="method#getAndValidateYearOfBirth#0;class#GetAndValidateData#0" expanded="false" />
+            <element signature="method#getAndValidateCountry#0;class#GetAndValidateData#0" expanded="false" />
+            <element signature="method#getAndValidateMajor#0;class#GetAndValidateData#0" expanded="false" />
+            <element signature="method#getAndValidateNumberOfLessons#0;class#GetAndValidateData#0" expanded="false" />
+            <element signature="method#getAndValidateDepartment#0;class#GetAndValidateData#0" expanded="false" />
+            <element signature="method#getAndValidateDaysOfWork#0;class#GetAndValidateData#0" expanded="false" />
+            <element signature="method#getAndValidateCoefficientsSalary#0;class#GetAndValidateData#0" expanded="false" />
+            <element signature="method#getAndValidateLevel#0;class#GetAndValidateData#0" expanded="false" />
+            <element signature="method#getAndValidateUsername#0;class#GetAndValidateData#0" expanded="false" />
+            <element signature="method#getAndValidatePassword#0;class#GetAndValidateData#0" expanded="false" />
+            <element signature="method#validateRepassword#0;class#GetAndValidateData#0" expanded="false" />
+            <element signature="method#validateDuplicateUsername#0;class#GetAndValidateData#0" expanded="false" />
+            <element signature="method#getTypeOfEmployee#0;class#GetAndValidateData#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/ngoc/servlet/UpdateEmployeeServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="110" column="82" lean-forward="false" selection-start-line="110" selection-start-column="82" selection-end-line="110" selection-end-column="82" />
+          <folding>
+            <element signature="method#doGet#0;class#UpdateEmployeeServlet#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/templates/admin/updateEmployee.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="23" column="32" lean-forward="false" selection-start-line="23" selection-start-column="32" selection-end-line="23" selection-end-column="32" />
+          <folding>
+            <element signature="n#style#0;n#label#1;n#div#3;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
