@@ -21,16 +21,15 @@ Clone this repository using:
 ```
 git clone https://github.com/thanqminh/BE_JAVA_CORE_EXAM_NGOC 
 ```  
-Open folder assignment3
-Run file script db.sql into folder /Book-Management-Spring-Project/src/main/resources
-Using Intellij Idea to open project Book-Management-Spring-Project and run project
+Open folder assignment3  
+Run file script db.sql into folder /Book-Management-Spring-Project/src/main/resources  
+Using Intellij Idea to open project Book-Management-Spring-Project and run project  
 ### Note   
 Users:
 * administrator
   > User: admin@gmail.com  
   > Password: password
 * guest:  
-  <-------------------------->  
   > User: ngoc@gmail.com  
   > Password: password  
   <-------------------------->  
