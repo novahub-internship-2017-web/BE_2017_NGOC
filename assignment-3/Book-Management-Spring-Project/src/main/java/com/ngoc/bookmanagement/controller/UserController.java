@@ -88,7 +88,7 @@ public class UserController {
             String newPassword = user.getMatchingPassword();
             String reNewPassword = user.getRePassword();
 
-            if (!oldPassword.equals(currentUser.getPassword())) {
+            if (!passwordService.encryptPassword(oldPassword).equals(currentUser.getEncryptingPassword())) {
                 result.rejectValue("password", "User.password", "Current password isn't true");
                 request.setAttribute(Constant.errorMessageSession, "Current password isn't true");
             } else {
@@ -98,7 +98,9 @@ public class UserController {
                 } else {
                     currentUser.setPassword(newPassword);
                     userService.updatePassword(id, newPassword);
-                    userService.writeSession(currentUser, request);
+
+                    if(!(request.getRequestURI().indexOf("/admin/user") >= 0))
+                        userService.writeSession(currentUser, request);
                     request.setAttribute(Constant.successMessageSession, "Change password successfully");
                 }
             }

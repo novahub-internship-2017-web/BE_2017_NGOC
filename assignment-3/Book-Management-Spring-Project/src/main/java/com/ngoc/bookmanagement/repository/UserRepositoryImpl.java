@@ -51,9 +51,9 @@ public class UserRepositoryImpl implements UserRepository {
 
         Session session = sessionFactory.getCurrentSession();
 
-        Query<User> query = session.createQuery("FROM User user WHERE user.email = :email AND user.password = :password AND user.status = :status", User.class);
+        Query<User> query = session.createQuery("FROM User user WHERE user.email = :email AND user.encryptingPassword = :encryptingPassword AND user.status = :status", User.class);
         query.setParameter("email", email);
-        query.setParameter("password", password);
+        query.setParameter("encryptingPassword", passwordService.encryptPassword(password));
         query.setParameter("status", Constant.UNLOCK);
         List<User> users = query.getResultList();
 
@@ -94,36 +94,60 @@ public class UserRepositoryImpl implements UserRepository {
     @Transactional
     public void update(long id, User user){
         Session session = sessionFactory.getCurrentSession();
-        User userUpdating = session.byId(User.class).load(id);
-        userUpdating.setPassword(user.getPassword());
-        userUpdating.setFirstName(user.getFirstName());
-        userUpdating.setLastName(user.getLastName());
-        session.flush();
+
+        String hqlUpdate = "UPDATE User user " +
+                            "SET user.encryptingPassword = :encryptingPassword, user.firstName = :firstName, user.lastName = :lastName " +
+                            "WHERE user.id = :id";
+
+        session.createQuery(hqlUpdate)
+                .setParameter("encryptingPassword", user.getEncryptingPassword())
+                .setParameter("firstName", user.getFirstName())
+                .setParameter("lastName", user.getLastName())
+                .setParameter("id", id)
+                .executeUpdate();
     }
 
     @Transactional
     public void updateProfile(long id, User user){
         Session session = sessionFactory.getCurrentSession();
-        User userUpdating = session.byId(User.class).load(id);
-        userUpdating.setFirstName(user.getFirstName());
-        userUpdating.setLastName(user.getLastName());
-        session.flush();
+
+        String hqlUpdate = "UPDATE User user " +
+                "SET user.firstName = :firstName, user.lastName = :lastName " +
+                "WHERE user.id = :id";
+
+        session.createQuery(hqlUpdate)
+                .setParameter("firstName", user.getFirstName())
+                .setParameter("lastName", user.getLastName())
+                .setParameter("id", id)
+                .executeUpdate();
     }
 
     @Transactional
     public void updatePassword(long id, String password){
         Session session = sessionFactory.getCurrentSession();
-        User userUpdating = session.byId(User.class).load(id);
-        userUpdating.setPassword(password);
-        session.flush();
+
+        String hqlUpdate = "UPDATE User user " +
+                "SET user.encryptingPassword = :encryptingPassword " +
+                "WHERE user.id = :id";
+
+        session.createQuery(hqlUpdate)
+                .setParameter("encryptingPassword", passwordService.encryptPassword(password))
+                .setParameter("id", id)
+                .executeUpdate();
     }
 
     @Transactional
     public void updateStatus(long id, Boolean status){
         Session session = sessionFactory.getCurrentSession();
-        User userUpdating = session.byId(User.class).load(id);
-        userUpdating.setStatus(status);
-        session.flush();
+
+        String hqlUpdate = "UPDATE User user " +
+                "SET user.status = :status " +
+                "WHERE user.id = :id";
+
+        session.createQuery(hqlUpdate)
+                .setParameter("status", status)
+                .setParameter("id", id)
+                .executeUpdate();
     }
 
     @Transactional
@@ -132,6 +156,7 @@ public class UserRepositoryImpl implements UserRepository {
         if(getUserByEmail(user.getEmail()) != null)
             throw new DuplicateEmailException("Duplicate email");
         else {
+            user.setEncryptingPassword(passwordService.encryptPassword(user.getPassword()));
             sessionFactory.getCurrentSession().save(user);
         }
 

@@ -35,7 +35,7 @@ public class User implements Serializable {
     @Length(max = 50, message = "Email contains maximum 50 characters")
     private String email;
 
-    @Column(name = "password")
+    @Transient
     @NotBlank(message = "password isn't blank")
     @Length(min = 6, max = 20, message = "Password contains between 6 and 20 characters")
     private String password;
@@ -45,6 +45,9 @@ public class User implements Serializable {
 
     @Transient
     private String rePassword;
+
+    @Column(name = "encryptingPassword")
+    private String encryptingPassword;
 
     @Column(name = "firstName")
     private String firstName;
@@ -184,6 +187,14 @@ public class User implements Serializable {
 
     public void setRole(int role) {
         this.role = role;
+    }
+
+    public String getEncryptingPassword() {
+        return encryptingPassword;
+    }
+
+    public void setEncryptingPassword(String encryptingPassword) {
+        this.encryptingPassword = encryptingPassword;
     }
 
     @Override

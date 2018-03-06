@@ -5,7 +5,9 @@ import com.ngoc.bookmanagement.exception.DuplicateEmailException;
 import com.ngoc.bookmanagement.model.Book;
 import com.ngoc.bookmanagement.model.User;
 import com.ngoc.bookmanagement.service.BookService;
+import com.ngoc.bookmanagement.service.PasswordService;
 import com.ngoc.bookmanagement.service.UserService;
+import net.bytebuddy.asm.Advice;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,9 @@ public class CreateDummyDataController {
     @Autowired
     private BookService bookService;
 
+    @Autowired
+    private PasswordService passwordService;
+
 
     @GetMapping("/createDummyData")
     public String createDummyDataGet(HttpServletRequest request) throws DuplicateEmailException {
@@ -33,12 +38,13 @@ public class CreateDummyDataController {
 
         // account admin
         User admin = new User("admin@gmail.com", "password", "ngoc", "bui", Constant.ADMIN_ROLE);
+        admin.setEncryptingPassword(passwordService.encryptPassword(admin.getPassword()));
         long adminId = userService.save(admin);
 
 
         // account user
         User user = new User("ngoc@gmail.com", "password", "Quang Ngọc", "Bui Lam", Constant.USER_ROLE);
-
+        user.setEncryptingPassword(passwordService.encryptPassword(user.getPassword()));
         long id = userService.save(user);
 
         Book book = new Book();
@@ -107,7 +113,7 @@ public class CreateDummyDataController {
 
         // account user1
         User user1 = new User("hai@gmail.com", "password", "Thanh Hai", "Bui Lam", Constant.USER_ROLE);
-
+        user1.setEncryptingPassword(passwordService.encryptPassword(user1.getPassword()));
         long id1 = userService.save(user1);
 
         book = new Book();
@@ -157,6 +163,7 @@ public class CreateDummyDataController {
 
         // account user2
         User user2 = new User("user3@gmail.com", "password", "A", "Nguyễn Văn", Constant.USER_ROLE);
+        user2.setEncryptingPassword(passwordService.encryptPassword(user2.getPassword()));
         long id2 = userService.save(user2);
 
         return "redirect:/";

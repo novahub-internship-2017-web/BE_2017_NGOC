@@ -2,6 +2,7 @@ package com.ngoc.bookmanagement.controller;
 
 import com.ngoc.bookmanagement.constant.Constant;
 import com.ngoc.bookmanagement.model.User;
+import com.ngoc.bookmanagement.service.PasswordService;
 import com.ngoc.bookmanagement.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class LoginController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private PasswordService passwordService;
 
     private static final Logger logger = Logger.getLogger(LoginController.class);
 

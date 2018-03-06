@@ -33,6 +33,7 @@
                         <td><%=user.getFirstName()%></td>
                         <td><%=user.getLastName()%></td>
                         <td>
+                            <a href="/admin/user/<%=user.getId()%>" class="btn btn-success">Detail</a>
                             <% if(user.getStatus() == Constant.UNLOCK) {%>
                                 <a href="/admin/user/<%=user.getId()%>/lock" class="btn btn-primary">Lock</a>
                             <% } else { %>

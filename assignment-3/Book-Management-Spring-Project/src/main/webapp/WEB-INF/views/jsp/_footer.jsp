@@ -85,7 +85,7 @@
                         maxlength: "Please enter no more than 200 characters",
                     },
                     description: {
-                        maxlength: "Please enter no more than 500 characters",
+                        maxlength: "Please enter no more than 1000 characters",
                     },
                 },
                 highlight: function (element) {

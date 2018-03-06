@@ -46,7 +46,7 @@
                 <form:errors path="description" cssClass="error"/>
                 <label for="description">Description</label>
             </div>
-            <input type="submit" name="submit" class="btn btn-lg btn-primary btn-block" value="Submit"/>
+            <input type="submit" name="submit" class="btn btn-lg btn-primary btn-block" value="Update"/>
         </form:form>
     </div>
 
