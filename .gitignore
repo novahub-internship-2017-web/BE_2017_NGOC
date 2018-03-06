@@ -10,7 +10,12 @@ local.properties
 .loadpath
 .recommenders
 **/out/**
+*/out/**
+*/out/
 **/target/**
+*/target/**
+**/target/
+*/target/
 
 
 # External tool builders
