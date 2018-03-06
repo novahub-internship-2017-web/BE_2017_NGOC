@@ -9,7 +9,12 @@ local.properties
 .settings/
 .loadpath
 .recommenders
+.recommenders/
 .idea/
+
+# file: ~/.gitignore_global
+.DS_Store
+.idea
 
 # External tool builders
 .externalToolBuilders/
