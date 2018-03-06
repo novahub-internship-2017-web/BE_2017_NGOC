@@ -27,15 +27,15 @@ Using Intellij Idea to open project Book-Management-Spring-Project and run proje
 ### Note   
 Users:
 * administrator
-  > User: admin@gmail.com
+  > User: admin@gmail.com  
   > Password: password
-* guest:
-  <-------------------------->
-  > User: ngoc@gmail.com
-  > Password: password
-  <-------------------------->
-  > User: hai@gmail.com
-  > Password: password
-  <-------------------------->
-  > User: user3@gmail.com
-  > Password: password
+* guest:  
+  <-------------------------->  
+  > User: ngoc@gmail.com  
+  > Password: password  
+  <-------------------------->  
+  > User: hai@gmail.com  
+  > Password: password  
+  <-------------------------->  
+  > User: user3@gmail.com  
+  > Password: password  
