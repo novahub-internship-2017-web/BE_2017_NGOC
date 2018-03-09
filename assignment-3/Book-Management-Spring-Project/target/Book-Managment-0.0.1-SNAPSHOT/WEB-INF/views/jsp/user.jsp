@@ -39,7 +39,7 @@
                 <form:errors path="lastName" cssClass="error"/>
                 <label for="lastName">Last name</label>
             </div>
-            <input type="submit" name="submit" class="btn btn-lg btn-primary btn-block" value="Change profile"/>
+            <input type="submit" name="submit" class="btn btn-lg btn-primary btn-block" value="Update"/>
         </form:form>
     </div>
 

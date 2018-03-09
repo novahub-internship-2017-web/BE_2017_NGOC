@@ -7,11 +7,15 @@ import com.ngoc.bookmanagement.Interceptor.UserInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import javax.servlet.ServletContext;
 
 @EnableWebMvc // mvc:annotation-driven
 @Configuration
@@ -25,11 +29,26 @@ public class SpringWebConfig implements WebMvcConfigurer{
         return viewResolver;
     }
 
+    @Bean
+    public MultipartResolver multipartResolver(){
+        CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
+        commonsMultipartResolver.setMaxUploadSize(1024*1024*1024);
+        return commonsMultipartResolver;
+    }
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/images/**").addResourceLocations("classpath:/images/");
-        registry.addResourceHandler("/js/**").addResourceLocations("classpath:/js/");
-        registry.addResourceHandler("/css/**").addResourceLocations("classpath:/css/");
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("classpath:/images/");
+
+        registry.addResourceHandler("/js/**")
+                .addResourceLocations("classpath:/js/");
+
+        registry.addResourceHandler("/css/**")
+                .addResourceLocations("classpath:/css/");
+
+        registry.addResourceHandler("/files/**")
+                .addResourceLocations("/files/");
     }
 
     public void addInterceptors(InterceptorRegistry registry){
@@ -44,7 +63,9 @@ public class SpringWebConfig implements WebMvcConfigurer{
                 .excludePathPatterns("/createDummyData")
                 .excludePathPatterns("/images/**")
                 .excludePathPatterns("/css/**")
-                .excludePathPatterns("/js/**");
+                .excludePathPatterns("/js/**")
+                .excludePathPatterns("/files/**")
+                .excludePathPatterns("/upload");
 
         registry.addInterceptor(new LoginInterceptor())
                 .addPathPatterns("/login")
