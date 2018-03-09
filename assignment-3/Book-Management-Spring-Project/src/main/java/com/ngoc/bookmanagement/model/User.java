@@ -7,13 +7,7 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.persistence.Id;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
@@ -60,6 +54,13 @@ public class User implements Serializable {
 
     @Column(name = "role")
     private int role;
+
+    @Column(name = "avatar_id")
+    private long avatar_id;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "avatar_id", insertable = false, updatable = false, nullable = true)
+    private Avatar avatar;
 
     public User() {
         super();
@@ -195,6 +196,22 @@ public class User implements Serializable {
 
     public void setEncryptingPassword(String encryptingPassword) {
         this.encryptingPassword = encryptingPassword;
+    }
+
+    public long getAvatar_id() {
+        return avatar_id;
+    }
+
+    public void setAvatar_id(long avatar_id) {
+        this.avatar_id = avatar_id;
+    }
+
+    public Avatar getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Avatar avatar) {
+        this.avatar = avatar;
     }
 
     @Override

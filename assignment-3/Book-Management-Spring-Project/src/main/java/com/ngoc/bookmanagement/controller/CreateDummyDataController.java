@@ -2,8 +2,10 @@ package com.ngoc.bookmanagement.controller;
 
 import com.ngoc.bookmanagement.constant.Constant;
 import com.ngoc.bookmanagement.exception.DuplicateEmailException;
+import com.ngoc.bookmanagement.model.Avatar;
 import com.ngoc.bookmanagement.model.Book;
 import com.ngoc.bookmanagement.model.User;
+import com.ngoc.bookmanagement.service.AvatarService;
 import com.ngoc.bookmanagement.service.BookService;
 import com.ngoc.bookmanagement.service.PasswordService;
 import com.ngoc.bookmanagement.service.UserService;
@@ -28,6 +30,9 @@ public class CreateDummyDataController {
     private BookService bookService;
 
     @Autowired
+    private AvatarService avatarService;
+
+    @Autowired
     private PasswordService passwordService;
 
 
@@ -36,16 +41,32 @@ public class CreateDummyDataController {
         logger.info(request.getRequestURI() + ", method = GET");
         request.setAttribute(Constant.urlRewriteAttribute, request.getRequestURI());
 
+        long avatarId;
+        Avatar avatar;
+
         // account admin
         User admin = new User("admin@gmail.com", "password", "ngoc", "bui", Constant.ADMIN_ROLE);
         admin.setEncryptingPassword(passwordService.encryptPassword(admin.getPassword()));
         long adminId = userService.save(admin);
 
+        avatar = new Avatar();
+        avatar.setUrl(null);
+        avatar.setUser_id(adminId);
+        avatarService.save(avatar);
+        admin.setAvatar_id(1);
+        userService.update(adminId, admin);
 
         // account user
         User user = new User("ngoc@gmail.com", "password", "Quang Ngọc", "Bui Lam", Constant.USER_ROLE);
         user.setEncryptingPassword(passwordService.encryptPassword(user.getPassword()));
         long id = userService.save(user);
+
+        avatar = new Avatar();
+        avatar.setUrl(null);
+        avatar.setUser_id(id);
+        avatarService.save(avatar);
+        user.setAvatar_id(2);
+        userService.update(id, user);
 
         Book book = new Book();
         book.setTitle("Ánh Sáng thành phố");
@@ -116,6 +137,13 @@ public class CreateDummyDataController {
         user1.setEncryptingPassword(passwordService.encryptPassword(user1.getPassword()));
         long id1 = userService.save(user1);
 
+        avatar = new Avatar();
+        avatar.setUrl(null);
+        avatar.setUser_id(id1);
+        avatarService.save(avatar);
+        user1.setAvatar_id(3);
+        userService.update(id1, user1);
+
         book = new Book();
         book.setTitle("Nhà Giả Kim");
         book.setAuthor("Paulo Coelho");
@@ -165,6 +193,13 @@ public class CreateDummyDataController {
         User user2 = new User("user3@gmail.com", "password", "A", "Nguyễn Văn", Constant.USER_ROLE);
         user2.setEncryptingPassword(passwordService.encryptPassword(user2.getPassword()));
         long id2 = userService.save(user2);
+
+        avatar = new Avatar();
+        avatar.setUrl(null);
+        avatar.setUser_id(id2);
+        avatarService.save(avatar);
+        user2.setAvatar_id(4);
+        userService.update(id2, user2);
 
         return "redirect:/";
     }

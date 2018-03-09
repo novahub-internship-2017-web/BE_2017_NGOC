@@ -2,24 +2,32 @@ package com.ngoc.bookmanagement.controller;
 
 import com.ngoc.bookmanagement.constant.Constant;
 import com.ngoc.bookmanagement.exception.UserNullException;
+import com.ngoc.bookmanagement.model.Avatar;
 import com.ngoc.bookmanagement.model.User;
+import com.ngoc.bookmanagement.service.AvatarService;
 import com.ngoc.bookmanagement.service.PasswordService;
 import com.ngoc.bookmanagement.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 
 @Controller
+@MultipartConfig(maxFileSize = 1024*1024*1024)
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AvatarService avatarService;
 
     @Autowired
     private PasswordService passwordService;
@@ -32,11 +40,15 @@ public class UserController {
                           HttpServletRequest request) throws UserNullException {
         logger.info(request.getRequestURI() + ", method = GET");
         request.setAttribute(Constant.urlRewriteAttribute, request.getRequestURI());
+
         User user = userService.get(id);
+        request.setAttribute(Constant.userAvatarUrlAttribute, user.getAvatar().getUrl());
+
         if(user == null) {
             logger.error(request.getRequestURI() +  ", method = GET, message = User isn't exist");
             throw new UserNullException("User isn't exist");
         }
+
         model.addAttribute("user", user);
         logger.info(request.getRequestURI() + ", method = GET, message = get user " + id + " successfully");
         request.setAttribute(Constant.idAttribute, id);
@@ -44,13 +56,16 @@ public class UserController {
     }
 
     @PostMapping(value = {"/user/{id}", "/admin/user/{id}"})
-    public String userGet(@PathVariable("id") long id,
+    public String userPost(@PathVariable("id") long id,
                           @ModelAttribute("user") User user,
-                          @RequestParam("avatar") MultipartFile avatar,
+                          @RequestParam("avatarImage") @Nullable MultipartFile avatar,
                           Model model,
                           HttpServletRequest request) {
         logger.info(request.getRequestURI());
         request.setAttribute(Constant.urlRewriteAttribute, request.getRequestURI());
+
+        User userTemp = userService.get(id);
+        Avatar avatarTemp = avatarService.get(userTemp.getAvatar_id());
 
         try {
             String fileName = avatar.getOriginalFilename();
@@ -66,6 +81,9 @@ public class UserController {
             File file = new File(urlFiles, "avatar-" + id + ".jpg");
             System.out.println(urlFiles + File.separator + "avatar-" + id + ".jpg");
             avatar.transferTo(file);
+            avatarTemp.setFile(avatar);
+            avatarTemp.setUrl(File.separator + "images" + File.separator + "avatar-" + id + ".jpg");
+            avatarService.update(userTemp.getAvatar_id(), avatarTemp);
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("message", "upload failed");
@@ -77,6 +95,7 @@ public class UserController {
         userService.writeSession(user, request);
 
         logger.info(request.getRequestURI() + ", method = POST, message = update user " + id + " successfully");
+        request.setAttribute(Constant.userAvatarUrlAttribute, user.getAvatar().getUrl());
         request.setAttribute(Constant.successMessageSession, "Change profile successfully");
         model.addAttribute("user", user);
 

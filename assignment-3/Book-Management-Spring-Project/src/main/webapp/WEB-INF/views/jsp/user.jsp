@@ -20,12 +20,19 @@
 
     <%@ include file="_header.jsp"%>
 
+    <%
+        String avatarUrl = (String) request.getAttribute(Constant.userAvatarUrlAttribute);
+
+        if(avatarUrl == null)
+            avatarUrl = "";
+    %>
+
     <div class="body">
         <%@ include file="_message.jsp"%>
         <form:form action="<%=(String) request.getAttribute(Constant.urlRewriteAttribute)%>"
                    method="post" modelAttribute="user" cssClass="form-user" enctype="multipart/form-data">
             <div align="center">
-                <img id="avatar" src="/images/avatar-<%=id%>.jpg" class="h3 mb-3 center-block" style="width: 200px; height: 200px; border-radius: 50%; border: 1px solid black;" />
+                <img id="avatar" src="<%=avatarUrl%>" class="h3 mb-3 center-block" style="width: 200px; height: 200px; border-radius: 50%; border: 1px solid black;" />
             <div/>
 
             <div class="form-label-group">
@@ -44,7 +51,7 @@
                 <label for="lastName">Last name</label>
             </div>
 
-            <input id="uploadImage" name="avatar" class="form-control-file" type="file" name="myPhoto" onchange="PreviewImage();" title="" />
+            <input id="uploadImage" name="avatarImage" class="form-control-file" type="file" onchange="PreviewImage();"/>
 
             <div>
                 <input type="submit" name="submit" class="btn btn-lg btn-primary btn-block" value="Update"/>

@@ -3,8 +3,10 @@ package com.ngoc.bookmanagement.service;
 import com.ngoc.bookmanagement.constant.Constant;
 import com.ngoc.bookmanagement.exception.DuplicateEmailException;
 import com.ngoc.bookmanagement.model.User;
+import com.ngoc.bookmanagement.repository.AvatarRepository;
 import com.ngoc.bookmanagement.repository.UserRepository;
 import com.ngoc.bookmanagement.repository.UserRepositoryImpl;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,9 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AvatarRepository avatarRepository;
 
     @Override
     public User getUserByEmail(String email){

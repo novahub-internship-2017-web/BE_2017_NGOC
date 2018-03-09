@@ -22,6 +22,7 @@ public class Constant {
 
     // User
     public static String userListAttribute = "users";
+    public static String userAvatarUrlAttribute = "avatarUrl";
 
     // User status
     public static final boolean LOCK = false;

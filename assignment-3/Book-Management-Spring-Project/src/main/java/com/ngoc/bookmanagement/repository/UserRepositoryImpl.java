@@ -51,7 +51,8 @@ public class UserRepositoryImpl implements UserRepository {
 
         Session session = sessionFactory.getCurrentSession();
 
-        Query<User> query = session.createQuery("FROM User user WHERE user.email = :email AND user.encryptingPassword = :encryptingPassword AND user.status = :status", User.class);
+        Query<User> query = session.createQuery("FROM User user " +
+                "WHERE user.email = :email AND user.encryptingPassword = :encryptingPassword AND user.status = :status", User.class);
         query.setParameter("email", email);
         query.setParameter("encryptingPassword", passwordService.encryptPassword(password));
         query.setParameter("status", Constant.UNLOCK);
@@ -96,7 +97,7 @@ public class UserRepositoryImpl implements UserRepository {
         Session session = sessionFactory.getCurrentSession();
 
         String hqlUpdate = "UPDATE User user " +
-                            "SET user.encryptingPassword = :encryptingPassword, user.firstName = :firstName, user.lastName = :lastName " +
+                            "SET user.encryptingPassword = :encryptingPassword, user.firstName = :firstName, user.lastName = :lastName, user.avatar_id = :avatarId " +
                             "WHERE user.id = :id";
 
         session.createQuery(hqlUpdate)
@@ -104,6 +105,7 @@ public class UserRepositoryImpl implements UserRepository {
                 .setParameter("firstName", user.getFirstName())
                 .setParameter("lastName", user.getLastName())
                 .setParameter("id", id)
+                .setParameter("avatarId", user.getAvatar_id())
                 .executeUpdate();
     }
 
