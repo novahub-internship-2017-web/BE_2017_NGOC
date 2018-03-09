@@ -22,8 +22,12 @@
 
     <div class="body">
         <%@ include file="_message.jsp"%>
-        <form:form action="<%=(String) request.getAttribute(Constant.urlRewriteAttribute)%>" method="post" modelAttribute="user" cssClass="form-user">
-            <h1 align="center" class="h3 mb-3 font-weight-normal">Profile</h1>
+        <form:form action="<%=(String) request.getAttribute(Constant.urlRewriteAttribute)%>"
+                   method="post" modelAttribute="user" cssClass="form-user" enctype="multipart/form-data">
+            <div align="center">
+                <img id="avatar" class="h3 mb-3 center-block" style="width: 200px; height: 200px; border-radius: 50%; border: 1px solid black;" />
+            <div/>
+
             <div class="form-label-group">
                 <form:input id="email" path="email" cssClass="form-control" placeholder="Email address" disabled="true"/>
                 <form:errors path="email" cssClass="error"/>
@@ -39,10 +43,38 @@
                 <form:errors path="lastName" cssClass="error"/>
                 <label for="lastName">Last name</label>
             </div>
-            <input type="submit" name="submit" class="btn btn-lg btn-primary btn-block" value="Update"/>
+
+            <input id="uploadImage" name="avatar" class="form-control-file" type="file" name="myPhoto" onchange="PreviewImage();" title="" />
+
+            <div>
+                <input type="submit" name="submit" class="btn btn-lg btn-primary btn-block" value="Update"/>
+            </div>
         </form:form>
     </div>
 
     <%@ include file="_footer.jsp"%>
+
+    <script type="text/javascript">
+
+        function PreviewImage() {
+            var oFReader = new FileReader();
+            oFReader.readAsDataURL(document.getElementById("uploadImage").files[0]);
+
+            oFReader.onload = function (oFREvent) {
+                document.getElementById("avatar").src = oFREvent.target.result;
+            };
+        };
+
+        $('#avatar').on('click', function(){
+            $('#uploadImage').trigger('click');
+        });
+
+    </script>
+
+    <style>
+        #uploadImage{
+            display: none;
+        }
+    </style>
 </body>
 </html>

@@ -31,7 +31,7 @@ public class UploadController {
 
             String urlTargetFolder = request.getServletContext().getRealPath("/");
             String urlProject = urlTargetFolder;
-            String urlFiles = urlProject + "files";
+            String urlFiles = urlProject + "images";
 
             File folder = new File(urlFiles);
             if(!folder.exists())

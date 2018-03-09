@@ -12,9 +12,8 @@
         <input type="submit" value="Submit" />
     </form:form>
 
-
     <div>
-            <img src="/files/image.jpg" height="500" width="500"/>
+        <img src="/images/image.jpg" height="500" width="500"/>
     </div>
 </body>
 </html>

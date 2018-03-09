@@ -11,8 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 
 @Controller
 public class UserController {
@@ -44,10 +46,31 @@ public class UserController {
     @PostMapping(value = {"/user/{id}", "/admin/user/{id}"})
     public String userGet(@PathVariable("id") long id,
                           @ModelAttribute("user") User user,
+                          @RequestParam("avatar") MultipartFile avatar,
                           Model model,
                           HttpServletRequest request) {
         logger.info(request.getRequestURI());
         request.setAttribute(Constant.urlRewriteAttribute, request.getRequestURI());
+
+        try {
+            String fileName = avatar.getOriginalFilename();
+
+            String urlTargetFolder = request.getServletContext().getRealPath("/");
+            String urlProject = urlTargetFolder;
+            String urlFiles = urlProject + "images";
+
+            File folder = new File(urlFiles);
+            if(!folder.exists())
+                folder.mkdir();
+
+            File file = new File(urlFiles, "avatar-" + id + ".jpg");
+            System.out.println(urlFiles + File.separator + "avatar-" + id + ".jpg");
+            avatar.transferTo(file);
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("message", "upload failed");
+        }
+
 
         userService.updateProfile(id, user);
         user = userService.get(id);
