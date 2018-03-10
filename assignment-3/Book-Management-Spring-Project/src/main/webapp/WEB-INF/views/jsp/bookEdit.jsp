@@ -23,14 +23,22 @@
     <%
         Book book = (Book) request.getAttribute(Constant.bookAttribute);
         long id = book.getId();
+        String bookCoverUrl = (String) request.getAttribute(Constant.bookCoverUrlAttribute);
+
+        bookCoverUrl = (bookCoverUrl == null) ? "" : bookCoverUrl;
     %>
 
     <%@ include file="_header.jsp"%>
 
     <div class="body">
         <%@ include file="_message.jsp"%>
-        <form:form action="/book/${id}/edit" method="post" modelAttribute="book" cssClass="form-bookEdit">
+        <form:form action="/book/${id}/edit" method="post" modelAttribute="book" cssClass="form-bookEdit" enctype="multipart/form-data">
             <h1 class="h3 mb-3 font-weight-normal" align="center">Book edit</h1>
+
+            <div align="center">
+                <img id="bookCoverImage" src="<%=bookCoverUrl%>" class="h3 mb-3 center-block" style="width: 200px; height: 200px; border-radius: 50%; border: 1px solid black;" />
+            <div/>
+
             <div class="form-label-group">
                 <form:input id="title" path="title" cssClass="form-control" placeholder="Title"/>
                 <form:errors path="title" cssClass="error"/>
@@ -46,11 +54,36 @@
                 <form:errors path="description" cssClass="error"/>
                 <label for="description">Description</label>
             </div>
+
+            <input id="uploadImage" name="bookCoverImage" class="form-control-file" type="file" onchange="PreviewImage();"/>
+
             <input type="submit" name="submit" class="btn btn-lg btn-primary btn-block" value="Update"/>
         </form:form>
     </div>
 
     <%@ include file="_footer.jsp"%>
 
+    <script type="text/javascript">
+
+        function PreviewImage() {
+            var oFReader = new FileReader();
+            oFReader.readAsDataURL(document.getElementById("uploadImage").files[0]);
+
+            oFReader.onload = function (oFREvent) {
+                document.getElementById("bookCoverImage").src = oFREvent.target.result;
+            };
+        };
+
+        $('#bookCoverImage').on('click', function(){
+            $('#uploadImage').trigger('click');
+        });
+
+    </script>
+
+    <style>
+        #uploadImage{
+            display: none;
+        }
+    </style>
 </body>
 </html>

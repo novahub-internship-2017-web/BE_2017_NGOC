@@ -88,6 +88,7 @@ public class BookController {
     @PostMapping(value = "/book/{id}/edit")
     public String bookEditPost(@PathVariable("id") long id,
                                @ModelAttribute("book") @Valid Book book,
+                               @RequestParam("bookCoverImage") @Nullable MultipartFile bookCoverFile,
                                BindingResult result,
                                HttpServletRequest request,
                                Model model) {
@@ -95,18 +96,49 @@ public class BookController {
         request.setAttribute(Constant.urlRewriteAttribute, request.getRequestURI());
 
         if(!result.hasErrors()){
+
+
             Book oldBook = bookService.get(id);
+            BookCover bookCover = oldBook.getBookCover();
+
+            if(bookCoverFile.getSize() > 0) {
+                try {
+                    String fileName = bookCoverFile.getOriginalFilename();
+                    String urlProject = request.getServletContext().getRealPath("/");
+                    String urlFiles = urlProject + "images" + File.separator + "book-covers";
+                    String typeOfFile = fileName.substring(fileName.lastIndexOf("."));
+
+                    File folder = new File(urlFiles);
+                    if (!folder.exists())
+                        folder.mkdir();
+
+                    File file = new File(urlFiles, id + typeOfFile);
+
+                    bookCoverFile.transferTo(file);
+                    logger.info("Upload book " + id + " successfully!!!");
+
+                    bookCover.setFile(bookCoverFile);
+                    bookCover.setUrl(File.separator + "book-covers" + File.separator + id + typeOfFile);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            bookCoverService.update(bookCover.getId(), bookCover);
+
             oldBook.setAuthor(book.getAuthor());
             oldBook.setTitle(book.getTitle());
             oldBook.setDescription(book.getDescription());
             oldBook.setUpdated_at(new Date());
+            oldBook.setBookCover(bookCover);
             request.setAttribute(Constant.bookAttribute, oldBook);
             model.addAttribute(Constant.bookAttribute, oldBook);
             bookService.update(id, oldBook);
 
             logger.info(request.getRequestURI() + ", method = POST, message = update book successfully");
             request.setAttribute(Constant.successMessageSession, "Update book successfully");
-
+            request.setAttribute(Constant.bookCoverUrlAttribute, oldBook.getBookCover().getUrl());
         }
         else{
             logger.info(request.getRequestURI() + ", method = POST, message = having errors about validation");
