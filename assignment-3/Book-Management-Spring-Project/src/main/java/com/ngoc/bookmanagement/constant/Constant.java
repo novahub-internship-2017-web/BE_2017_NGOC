@@ -9,9 +9,8 @@ public class Constant {
     // book
     public static String bookListAttribute = "books";
     public static String bookAttribute = "book";
-    public static String pageBookPrevious = "pageBookPrevious";
-    public static String pageBookNext = "pageBookNext";
     public static String wordsSearch = "wordsSearch";
+    public static String bookCoverUrlAttribute = "bookCoverUrl";
 
     // general
     public static String urlRewriteAttribute = "urlRewrite";

@@ -16,6 +16,10 @@
 <body style="background-color: #E0E0E0">
     <%
         Book book = (Book) request.getAttribute(Constant.bookAttribute);
+        String bookCoverUrl = (String) request.getAttribute(Constant.bookCoverUrlAttribute);
+
+        if(bookCoverUrl == null)
+            bookCoverUrl = "";
     %>
 
     <%@ include file="_header.jsp"%>
@@ -25,6 +29,7 @@
         <div class="row" style="margin-top: 100px;">
             <div class="col-md-3"></div>
             <div class="col-md-6 book-detail">
+                <img id="bookCoverImage" src="<%=bookCoverUrl%>" class="h3 mb-3 pull-left" style="margin-right: 30px; width: 200px; height: 200px; border: 1px solid black;" />
                 <h1 style="margin-top: 35px"><%=book.getTitle()%></h1>
                 <p style="margin-top: -10px"><%=book.getAuthor()%></p>
                 <%

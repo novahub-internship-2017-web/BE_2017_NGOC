@@ -5,6 +5,7 @@ import com.ngoc.bookmanagement.model.Avatar;
 import java.util.List;
 
 public interface AvatarService {
+
     Avatar get(long id);
 
     List<Avatar> list();

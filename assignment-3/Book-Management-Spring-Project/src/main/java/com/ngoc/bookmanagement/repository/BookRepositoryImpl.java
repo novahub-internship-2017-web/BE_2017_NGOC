@@ -68,12 +68,23 @@ public class BookRepositoryImpl implements BookRepository{
     @Transactional
     public void update(long id,Book book) {
         Session session = sessionFactory.getCurrentSession();
-        Book bookUpdating = session.get(Book.class, id);
-        bookUpdating.setTitle(book.getTitle());
-        bookUpdating.setAuthor(book.getAuthor());
-        bookUpdating.setDescription(book.getDescription());
-        bookUpdating.setUpdated_at(book.getUpdated_at());
-        session.flush();
+
+        String hqlUpdate = "UPDATE Book book " +
+                "SET book.title = :title, " + 
+                "book.author = :author, " + 
+                "book.description = :description, " +
+                "book.updated_at = :updated_at, " +
+                "book.bookCover_id = :bookCover_id " +
+                "WHERE book.id = :id";
+
+        session.createQuery(hqlUpdate)
+                .setParameter("title", book.getTitle())
+                .setParameter("author", book.getAuthor())
+                .setParameter("description", book.getDescription())
+                .setParameter("updated_at", book.getUpdated_at())
+                .setParameter("bookCover_id", book.getBookCover_id())
+                .setParameter("id", id)
+                .executeUpdate();
     }
 
     @Transactional

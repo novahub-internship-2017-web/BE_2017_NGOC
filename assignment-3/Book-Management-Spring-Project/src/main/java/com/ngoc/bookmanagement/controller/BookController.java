@@ -2,7 +2,9 @@ package com.ngoc.bookmanagement.controller;
 
 import com.ngoc.bookmanagement.constant.Constant;
 import com.ngoc.bookmanagement.model.Book;
+import com.ngoc.bookmanagement.model.BookCover;
 import com.ngoc.bookmanagement.model.User;
+import com.ngoc.bookmanagement.service.BookCoverService;
 import com.ngoc.bookmanagement.service.BookService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +13,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +29,9 @@ public class BookController {
 
     @Autowired
     private BookService bookService;
+
+    @Autowired
+    private BookCoverService bookCoverService;
 
     @GetMapping("/book")
     public String bookListGet(HttpServletRequest request){
@@ -58,6 +65,7 @@ public class BookController {
         Book book = bookService.get(id);
 
         request.setAttribute(Constant.bookAttribute, book);
+        request.setAttribute(Constant.bookCoverUrlAttribute, book.getBookCover().getUrl());
 
         return "bookDetails";
     }
@@ -120,16 +128,52 @@ public class BookController {
 
     @PostMapping("/book/new")
     public String bookNewPost(@ModelAttribute("book") @Valid Book book,
+                              @RequestParam("bookCoverImage") @Nullable MultipartFile bookCoverFile,
                               HttpServletRequest request,
                               RedirectAttributes redirectAttributes){
         logger.info(request.getRequestURI() + ", method = POST");
         request.setAttribute(Constant.urlRewriteAttribute, request.getRequestURI());
 
+        long userId = ((User) request.getSession().getAttribute(Constant.userLoginSession)).getId();
+
         Date now = new Date();
         book.setCreated_at(now);
         book.setUpdated_at(now);
-        book.setUser_id(((User) request.getSession().getAttribute(Constant.userLoginSession)).getId());
+        book.setUser_id(userId);
+
         long bookId = bookService.save(book);
+        BookCover bookCover = new BookCover();
+        long bookCoverId;
+
+        if(bookCoverFile.getSize() > 0) {
+            try {
+                String fileName = bookCoverFile.getOriginalFilename();
+                String urlProject = request.getServletContext().getRealPath("/");
+                String urlFiles = urlProject + "images" + File.separator + "book-covers";
+                String typeOfFile = fileName.substring(fileName.lastIndexOf("."));
+
+                File folder = new File(urlFiles);
+                if (!folder.exists())
+                    folder.mkdir();
+
+                File file = new File(urlFiles, bookId + typeOfFile);
+
+                bookCoverFile.transferTo(file);
+                logger.info("Upload book " + bookId + " successfully!!!");
+
+                bookCover.setFile(bookCoverFile);
+                bookCover.setUrl(File.separator + "book-covers" + File.separator + bookId + typeOfFile);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        bookCover.setBook_id(bookId);
+        bookCoverId = bookCoverService.save(bookCover);
+        book.setBookCover(bookCover);
+        book.setBookCover_id(bookCoverId);
+        bookService.update(bookId, book);
 
         logger.info(request.getRequestURI() + ", method = POST, message = Create a new book successfully");
         redirectAttributes.addFlashAttribute(Constant.successMessageSession, "Create a new book successfully");

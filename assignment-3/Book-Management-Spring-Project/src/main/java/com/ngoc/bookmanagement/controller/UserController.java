@@ -72,17 +72,18 @@ public class UserController {
 
             String urlTargetFolder = request.getServletContext().getRealPath("/");
             String urlProject = urlTargetFolder;
-            String urlFiles = urlProject + "images";
+            String urlFiles = urlProject + "images" + File.separator + "avatars";
+            String typeOfFile = fileName.substring(fileName.lastIndexOf(".") );
 
             File folder = new File(urlFiles);
             if(!folder.exists())
                 folder.mkdir();
 
-            File file = new File(urlFiles, "avatar-" + id + ".jpg");
-            System.out.println(urlFiles + File.separator + "avatar-" + id + ".jpg");
+            File file = new File(urlFiles, id + typeOfFile);
+            System.out.println(urlFiles + File.separator + id + typeOfFile);
             avatar.transferTo(file);
             avatarTemp.setFile(avatar);
-            avatarTemp.setUrl(File.separator + "images" + File.separator + "avatar-" + id + ".jpg");
+            avatarTemp.setUrl(File.separator + "avatars" + File.separator + id + typeOfFile);
             avatarService.update(userTemp.getAvatar_id(), avatarTemp);
         } catch (Exception e) {
             e.printStackTrace();

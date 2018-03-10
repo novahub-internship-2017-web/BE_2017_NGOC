@@ -5,11 +5,8 @@ import com.ngoc.bookmanagement.exception.DuplicateEmailException;
 import com.ngoc.bookmanagement.model.Avatar;
 import com.ngoc.bookmanagement.model.Book;
 import com.ngoc.bookmanagement.model.User;
-import com.ngoc.bookmanagement.service.AvatarService;
-import com.ngoc.bookmanagement.service.BookService;
-import com.ngoc.bookmanagement.service.PasswordService;
-import com.ngoc.bookmanagement.service.UserService;
-import net.bytebuddy.asm.Advice;
+import com.ngoc.bookmanagement.model.BookCover;
+import com.ngoc.bookmanagement.service.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,6 +30,9 @@ public class CreateDummyDataController {
     private AvatarService avatarService;
 
     @Autowired
+    private BookCoverService bookCoverService;
+
+    @Autowired
     private PasswordService passwordService;
 
 
@@ -42,40 +42,57 @@ public class CreateDummyDataController {
         request.setAttribute(Constant.urlRewriteAttribute, request.getRequestURI());
 
         long avatarId;
+        long userId;
+        long bookId;
+        long bookCoverId;
+
         Avatar avatar;
+        User user;
+        BookCover bookCover;
+        Book book;
 
         // account admin
-        User admin = new User("admin@gmail.com", "password", "ngoc", "bui", Constant.ADMIN_ROLE);
-        admin.setEncryptingPassword(passwordService.encryptPassword(admin.getPassword()));
-        long adminId = userService.save(admin);
+        user = new User("admin@gmail.com", "password", "ngoc", "bui", Constant.ADMIN_ROLE);
+        user.setEncryptingPassword(passwordService.encryptPassword(user.getPassword()));
+        userId = userService.save(user);
 
         avatar = new Avatar();
         avatar.setUrl(null);
-        avatar.setUser_id(adminId);
-        avatarService.save(avatar);
-        admin.setAvatar_id(1);
-        userService.update(adminId, admin);
+        avatar.setUser_id(user.getId());
+        avatarId = avatarService.save(avatar);
+        user.setAvatar_id(avatarId);
+        userService.update(userId, user);
 
         // account user
-        User user = new User("ngoc@gmail.com", "password", "Quang Ngọc", "Bui Lam", Constant.USER_ROLE);
+        user = new User("ngoc@gmail.com", "password", "Quang Ngọc", "Bui Lam", Constant.USER_ROLE);
         user.setEncryptingPassword(passwordService.encryptPassword(user.getPassword()));
-        long id = userService.save(user);
+        userId = userService.save(user);
 
         avatar = new Avatar();
         avatar.setUrl(null);
-        avatar.setUser_id(id);
-        avatarService.save(avatar);
-        user.setAvatar_id(2);
-        userService.update(id, user);
+        avatar.setUser_id(user.getId());
+        avatarId = avatarService.save(avatar);
+        user.setAvatar_id(avatarId);
+        userService.update(userId, user);
 
-        Book book = new Book();
+
+        book = new Book();
         book.setTitle("Ánh Sáng thành phố");
         book.setAuthor("Lôi Mễ");
         book.setDescription("trinh thám");
         book.setCreated_at(new Date());
         book.setUpdated_at(new Date());
         book.setUser_id(user.getId());
-        bookService.save(book);
+        bookId = bookService.save(book);
+
+        bookCover = new BookCover();
+        bookCover.setUrl(null);
+        bookCover.setBook_id(bookId);
+        bookCoverId = bookCoverService.save(bookCover);
+        book.setBookCover(bookCover);
+        book.setBookCover_id(bookCoverId);
+        bookService.update(bookId, book);
+
 
         book = new Book();
         book.setTitle("Độc giả thứ 7");
@@ -84,7 +101,16 @@ public class CreateDummyDataController {
         book.setCreated_at(new Date());
         book.setUpdated_at(new Date());
         book.setUser_id(user.getId());
-        bookService.save(book);
+        bookId = bookService.save(book);
+
+        bookCover = new BookCover();
+        bookCover.setUrl(null);
+        bookCover.setBook_id(bookId);
+        bookCoverId = bookCoverService.save(bookCover);
+        book.setBookCover(bookCover);
+        book.setBookCover_id(bookCoverId);
+        bookService.update(bookId, book);
+
 
         book = new Book();
         book.setTitle("Phía Sau Nghi Can X");
@@ -93,7 +119,15 @@ public class CreateDummyDataController {
         book.setCreated_at(new Date());
         book.setUpdated_at(new Date());
         book.setUser_id(user.getId());
-        bookService.save(book);
+        bookId = bookService.save(book);
+
+        bookCover = new BookCover();
+        bookCover.setUrl(null);
+        bookCover.setBook_id(bookId);
+        bookCoverId = bookCoverService.save(bookCover);
+        book.setBookCover(bookCover);
+        book.setBookCover_id(bookCoverId);
+        bookService.update(bookId, book);
 
         book = new Book();
         book.setTitle("Bạch Dạ Hành");
@@ -102,7 +136,15 @@ public class CreateDummyDataController {
         book.setCreated_at(new Date());
         book.setUpdated_at(new Date());
         book.setUser_id(user.getId());
-        bookService.save(book);
+        bookId = bookService.save(book);
+
+        bookCover = new BookCover();
+        bookCover.setUrl(null);
+        bookCover.setBook_id(bookId);
+        bookCoverId = bookCoverService.save(bookCover);
+        book.setBookCover(bookCover);
+        book.setBookCover_id(bookCoverId);
+        bookService.update(bookId, book);
 
         book = new Book();
         book.setTitle("Mạnh Hơn Sợ Hãi");
@@ -111,7 +153,15 @@ public class CreateDummyDataController {
         book.setCreated_at(new Date());
         book.setUpdated_at(new Date());
         book.setUser_id(user.getId());
-        bookService.save(book);
+        bookId = bookService.save(book);
+
+        bookCover = new BookCover();
+        bookCover.setUrl(null);
+        bookCover.setBook_id(bookId);
+        bookCoverId = bookCoverService.save(bookCover);
+        book.setBookCover(bookCover);
+        book.setBookCover_id(bookCoverId);
+        bookService.update(bookId, book);
 
         book = new Book();
         book.setTitle("Chân Trời Đảo Ngược");
@@ -120,7 +170,15 @@ public class CreateDummyDataController {
         book.setCreated_at(new Date());
         book.setUpdated_at(new Date());
         book.setUser_id(user.getId());
-        bookService.save(book);
+        bookId = bookService.save(book);
+
+        bookCover = new BookCover();
+        bookCover.setUrl(null);
+        bookCover.setBook_id(bookId);
+        bookCoverId = bookCoverService.save(bookCover);
+        book.setBookCover(bookCover);
+        book.setBookCover_id(bookCoverId);
+        bookService.update(bookId, book);
 
         book = new Book();
         book.setTitle("Đề thi đẫm máu");
@@ -129,20 +187,28 @@ public class CreateDummyDataController {
         book.setCreated_at(new Date());
         book.setUpdated_at(new Date());
         book.setUser_id(user.getId());
-        bookService.save(book);
+        bookId = bookService.save(book);
+
+        bookCover = new BookCover();
+        bookCover.setUrl(null);
+        bookCover.setBook_id(bookId);
+        bookCoverId = bookCoverService.save(bookCover);
+        book.setBookCover(bookCover);
+        book.setBookCover_id(bookCoverId);
+        bookService.update(bookId, book);
 
 
         // account user1
-        User user1 = new User("hai@gmail.com", "password", "Thanh Hai", "Bui Lam", Constant.USER_ROLE);
-        user1.setEncryptingPassword(passwordService.encryptPassword(user1.getPassword()));
-        long id1 = userService.save(user1);
+        user = new User("hai@gmail.com", "password", "Thanh Hai", "Bui Lam", Constant.USER_ROLE);
+        user.setEncryptingPassword(passwordService.encryptPassword(user.getPassword()));
+        userService.save(user);
 
         avatar = new Avatar();
         avatar.setUrl(null);
-        avatar.setUser_id(id1);
+        avatar.setUser_id(user.getId());
         avatarService.save(avatar);
-        user1.setAvatar_id(3);
-        userService.update(id1, user1);
+        user.setAvatar_id(avatar.getId());
+        userService.update(user.getId(), user);
 
         book = new Book();
         book.setTitle("Nhà Giả Kim");
@@ -150,8 +216,16 @@ public class CreateDummyDataController {
         book.setDescription("Tất cả những trải nghiệm trong chuyến phiêu du theo đuổi vận mệnh của mình đã giúp Santiago thấu hiểu được ý nghĩa sâu xa nhất của hạnh phúc, hòa hợp với vũ trụ và con người.");
         book.setCreated_at(new Date());
         book.setUpdated_at(new Date());
-        book.setUser_id(user1.getId());
-        bookService.save(book);
+        book.setUser_id(user.getId());
+        bookId = bookService.save(book);
+
+        bookCover = new BookCover();
+        bookCover.setUrl(null);
+        bookCover.setBook_id(bookId);
+        bookCoverId = bookCoverService.save(bookCover);
+        book.setBookCover(bookCover);
+        book.setBookCover_id(bookCoverId);
+        bookService.update(bookId, book);
 
         book = new Book();
         book.setTitle("Nhà Giả Kim");
@@ -159,8 +233,16 @@ public class CreateDummyDataController {
         book.setDescription("Tất cả những trải nghiệm trong chuyến phiêu du theo đuổi vận mệnh của mình đã giúp Santiago thấu hiểu được ý nghĩa sâu xa nhất của hạnh phúc, hòa hợp với vũ trụ và con người.");
         book.setCreated_at(new Date());
         book.setUpdated_at(new Date());
-        book.setUser_id(user1.getId());
-        bookService.save(book);
+        book.setUser_id(user.getId());
+        bookId = bookService.save(book);
+
+        bookCover = new BookCover();
+        bookCover.setUrl(null);
+        bookCover.setBook_id(bookId);
+        bookCoverId = bookCoverService.save(bookCover);
+        book.setBookCover(bookCover);
+        book.setBookCover_id(bookCoverId);
+        bookService.update(bookId, book);
 
         book = new Book();
         book.setTitle("The Spy");
@@ -168,8 +250,16 @@ public class CreateDummyDataController {
         book.setDescription("HER ONLY CRIME WAS TO BE AN INDEPENDENT WOMAN  When Mata Hari arrived in Paris she was penniless. Within months she was the most celebrated woman in the city.  As a dancer, she shocked and delighted audiences; as a courtesan, she bewitched the era’s richest and most powerful men.  But as paranoia consumed a country at war, Mata Hari’s lifestyle brought her under suspicion. In 1917, she was arrested in her hotel room on the Champs Elysees, and accused of espionage. Told in Mata Hari’s voice through her final letter, The Spy is the unforgettable story of a woman who dared to defy convention and who paid the ultimate price.");
         book.setCreated_at(new Date());
         book.setUpdated_at(new Date());
-        book.setUser_id(user1.getId());
-        bookService.save(book);
+        book.setUser_id(user.getId());
+        bookId = bookService.save(book);
+
+        bookCover = new BookCover();
+        bookCover.setUrl(null);
+        bookCover.setBook_id(bookId);
+        bookCoverId = bookCoverService.save(bookCover);
+        book.setBookCover(bookCover);
+        book.setBookCover_id(bookCoverId);
+        bookService.update(bookId, book);
 
         book = new Book();
         book.setTitle("5 Centimet Trên Giây");
@@ -177,8 +267,16 @@ public class CreateDummyDataController {
         book.setDescription("");
         book.setCreated_at(new Date());
         book.setUpdated_at(new Date());
-        book.setUser_id(user1.getId());
-        bookService.save(book);
+        book.setUser_id(user.getId());
+        bookId = bookService.save(book);
+
+        bookCover = new BookCover();
+        bookCover.setUrl(null);
+        bookCover.setBook_id(bookId);
+        bookCoverId = bookCoverService.save(bookCover);
+        book.setBookCover(bookCover);
+        book.setBookCover_id(bookCoverId);
+        bookService.update(bookId, book);
 
         book = new Book();
         book.setTitle("Conan tập 2");
@@ -186,20 +284,28 @@ public class CreateDummyDataController {
         book.setDescription("");
         book.setCreated_at(new Date());
         book.setUpdated_at(new Date());
-        book.setUser_id(user1.getId());
-        bookService.save(book);
+        book.setUser_id(user.getId());
+        bookId = bookService.save(book);
+
+        bookCover = new BookCover();
+        bookCover.setUrl(null);
+        bookCover.setBook_id(bookId);
+        bookCoverId = bookCoverService.save(bookCover);
+        book.setBookCover(bookCover);
+        book.setBookCover_id(bookCoverId);
+        bookService.update(bookId, book);
 
         // account user2
-        User user2 = new User("user3@gmail.com", "password", "A", "Nguyễn Văn", Constant.USER_ROLE);
-        user2.setEncryptingPassword(passwordService.encryptPassword(user2.getPassword()));
-        long id2 = userService.save(user2);
+        user = new User("user3@gmail.com", "password", "A", "Nguyễn Văn", Constant.USER_ROLE);
+        user.setEncryptingPassword(passwordService.encryptPassword(user.getPassword()));
+        userService.save(user);
 
         avatar = new Avatar();
         avatar.setUrl(null);
-        avatar.setUser_id(id2);
+        avatar.setUser_id(user.getId());
         avatarService.save(avatar);
-        user2.setAvatar_id(4);
-        userService.update(id2, user2);
+        user.setAvatar_id(avatar.getId());
+        userService.update(user.getId(), user);
 
         return "redirect:/";
     }

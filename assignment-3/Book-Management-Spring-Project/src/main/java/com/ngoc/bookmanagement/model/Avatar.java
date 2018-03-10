@@ -14,8 +14,8 @@ public class Avatar implements Serializable{
     @Column(name = "id")
     private long id;
 
-    @Column(name = "url")
-    private String url;
+    @Column(name = "url", nullable = true)
+    private String url = null;
 
     @Transient
     private MultipartFile file;

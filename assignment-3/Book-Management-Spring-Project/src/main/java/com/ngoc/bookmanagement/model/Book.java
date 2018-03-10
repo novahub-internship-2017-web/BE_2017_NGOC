@@ -45,6 +45,13 @@ public class Book implements Serializable {
     @JoinColumn(name = "user_id", insertable = false, updatable = false, nullable = false)
     private User user;
 
+    @Column(name = "bookCover_id")
+    private long bookCover_id;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "bookCover_id", insertable = false, updatable = false, nullable = true)
+    private BookCover bookCover;
+
     public long getId() {
         return id;
     }
@@ -107,6 +114,22 @@ public class Book implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public long getBookCover_id() {
+        return bookCover_id;
+    }
+
+    public void setBookCover_id(long bookCover_id) {
+        this.bookCover_id = bookCover_id;
+    }
+
+    public BookCover getBookCover() {
+        return bookCover;
+    }
+
+    public void setBookCover(BookCover bookCover) {
+        this.bookCover = bookCover;
     }
 
     public Book() {

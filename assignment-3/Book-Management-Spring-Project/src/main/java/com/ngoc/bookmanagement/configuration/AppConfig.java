@@ -4,6 +4,7 @@ import java.util.Properties;
 
 import com.ngoc.bookmanagement.model.Avatar;
 import com.ngoc.bookmanagement.model.Book;
+import com.ngoc.bookmanagement.model.BookCover;
 import com.ngoc.bookmanagement.model.User;
 import com.ngoc.bookmanagement.validation.Validation;
 import com.ngoc.bookmanagement.validation.ValidationImpl;
@@ -53,7 +54,7 @@ public class AppConfig {
         props.put(C3P0_MAX_STATEMENTS, env.getProperty("hibernate.c3p0.max_statements"));
 
         factoryBean.setHibernateProperties(props);
-        factoryBean.setAnnotatedClasses(User.class, Book.class, Avatar.class);
+        factoryBean.setAnnotatedClasses(User.class, Book.class, Avatar.class, BookCover.class);
 
         return factoryBean;
     }
