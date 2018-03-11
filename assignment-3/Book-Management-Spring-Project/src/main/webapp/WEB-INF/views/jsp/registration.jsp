@@ -15,11 +15,11 @@
     </style>
 </head>
 <body style="background-color: #E0E0E0">
-
     <%@ include file="_header.jsp"%>
 
     <div class="body">
         <%@ include file="_message.jsp"%>
+
         <form:form action="/registration" method="post" modelAttribute="user" cssClass="form-signup" id="form-registration">
             <h1 class="h3 mb-3 font-weight-normal" align="center">Sign up</h1>
             <div class="form-label-group">
@@ -49,8 +49,8 @@
             </div>
             <input type="submit" name="submit" class="btn btn-lg btn-primary btn-block" value="Sign up"/>
         </form:form>
-
-        <%@ include file="_footer.jsp"%>
     </div>
+
+    <%@ include file="_footer.jsp"%>
 </body>
 </html>

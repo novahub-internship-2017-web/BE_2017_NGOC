@@ -17,7 +17,10 @@
 </head>
 <body style="background-color: #E0E0E0">
 
-    <% long id = (Long) request.getAttribute(Constant.idAttribute);%>
+    <% 
+        long id = (Long) request.getAttribute(Constant.idAttribute);
+    %>
+    
     <%@ include file="_header.jsp"%>
 
     <div class="body">
