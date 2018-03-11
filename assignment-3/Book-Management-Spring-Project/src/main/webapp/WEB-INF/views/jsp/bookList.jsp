@@ -49,9 +49,11 @@
         <%@ include file="_message.jsp"%>
 
         <%
+            String bookCoverUrl;
             if (bookList != null && bookList.size() > 0){
             for(int i = 0; i < bookList.size(); i++){
                 book = bookList.get(i);
+                bookCoverUrl = (book.getBookCover().getUrl() == null) ? null : book.getBookCover().getUrl();
         %>
         <div class="row mb-1">
             <div class="col-md-2"></div>
@@ -59,6 +61,8 @@
                 <div class="card flex-md-row mb-4 box-shadow h-md-300">
                     <div class="card-body align-items-start" style="position: relative;">
                         <!--<strong class="d-inline-block mb-2 text-primary">World</strong>-->
+                        <img id="bookCoverImage" src="<%=bookCoverUrl%>" class="h3 mb-3 pull-left" style="border-radius: 50%; margin-right: 30px; width: 200px; height: 200px; border: 1px solid black;" />
+
                         <h3 class="mb-0">
                             <a class="card-title" href="/book/<%=book.getId()%>"><%=book.getTitle()%></a>
                         </h3>

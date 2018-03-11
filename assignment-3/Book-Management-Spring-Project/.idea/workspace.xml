@@ -17,76 +17,60 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5">
-      <split-first>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="bookDetails.jsp" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/bookDetails.jsp">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="0">
-                  <caret line="26" column="22" lean-forward="false" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="BookController.java" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/controller/BookController.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="437">
-                  <caret line="140" column="87" lean-forward="false" selection-start-line="140" selection-start-column="87" selection-end-line="140" selection-end-column="87" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="BookRepositoryImpl.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/repository/BookRepositoryImpl.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="192">
-                  <caret line="68" column="42" lean-forward="true" selection-start-line="68" selection-start-column="42" selection-end-line="68" selection-end-column="42" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="Avatar.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/model/Avatar.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="288">
-                  <caret line="19" column="14" lean-forward="false" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="CreateDummyDataController.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/controller/CreateDummyDataController.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="2160">
-                  <caret line="133" column="42" lean-forward="false" selection-start-line="133" selection-start-column="42" selection-end-line="133" selection-end-column="42" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file leaf-file-name="bookEdit.jsp" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/bookEdit.jsp">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="358">
-                  <caret line="33" column="41" lean-forward="false" selection-start-line="33" selection-start-column="41" selection-end-line="33" selection-end-column="41" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="bookDetails.jsp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/bookDetails.jsp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="31" column="79" lean-forward="false" selection-start-line="31" selection-start-column="16" selection-end-line="31" selection-end-column="175" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Book.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/model/Book.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="324">
+              <caret line="18" column="10" lean-forward="false" selection-start-line="18" selection-start-column="10" selection-end-line="18" selection-end-column="10" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bookList.jsp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/bookList.jsp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="823">
+              <caret line="68" column="24" lean-forward="false" selection-start-line="68" selection-start-column="24" selection-end-line="68" selection-end-column="94" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bookNew.jsp" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/bookNew.jsp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="342">
+              <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+              <folding>
+                <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bookEdit.jsp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/bookEdit.jsp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="160">
+              <caret line="10" column="18" lean-forward="false" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -116,7 +100,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/test/java/com/ngoc/bookmanagement/repository/BookRepositoryImplTest.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/_message.jsp" />
         <option value="$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/service/PasswordService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/service/PasswordServiceImpl.java" />
@@ -144,7 +127,6 @@
         <option value="$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/controller/LoginController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/controller/LogoutController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/controller/RegistrationController.java" />
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/bookList.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/_footer.jsp" />
         <option value="$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/controller/UploadController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/configuration/SpringWebConfig.java" />
@@ -156,17 +138,19 @@
         <option value="$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/service/BookCoverService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/service/AvatarService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/service/BookCoverServiceImpl.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/model/Book.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/controller/CreateDummyDataController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/repository/BookRepositoryImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/controller/UserController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/constant/Constant.java" />
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/bookNew.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/bookDetails.jsp" />
         <option value="$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/model/Avatar.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/model/BookCover.java" />
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/bookEdit.jsp" />
         <option value="$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/controller/BookController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/model/Book.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/bookList.jsp" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/bookEdit.jsp" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/_book.jsp" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/bookNew.jsp" />
       </list>
     </option>
   </component>
@@ -390,10 +374,10 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="AndroidView" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -808,7 +792,9 @@
       <workItem from="1520604820766" duration="6253000" />
       <workItem from="1520656967136" duration="14719000" />
       <workItem from="1520687755078" duration="4307000" />
-      <workItem from="1520704870049" duration="1573000" />
+      <workItem from="1520704870049" duration="1866000" />
+      <workItem from="1520738785350" duration="2001000" />
+      <workItem from="1520759996475" duration="1058000" />
     </task>
     <servers />
   </component>
@@ -845,10 +831,10 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="459245000" />
+    <option name="totallyTimeSpent" value="462597000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1365" y="-4" width="1922" height="1092" extended-state="6" />
+    <frame x="1365" y="-4" width="1922" height="1053" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -869,7 +855,7 @@
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30115426" sideWeight="0.49707174" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30087528" sideWeight="0.49707174" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
@@ -1025,13 +1011,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/model/User.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="116">
-          <caret line="189" column="18" lean-forward="false" selection-start-line="189" selection-start-column="18" selection-end-line="189" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/service/UserService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -1116,13 +1095,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/bookList.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1494">
-          <caret line="83" column="63" lean-forward="false" selection-start-line="83" selection-start-column="63" selection-end-line="83" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/_header.jsp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="684">
@@ -1175,7 +1147,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="12" column="18" lean-forward="false" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1183,9 +1154,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
           <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1193,11 +1161,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="236">
           <caret line="25" column="5" lean-forward="true" selection-start-line="25" selection-start-column="5" selection-end-line="25" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#612#613#0" expanded="false" />
-            <element signature="e#691#692#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1206,17 +1169,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="288">
           <caret line="16" column="43" lean-forward="false" selection-start-line="16" selection-start-column="43" selection-end-line="16" selection-end-column="43" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#465#466#0" expanded="false" />
-            <element signature="e#515#516#0" expanded="false" />
-            <element signature="e#552#553#0" expanded="false" />
-            <element signature="e#601#602#0" expanded="false" />
-            <element signature="e#657#658#0" expanded="false" />
-            <element signature="e#714#715#0" expanded="false" />
-            <element signature="e#879#880#0" expanded="false" />
-            <element signature="e#925#926#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1224,7 +1176,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
           <caret line="6" column="17" lean-forward="false" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1232,11 +1183,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="10" column="22" lean-forward="false" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#620#621#0" expanded="false" />
-            <element signature="e#671#672#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1244,9 +1190,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="324">
           <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1254,7 +1197,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-128">
           <caret line="18" column="42" lean-forward="false" selection-start-line="18" selection-start-column="42" selection-end-line="18" selection-end-column="42" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1290,23 +1232,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
           <caret line="105" column="31" lean-forward="false" selection-start-line="105" selection-start-column="31" selection-end-line="105" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/model/Book.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="49" column="0" lean-forward="true" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
-          <folding>
-            <element signature="e#2790#2791#0" expanded="false" />
-            <element signature="e#2825#2826#0" expanded="false" />
-            <element signature="e#2879#2880#0" expanded="false" />
-            <element signature="e#2927#2928#0" expanded="false" />
-            <element signature="e#2966#2967#0" expanded="false" />
-            <element signature="e#2998#2999#0" expanded="false" />
-            <element signature="e#3051#3052#0" expanded="false" />
-            <element signature="e#3093#3094#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1364,59 +1289,84 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/bookDetails.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="26" column="22" lean-forward="false" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/model/Avatar.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="288">
           <caret line="19" column="14" lean-forward="false" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/repository/BookRepositoryImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1062">
+          <caret line="68" column="42" lean-forward="false" selection-start-line="68" selection-start-column="42" selection-end-line="68" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/controller/BookController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="46" column="18" lean-forward="false" selection-start-line="46" selection-start-column="18" selection-end-line="46" selection-end-column="18" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/model/BookCover.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
+        <state relative-caret-position="234">
           <caret line="16" column="42" lean-forward="false" selection-start-line="16" selection-start-column="42" selection-end-line="16" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/bookDetails.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="31" column="79" lean-forward="false" selection-start-line="31" selection-start-column="16" selection-end-line="31" selection-end-column="175" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/repository/BookRepositoryImpl.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/model/Book.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="68" column="42" lean-forward="true" selection-start-line="68" selection-start-column="42" selection-end-line="68" selection-end-column="42" />
+        <state relative-caret-position="324">
+          <caret line="18" column="10" lean-forward="false" selection-start-line="18" selection-start-column="10" selection-end-line="18" selection-end-column="10" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/bookNew.jsp">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/bookList.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="33" column="42" lean-forward="true" selection-start-line="33" selection-start-column="42" selection-end-line="33" selection-end-column="42" />
+        <state relative-caret-position="823">
+          <caret line="68" column="24" lean-forward="false" selection-start-line="68" selection-start-column="24" selection-end-line="68" selection-end-column="94" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/bookEdit.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="358">
-          <caret line="33" column="41" lean-forward="false" selection-start-line="33" selection-start-column="41" selection-end-line="33" selection-end-column="41" />
+        <state relative-caret-position="160">
+          <caret line="10" column="18" lean-forward="false" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/ngoc/bookmanagement/controller/BookController.java">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/_book.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="140" column="87" lean-forward="false" selection-start-line="140" selection-start-column="87" selection-end-line="140" selection-end-column="87" />
-          <folding />
+        <state relative-caret-position="342">
+          <caret line="26" column="28" lean-forward="false" selection-start-line="26" selection-start-column="28" selection-end-line="26" selection-end-column="28" />
+          <folding>
+            <element signature="n#style#0;n#img#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/bookNew.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+          <folding>
+            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
