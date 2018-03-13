@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.File;
 import java.util.ArrayList;
@@ -101,29 +102,7 @@ public class BookController {
             Book oldBook = bookService.get(id);
             BookCover bookCover = oldBook.getBookCover();
 
-            if(bookCoverFile.getSize() > 0) {
-                try {
-                    String fileName = bookCoverFile.getOriginalFilename();
-                    String urlProject = request.getServletContext().getRealPath("/");
-                    String urlFiles = urlProject + "images" + File.separator + "book-covers";
-                    String typeOfFile = fileName.substring(fileName.lastIndexOf("."));
-
-                    File folder = new File(urlFiles);
-                    if (!folder.exists())
-                        folder.mkdir();
-
-                    File file = new File(urlFiles, id + typeOfFile);
-
-                    bookCoverFile.transferTo(file);
-                    logger.info("Upload book " + id + " successfully!!!");
-
-                    bookCover.setFile(bookCoverFile);
-                    bookCover.setUrl(File.separator + "book-covers" + File.separator + id + typeOfFile);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+            GetBookCoverFromRequestParam(bookCoverFile, bookCover, id, request);
 
             bookCoverService.update(bookCover.getId(), bookCover);
 
@@ -177,6 +156,21 @@ public class BookController {
         BookCover bookCover = new BookCover();
         long bookCoverId;
 
+        GetBookCoverFromRequestParam(bookCoverFile, bookCover, bookId, request);
+
+        bookCover.setBook_id(bookId);
+        bookCoverId = bookCoverService.save(bookCover);
+        book.setBookCover(bookCover);
+        book.setBookCover_id(bookCoverId);
+        bookService.update(bookId, book);
+
+        logger.info(request.getRequestURI() + ", method = POST, message = Create a new book successfully");
+        redirectAttributes.addFlashAttribute(Constant.successMessageSession, "Create a new book successfully");
+        return "redirect:/book/" + bookId;
+    }
+
+    void GetBookCoverFromRequestParam(MultipartFile bookCoverFile, BookCover bookCover, long bookId, HttpServletRequest request)
+    {
         if(bookCoverFile.getSize() > 0) {
             try {
                 String fileName = bookCoverFile.getOriginalFilename();
@@ -200,16 +194,6 @@ public class BookController {
                 e.printStackTrace();
             }
         }
-
-        bookCover.setBook_id(bookId);
-        bookCoverId = bookCoverService.save(bookCover);
-        book.setBookCover(bookCover);
-        book.setBookCover_id(bookCoverId);
-        bookService.update(bookId, book);
-
-        logger.info(request.getRequestURI() + ", method = POST, message = Create a new book successfully");
-        redirectAttributes.addFlashAttribute(Constant.successMessageSession, "Create a new book successfully");
-        return "redirect:/book/" + bookId;
     }
 
     @GetMapping("/book/{id}/delete")

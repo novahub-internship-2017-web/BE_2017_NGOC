@@ -10,10 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
@@ -47,12 +45,11 @@ public class LoginController {
 
         if (result.hasErrors()) {
             logger.error(request.getRequestURI() + ", method = POST, message = having errors about validation");
-            request.setAttribute(Constant.errorMessageSession, "Having errors about validation");
-            return "login";
+            request.setAttribute(Constant.dangerMessageSession, "Having errors about validation");
         } else {
             User userLogin = userService.getUserByEmailAndPassword(user.getEmail(), user.getPassword());
 
-            if(userLogin != null) {
+            if(userLogin != null && userLogin.getStatus() == Constant.UNLOCK) {
                 logger.info(request.getRequestURI() + ", method = POST, message = successfully");
                 userService.writeSession(userLogin, request);
 
@@ -62,12 +59,20 @@ public class LoginController {
                     return "redirect:/book";
             }
             else{
-                logger.error(request.getRequestURI() + ", method = POST, message = user isn't exist");
-                request.setAttribute(Constant.errorMessageSession, "User isn't exist");
-                return "login";
+                if(userLogin == null) {
+                    logger.error(request.getRequestURI() + ", method = POST, message = Username or password is incorrect");
+                    request.setAttribute(Constant.errorMessageSession, "Username or password is incorrect");
+                } else {
+                    if (userLogin.getStatus() == Constant.LOCK) {
+                        logger.error(request.getRequestURI() + ", method = POST, message = user is blocked");
+                        request.setAttribute(Constant.dangerMessageSession, "User is blocked, Please contact administrator to unlock user");
+                    }
+                }
             }
 
         }
+
+        return "login";
     }
 }
 

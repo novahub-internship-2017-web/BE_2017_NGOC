@@ -42,10 +42,12 @@ public class SpringWebConfig implements WebMvcConfigurer{
                 .addResourceLocations("classpath:/images/");
 
         registry.addResourceHandler("/avatars/**")
-                .addResourceLocations("/images/avatars/");
+                .addResourceLocations("/images/avatars/")
+                .addResourceLocations("classpath:/images/avatars/");
 
         registry.addResourceHandler("/book-covers/**")
-                .addResourceLocations("/images/book-covers/");
+                .addResourceLocations("/images/book-covers/")
+                .addResourceLocations("classpath:/images/book-covers/");
 
         registry.addResourceHandler("/js/**")
                 .addResourceLocations("classpath:/js/");

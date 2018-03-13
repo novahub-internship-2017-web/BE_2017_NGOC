@@ -21,9 +21,6 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private AvatarRepository avatarRepository;
-
     @Override
     public User getUserByEmail(String email){
         return userRepository.getUserByEmail(email);
@@ -81,6 +78,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void writeSession(User user, HttpServletRequest request) {
+        user.setPassword(null);
         request.getSession().setAttribute(Constant.userLoginSession, user);
     }
 }

@@ -52,10 +52,9 @@ public class UserRepositoryImpl implements UserRepository {
         Session session = sessionFactory.getCurrentSession();
 
         Query<User> query = session.createQuery("FROM User user " +
-                "WHERE user.email = :email AND user.encryptingPassword = :encryptingPassword AND user.status = :status", User.class);
+                "WHERE user.email = :email AND user.encryptingPassword = :encryptingPassword", User.class);
         query.setParameter("email", email);
         query.setParameter("encryptingPassword", passwordService.encryptPassword(password));
-        query.setParameter("status", Constant.UNLOCK);
         List<User> users = query.getResultList();
 
         if(!users.isEmpty())

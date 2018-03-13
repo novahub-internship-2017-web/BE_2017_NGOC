@@ -2,12 +2,13 @@
 <%
     String errorMessage = (String) request.getAttribute(Constant.errorMessageSession);
     String successMessage = (String) request.getAttribute(Constant.successMessageSession);
+    String dangerMessage = (String) request.getAttribute(Constant.dangerMessageSession);
 %>
 
 <%  if(errorMessage != null){%>
     <div class="alert alert-danger alert-dismissable notiMessage">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        <strong>Danger!</strong> <%=errorMessage%>.
+        <strong>Error!</strong> <%=errorMessage%>.
     </div>
 <%
     request.removeAttribute(Constant.errorMessageSession);
@@ -22,8 +23,11 @@
     request.removeAttribute(Constant.successMessageSession);
 }%>
 
-<%--<script>--%>
-    <%--setTimeout(function() {--%>
-        <%--$(".notiMessage").remove();--%>
-    <%--}, 2500);--%>
-<%--</script>--%>
+<% if(dangerMessage != null) {%>
+    <div class="alert alert-warning alert-dismissable notiMessage">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Warning!</strong> <%=dangerMessage%>.
+    </div>
+<%
+    request.removeAttribute(Constant.dangerMessageSession);
+}%>

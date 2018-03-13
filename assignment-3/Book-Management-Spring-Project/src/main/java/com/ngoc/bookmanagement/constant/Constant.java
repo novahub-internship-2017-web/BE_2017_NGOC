@@ -3,6 +3,7 @@ package com.ngoc.bookmanagement.constant;
 public class Constant {
     public static String errorMessageSession = "errorMessage";
     public static String successMessageSession = "successMessage";
+    public static String dangerMessageSession = "dangerMessage";
     public static String userLoginSession = "userLogin";
     public static String idAttribute = "id";
 

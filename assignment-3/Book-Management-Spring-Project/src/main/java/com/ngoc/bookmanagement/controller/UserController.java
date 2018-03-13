@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
@@ -90,7 +91,6 @@ public class UserController {
             model.addAttribute("message", "upload failed");
         }
 
-
         userService.updateProfile(id, user);
         user = userService.get(id);
         userService.writeSession(user, request);
@@ -121,7 +121,8 @@ public class UserController {
     public String changePasswordPost(@PathVariable("id") long id,
                                      @ModelAttribute("user") User user,
                                      BindingResult result,
-                                     HttpServletRequest request) {
+                                     HttpServletRequest request,
+                                     RedirectAttributes redirectAttributes) {
         logger.info(request.getRequestURI() + ", method = POST");
         request.setAttribute(Constant.urlRewriteAttribute, request.getRequestURI());
 
@@ -133,22 +134,22 @@ public class UserController {
 
             if (!passwordService.encryptPassword(oldPassword).equals(currentUser.getEncryptingPassword())) {
                 result.rejectValue("password", "User.password", "Current password isn't true");
-                request.setAttribute(Constant.errorMessageSession, "Current password isn't true");
+                redirectAttributes.addFlashAttribute(Constant.errorMessageSession, "Current password isn't true");
             } else {
                 if (!newPassword.equals(reNewPassword)) {
                     result.rejectValue("rePassword", "User.rePassword", "New password isn't equal Renew Password");
-                    request.setAttribute(Constant.errorMessageSession, "New password isn't equal Renew Password");
+                    redirectAttributes.addFlashAttribute(Constant.errorMessageSession, "New password isn't equal Renew Password");
                 } else {
                     currentUser.setPassword(newPassword);
                     userService.updatePassword(id, newPassword);
 
-                    if(!(request.getRequestURI().indexOf("/admin/user") >= 0))
+                    if(!(request.getRequestURI().contains("/admin/user")))
                         userService.writeSession(currentUser, request);
-                    request.setAttribute(Constant.successMessageSession, "Change password successfully");
+                    redirectAttributes.addFlashAttribute(Constant.successMessageSession, "Change password successfully");
                 }
             }
         }
 
-        return "userChangePassword";
+        return "redirect:/user/" + id + "/Change-Password";
     }
 }

@@ -19,7 +19,7 @@
         String bookCoverUrl = (String) request.getAttribute(Constant.bookCoverUrlAttribute);
 
         if(bookCoverUrl == null)
-            bookCoverUrl = "";
+            bookCoverUrl = "/book-covers/no-image.jpg";
     %>
 
     <%@ include file="_header.jsp"%>

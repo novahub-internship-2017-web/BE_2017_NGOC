@@ -53,7 +53,7 @@
             if (bookList != null && bookList.size() > 0){
             for(int i = 0; i < bookList.size(); i++){
                 book = bookList.get(i);
-                bookCoverUrl = (book.getBookCover().getUrl() == null) ? null : book.getBookCover().getUrl();
+                bookCoverUrl = (book.getBookCover().getUrl() == null) ? "/book-covers/no-image.jpg" : book.getBookCover().getUrl();
         %>
         <div class="row mb-1">
             <div class="col-md-2"></div>
@@ -85,7 +85,8 @@
                 <div class="col-md-2"></div>
                 <div class="col-md-8">
                 <div align="center">
-                    <a href="/book/new" style="font-size: 30px;"> Create new book</a>
+                    <h2 style="color: #707070">Books not found</h2>
+                    <a href="/book/new" style="font-size: 20px;"> Create new book</a>
                 </div>
                 </div>
                 <div class="col-md-2"></div>

@@ -1,5 +1,5 @@
-<link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/css/bootstrap.css"/>
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
 <script src="${pageContext.servletContext.contextPath}/js/jquery.js"></script>
 <script src="${pageContext.servletContext.contextPath}/js/jquery-validate.js"></script>
 <script src="${pageContext.servletContext.contextPath}/js/bootstrap.js"></script>
@@ -111,5 +111,7 @@
         var idElementError = element.id + ".errors";
         document.getElementById(idElementError).style.display = 'none';
     }
+
+
 </script>
 <%}%>

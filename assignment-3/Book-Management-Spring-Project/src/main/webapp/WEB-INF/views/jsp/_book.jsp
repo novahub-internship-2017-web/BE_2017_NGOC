@@ -1,13 +1,4 @@
-<style>
-    .form-book{
-        border-radius: 5px;
-        background-color: white;
-        width: 100%;
-        max-width: 500px;
-        margin:150px auto;
-        padding: 50px;
-    }
-</style>
+
 
 
 <%
@@ -15,7 +6,7 @@
 
     String bookCoverUrl = (String) request.getAttribute(Constant.bookCoverUrlAttribute);
 
-    bookCoverUrl = (bookCoverUrl == null) ? "" : bookCoverUrl;
+    bookCoverUrl = (bookCoverUrl == null) ? "/book-covers/no-image.jpg" : bookCoverUrl;
 %>
 
 <div class="body">
@@ -25,8 +16,8 @@
         <h1 class="h3 mb-3 font-weight-normal" align="center"><%=title%></h1>
 
         <div align="center">
-            <img id="bookCoverImage" src="" class="h3 mb-3 center-block" style="width: 200px; height: 200px; border-radius: 50%; border: 1px solid black;" />
-        <div/>
+            <img id="bookCoverImage" src="<%=bookCoverUrl%>" class="h3 mb-3 center-block" style="width: 200px; height: 200px; border-radius: 50%; border: 1px solid black;" />
+        </div>
 
         <div class="form-label-group">
             <form:input path="title" cssClass="form-control" placeholder="Title"/>
@@ -50,25 +41,17 @@
     </form:form>
 </div>
 
-<!-- Script load image preview -->
-<script type="text/javascript">
-    function PreviewImage() {
-        var oFReader = new FileReader();
-        oFReader.readAsDataURL(document.getElementById("uploadImage").files[0]);
-
-        oFReader.onload = function (oFREvent) {
-            document.getElementById("bookCoverImage").src = oFREvent.target.result;
-        };
-    };
-
-    $('#bookCoverImage').on('click', function(){
-        $('#uploadImage').trigger('click');
-    });
-
-</script>
-
 <style>
     #uploadImage{
         display: none;
+    }
+
+    .form-book{
+        border-radius: 5px;
+        background-color: white;
+        width: 100%;
+        max-width: 500px;
+        margin:150px auto;
+        padding: 50px;
     }
 </style>

@@ -24,7 +24,7 @@
         String avatarUrl = (String) request.getAttribute(Constant.userAvatarUrlAttribute);
 
         if(avatarUrl == null)
-            avatarUrl = "";
+            avatarUrl = "/avatars/no-avatar.png";
     %>
 
     <div class="body">

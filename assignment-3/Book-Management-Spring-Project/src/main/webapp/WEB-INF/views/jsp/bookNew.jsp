@@ -7,9 +7,7 @@
     <body style="background-color: #E0E0E0">
 
         <%
-
             String title = "Create New Book";
-
         %>
 
         <%@ include file="_header.jsp"%>
@@ -17,6 +15,8 @@
         <%@ include file="_book.jsp"%>
 
         <%@ include file="_footer.jsp"%>
+
+        <script src="/js/book.js"></script>
 
     </body>
 </html>
