@@ -14,6 +14,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
 
 import javax.servlet.ServletContext;
 
@@ -70,7 +71,9 @@ public class SpringWebConfig implements WebMvcConfigurer{
                 .excludePathPatterns("/css/**")
                 .excludePathPatterns("/js/**")
                 .excludePathPatterns("/files/**")
-                .excludePathPatterns("/upload");
+                .excludePathPatterns("/upload")
+                .excludePathPatterns("/bookrest/**")
+                .excludePathPatterns("/bookrest**");
 
         registry.addInterceptor(new LoginInterceptor())
                 .addPathPatterns("/login")
