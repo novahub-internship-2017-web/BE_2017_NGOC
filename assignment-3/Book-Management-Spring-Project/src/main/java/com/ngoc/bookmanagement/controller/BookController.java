@@ -8,6 +8,8 @@ import com.ngoc.bookmanagement.service.BookCoverService;
 import com.ngoc.bookmanagement.service.BookService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,27 +36,9 @@ public class BookController {
     private BookCoverService bookCoverService;
 
     @GetMapping("/book")
-    public String bookListGet(HttpServletRequest request){
-
-        logger.info(request.getRequestURI() + ", method = GET");
+    public String bookListTestGet(HttpServletRequest request){
         request.setAttribute(Constant.urlRewriteAttribute, request.getRequestURI());
-
-        long id = ((User) request.getSession().getAttribute(Constant.userLoginSession)).getId();
-        List<Book> books = reverseArrayList(bookService.list(id));
-
-        request.setAttribute(Constant.bookListAttribute, books);
-
         return "bookList";
-    }
-
-    private ArrayList<Book> reverseArrayList(List<Book> oldBooks){
-        ArrayList<Book> books = new ArrayList<Book>();
-
-        for (int i = oldBooks.size() - 1; i >= 0; i--) {
-            books.add(oldBooks.get(i));
-        }
-
-        return books;
     }
 
     @GetMapping("/book/{id}")
@@ -214,5 +198,16 @@ public class BookController {
         redirectAttributes.addFlashAttribute(Constant.bookListAttribute, books);
         redirectAttributes.addFlashAttribute(Constant.wordsSearch, words);
         return "redirect:/book";
+    }
+
+    private ArrayList<Book> reverseArrayList(List<Book> oldBooks){
+        ArrayList<Book> books = new ArrayList<Book>();
+
+        for (int i = oldBooks.size() - 1; i >= 0; i--) {
+            oldBooks.get(i).setUser(null);
+            books.add(oldBooks.get(i));
+        }
+
+        return books;
     }
 }
