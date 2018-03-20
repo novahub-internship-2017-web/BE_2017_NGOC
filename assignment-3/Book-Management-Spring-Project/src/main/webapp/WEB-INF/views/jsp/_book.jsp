@@ -12,7 +12,7 @@
 <div class="body">
     <%@ include file="_message.jsp"%>
 
-    <form:form action="<%=urlRewrite%>" method="post" modelAttribute="book" cssClass="form-book" enctype="multipart/form-data">
+    <form:form method="post" modelAttribute="book" id="form-book" name="form-book" cssClass="form-book" enctype="multipart/form-data">
         <h1 class="h3 mb-3 font-weight-normal" align="center"><%=title%></h1>
 
         <div align="center">
@@ -37,7 +37,7 @@
 
         <input id="uploadImage" name="bookCoverImage" class="form-control-file" type="file" onchange="PreviewImage();"/>
 
-        <input type="submit" class="btn btn-lg btn-primary btn-block" name="submit" value="Create"/>
+        <input type="submit" class="btn btn-lg btn-primary btn-block" id="btnSubmit" name="submit" value="Create"/>
     </form:form>
 </div>
 

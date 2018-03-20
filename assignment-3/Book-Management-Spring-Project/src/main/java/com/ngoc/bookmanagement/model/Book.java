@@ -1,5 +1,7 @@
 package com.ngoc.bookmanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -43,6 +45,7 @@ public class Book implements Serializable {
 
     @ManyToOne(fetch =  FetchType.EAGER)
     @JoinColumn(name = "user_id", insertable = false, updatable = false, nullable = false)
+    @JsonManagedReference
     private User user;
 
     @Column(name = "bookCover_id")
@@ -50,6 +53,7 @@ public class Book implements Serializable {
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "bookCover_id", insertable = false, updatable = false, nullable = true)
+    @JsonManagedReference
     private BookCover bookCover;
 
     public long getId() {

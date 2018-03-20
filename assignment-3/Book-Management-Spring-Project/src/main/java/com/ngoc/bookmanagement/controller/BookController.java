@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.File;
@@ -26,6 +27,7 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
+@MultipartConfig(maxFileSize = 1024*1024*1024)
 public class BookController {
     private static final Logger logger = Logger.getLogger(BookController.class);
 
