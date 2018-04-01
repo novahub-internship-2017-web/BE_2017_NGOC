@@ -16,6 +16,12 @@ local.properties
 */target/**
 **/target/
 */target/
+.recommenders
+.recommenders/
+.recommenders/**
+.sonarlint
+.sonarlint/
+.sonarlint/**
 
 
 # External tool builders
