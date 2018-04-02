@@ -8,4 +8,5 @@ import java.util.List;
 public interface CustomerRepository extends CrudRepository<Customer, Long> {
 
     List<Customer> findByName(String name);
+    Customer findById(long id);
 }

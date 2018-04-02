@@ -26,6 +26,7 @@ public class HomeController {
     public String homeGet(){
 
         System.out.println(customerRepository.findByName("ngoc"));
+        System.out.println(customerRepository.findById(1));
         return "index";
     }
 }
