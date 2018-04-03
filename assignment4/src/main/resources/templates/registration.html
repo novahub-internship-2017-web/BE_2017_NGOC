@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form id="registration-form">
+        <label>username</label>
+        <input type="text" name="email"/> <br/>
+        <label>password</label>
+        <input type="password" name="password"/> <br/>
+        <label>repassword</label>
+        <input type="password" name="repassword"/> <br/>
+        <label>firstname</label>
+        <input type="text" name="firstName"/> <br/>
+        <label>lastname</label>
+        <input type="text" name="lastName"/> <br/>
+        <input type="submit" id="submit" name="sumbit" value="Sign up"/>
+    </form>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+
+    <script>
+        $(document).ready(function(s) {
+            $("#registration-form").validate({
+                rules:{
+                    email : {
+                        required: true,
+                        email: true,
+                    }
+                },
+                messages:{
+                    email : {
+                        required: "Email is not empty",
+                        email: "Your email address must be in the format of name@domain.com",
+                    }
+                },
+
+                submitHandler: function (event) {
+                    event.preventDefault();
+
+                    var data = JSON.stringify({
+                        "email" : this.email.value,
+                        "password" : this.password.value,
+                        "firstName" : this.firstName.value,
+                        "lastName" : this.lastName.value
+                    });
+
+                    $.ajax({
+                        type: "POST",
+                        contentType : "application/json",
+                        url : "/api/registration",
+                        data : data,
+                        dataType : 'json',
+                        timeout: 10000,
+                        success: function (data) {
+                            console.log("SUCCESS : ", data);
+                        },
+                        error: function(e){
+                            console.log("ERROR : ", e);
+                        }
+
+                        //TODO : handle message when success and error
+                    })
+                }
+            });
+
+
+        })
+
+    </script>
+</body>
+</html>
+

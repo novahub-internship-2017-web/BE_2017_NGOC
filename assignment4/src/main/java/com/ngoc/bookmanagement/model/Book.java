@@ -30,7 +30,7 @@ public class Book {
     private String image;
 
     @Column(name = "enabled")
-    private boolean enabled;
+    private boolean enabled = false;
 
     @Column(name = "user_id")
     private boolean userId;

@@ -1,6 +1,7 @@
 package com.ngoc.bookmanagement.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "user")
@@ -12,19 +13,23 @@ public class User {
     private long id;
 
     @Column(name = "email")
+    @NotEmpty(message = "email is not empty")
     private String email;
 
     @Column(name = "password")
+    @NotEmpty(message = "password is not empty")
     private String password;
 
     @Column(name = "first_name")
+    @NotEmpty(message = "first name is not empty")
     private String firstName;
 
     @Column(name = "last_name")
+    @NotEmpty(message = "last name is not empty")
     private String lastName;
 
     @Column(name = "enabled")
-    private Boolean enabled;
+    private Boolean enabled = false;
 
     @Column(name = "avatar")
     private String avatar;

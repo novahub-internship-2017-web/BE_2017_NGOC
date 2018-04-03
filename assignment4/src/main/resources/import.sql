@@ -12,9 +12,4 @@ CREATE TABLE IF NOT EXISTS `book-management`.`comment`(`id` INT NOT NULL AUTO_IN
 
 // users
 
-INSERT INTO `book-managemnt`.`user` ()
-
-
-
-
 INSERT INTO `book-management`.`book` (`title`, `author`, `description`, `created_at`, `updated_at`, `image`, `enabled`, `user_id`) VALUE ("title", "author", "description", now(), now(), "image", true, 1);
