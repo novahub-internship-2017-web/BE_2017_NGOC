@@ -5,12 +5,72 @@
     <title>Title</title>
 </head>
 <body>
-    <form >
+    <p id="message"></p>
+    <form id="login-form">
         <label>Email : </label>
-        <input type="text" name="email"/> <br/>
+        <input type="text" name="email" id="email"/> <br/>
         <label>Password : </label>
-        <input type="password" name="password"/> <br/>
+        <input type="password" name="password" id="password"/> <br/>
         <input type="submit" name="submit" value="Login"/>
     </form>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+
+    <script>
+        $(document).ready(function(s) {
+            $("#login-form").validate({
+                rules:{
+                    email : {
+                        required: true,
+                        email: true
+                    },
+                    password: {
+                        required: true
+                    }
+                },
+                messages:{
+                    email : {
+                        required: "Email is not empty",
+                        email: "Your email address must be in the format of name@domain.com"
+                    },
+                    password: {
+                        required: "Password is not empty"
+                    }
+                }
+            });
+
+
+        });
+
+        $("#login-form").submit(function(event) {
+            event.preventDefault();
+
+            var data = JSON.stringify({
+                "email" : this.email.value,
+                "password" : this.password.value,
+            });
+
+            if($("#login-form").valid() == true) {
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    url: "/api/login",
+                    data: data,
+                    dataType: 'json',
+                    timeout: 10000,
+                    success: function (data) {
+                        window.location.replace("/test");
+                    },
+                    error: function (e) {
+                        console.log("ERROR : ", e.responseJSON.message);
+                        $("#message").text(e.responseJSON.message);
+                    }
+
+                    //TODO : handle message when success and error
+                });
+            }
+        })
+    </script>
 </body>
 </html>

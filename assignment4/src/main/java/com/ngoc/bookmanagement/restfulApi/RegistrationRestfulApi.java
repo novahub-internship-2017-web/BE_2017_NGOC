@@ -1,8 +1,5 @@
-package com.ngoc.bookmanagement.restApi;
+package com.ngoc.bookmanagement.restfulApi;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.ngoc.bookmanagement.constant.RoleConstant;
 import com.ngoc.bookmanagement.model.Role;
 import com.ngoc.bookmanagement.model.User;
@@ -22,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-public class RegistrationRestApi {
+public class RegistrationRestfulApi {
 
     @Autowired
     private RoleRepository roleRepository;
@@ -30,7 +27,7 @@ public class RegistrationRestApi {
     @Autowired
     private UserRepository userRepository;
 
-    @PostMapping(value = "/api/registration",  produces = { MediaType.APPLICATION_JSON_VALUE })
+    @PostMapping(value = "/api/registration", produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<?> registrationPost(@RequestBody @Valid User user, BindingResult bindingResult) throws IOException {
         if (bindingResult.hasErrors()) {
             ArrayList<String> listErrors = new ArrayList<>();
