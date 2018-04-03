@@ -5,6 +5,7 @@
     <title>Title</title>
 </head>
 <body>
+    <p id="message"></p>
     <form id="registration-form">
         <label>username</label>
         <input type="text" name="email"/> <br/>
@@ -37,38 +38,44 @@
                         email: "Your email address must be in the format of name@domain.com",
                     }
                 },
-
-                submitHandler: function (event) {
-                    event.preventDefault();
-
-                    var data = JSON.stringify({
-                        "email" : this.email.value,
-                        "password" : this.password.value,
-                        "firstName" : this.firstName.value,
-                        "lastName" : this.lastName.value
-                    });
-
-                    $.ajax({
-                        type: "POST",
-                        contentType : "application/json",
-                        url : "/api/registration",
-                        data : data,
-                        dataType : 'json',
-                        timeout: 10000,
-                        success: function (data) {
-                            console.log("SUCCESS : ", data);
-                        },
-                        error: function(e){
-                            console.log("ERROR : ", e);
-                        }
-
-                        //TODO : handle message when success and error
-                    })
-                }
             });
 
 
+        });
+
+        $("#registration-form").submit(function(event) {
+            event.preventDefault();
+
+            var data = JSON.stringify({
+                "email" : this.email.value,
+                "password" : this.password.value,
+                "firstName" : this.firstName.value,
+                "lastName" : this.lastName.value
+            });
+
+            if($("#registration-form").valid() == true) {
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    url: "/api/registration",
+                    data: data,
+                    dataType: 'json',
+                    timeout: 10000,
+                    success: function (data) {
+                        console.log("SUCCESS : ", data);
+                        $("#message").text("Create new user successfully");
+                    },
+                    error: function (e) {
+                        console.log("ERROR : ", e.responseJSON.message);
+                        $("#message").text(e.responseJSON.message);
+                    }
+
+                    //TODO : handle message when success and error
+                });
+            }
         })
+
+
 
     </script>
 </body>

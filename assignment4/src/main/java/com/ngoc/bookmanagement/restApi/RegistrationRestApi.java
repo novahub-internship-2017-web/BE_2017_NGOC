@@ -1,5 +1,8 @@
 package com.ngoc.bookmanagement.restApi;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.ngoc.bookmanagement.constant.RoleConstant;
 import com.ngoc.bookmanagement.model.Role;
 import com.ngoc.bookmanagement.model.User;
@@ -14,6 +17,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +31,7 @@ public class RegistrationRestApi {
     private UserRepository userRepository;
 
     @PostMapping(value = "/api/registration",  produces = { MediaType.APPLICATION_JSON_VALUE })
-    public ResponseEntity<?> registrationPost(@RequestBody @Valid User user, BindingResult bindingResult) {
+    public ResponseEntity<?> registrationPost(@RequestBody @Valid User user, BindingResult bindingResult) throws IOException {
         if (bindingResult.hasErrors()) {
             ArrayList<String> listErrors = new ArrayList<>();
 
@@ -38,16 +42,41 @@ public class RegistrationRestApi {
             return new ResponseEntity<List<String>>( listErrors, HttpStatus.BAD_REQUEST);
         } else {
 
-            // TODO: check user is exists
+            if(!userRepository.existsByEmail(user.getEmail())) {
 
-            Role role = new Role();
-            role.setName(RoleConstant.ROLE_USER);
-            role = roleRepository.save(role);
+                Role role = new Role();
+                role.setName(RoleConstant.ROLE_USER);
+                role = roleRepository.save(role);
 
-            user.setRoleId(role.getId());
-            user = userRepository.save(user);
+                user.setRoleId(role.getId());
+                user = userRepository.save(user);
 
-            return new ResponseEntity<User>(user, HttpStatus.OK);
+                return new ResponseEntity<User>(user, HttpStatus.OK);
+            }else{
+                Message message = new Message("Email is exist");
+                return new ResponseEntity<Message>(message, HttpStatus.BAD_REQUEST);
+            }
+        }
+    }
+
+    class Message{
+        private String message;
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+
+        public Message() {
+        }
+
+        public Message(String message) {
+            this.message = message;
         }
     }
 }
+
+

@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS `book-management`;
 
 USE `book-management`;
 
-CREATE TABLE IF NOT EXISTS `book-management`.`user`(`id` INT NOT NULL AUTO_INCREMENT,`email` CHAR(50) NOT NULL,`password` CHAR(50) NOT NULL,`first_name` VARCHAR(50),`last_name` VARCHAR(50),`enabled` BIT NOT NULL DEFAULT FALSE,`avatar` CHAR(255),`role_id` INT NOT NULL,PRIMARY KEY (`id`));
+CREATE TABLE IF NOT EXISTS `book-management`.`user`(`id` INT NOT NULL AUTO_INCREMENT,`email` CHAR(50) NOT NULL UNIQUE ,`password` CHAR(50) NOT NULL,`first_name` VARCHAR(50),`last_name` VARCHAR(50),`enabled` BIT NOT NULL DEFAULT FALSE,`avatar` CHAR(255),`role_id` INT NOT NULL,PRIMARY KEY (`id`));
 
 CREATE TABLE IF NOT EXISTS `book-management`.`role`(`id` INT NOT NULL AUTO_INCREMENT,`name` CHAR(255) NOT NULL,PRIMARY KEY (`id`));
 
