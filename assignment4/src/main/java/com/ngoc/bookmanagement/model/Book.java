@@ -1,6 +1,5 @@
 package com.ngoc.bookmanagement.model;
 
-
 import javax.persistence.*;
 import java.util.Date;
 
