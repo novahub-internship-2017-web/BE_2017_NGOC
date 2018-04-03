@@ -73,7 +73,7 @@ public class RegistrationRestApi {
         public Message() {
         }
 
-        public Message(String message) {
+        Message(String message) {
             this.message = message;
         }
     }

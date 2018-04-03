@@ -8,15 +8,15 @@
     <p id="message"></p>
     <form id="registration-form">
         <label>username</label>
-        <input type="text" name="email"/> <br/>
+        <input type="text" name="email" id="email"/> <br/>
         <label>password</label>
-        <input type="password" name="password"/> <br/>
-        <label>repassword</label>
-        <input type="password" name="repassword"/> <br/>
+        <input type="password" name="password" id="password"/> <br/>
+        <label>confirm password</label>
+        <input type="password" name="repassword" id="repassword"/> <br/>
         <label>firstname</label>
-        <input type="text" name="firstName"/> <br/>
+        <input type="text" name="firstName" id="firstName"/> <br/>
         <label>lastname</label>
-        <input type="text" name="lastName"/> <br/>
+        <input type="text" name="lastName" id="lastName"/> <br/>
         <input type="submit" id="submit" name="sumbit" value="Sign up"/>
     </form>
 
@@ -29,13 +29,25 @@
                 rules:{
                     email : {
                         required: true,
-                        email: true,
+                        email: true
+                    },
+                    password: {
+                        required: true
+                    },
+                    repassword: {
+                        equalTo: "#password"
                     }
                 },
                 messages:{
                     email : {
                         required: "Email is not empty",
                         email: "Your email address must be in the format of name@domain.com",
+                    },
+                    password: {
+                        required: "Password is not empty"
+                    },
+                    repassword: {
+                        equalTo: "Password does not match the confirm password"
                     }
                 },
             });
