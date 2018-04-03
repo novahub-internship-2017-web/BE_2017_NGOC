@@ -106,4 +106,19 @@ public class Book {
     public void setUserId(boolean userId) {
         this.userId = userId;
     }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", description='" + description + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", image='" + image + '\'' +
+                ", enabled=" + enabled +
+                ", userId=" + userId +
+                '}';
+    }
 }
