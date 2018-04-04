@@ -55,17 +55,15 @@
 
         function callUserPostApi(){
 
-
-
             var data = JSON.stringify({
                 "email" : this.email.value,
                 "firstName" : this.firstName.value,
                 "lastName" : this.lastName.value
             });
 
-            if($("#registration-form").valid()) {
+            if($("#user_profile_form").valid()) {
                 $.ajax({
-                    type: "POST",
+                    type: "PUT",
                     contentType: "application/json",
                     url: window.location.origin + "/api/user/" + userId,
                     data: data,

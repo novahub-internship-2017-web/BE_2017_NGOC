@@ -1,5 +1,6 @@
 package com.ngoc.bookmanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ngoc.bookmanagement.validation.GroupUserWithoutPassword;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ public class User {
 
     @Column(name = "password")
     @NotEmpty(message = "password is not empty")
+    @JsonIgnore
     private String password;
 
     @Column(name = "first_name")

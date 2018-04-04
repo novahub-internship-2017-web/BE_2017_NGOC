@@ -8,11 +8,25 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Configuration;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
 @RestController
 public class UserRestfulApi {
 
     @Autowired
     private UserRepository userRepository;
+
+    private static final Validator validator;
+
+    static {
+        Configuration<?> config = Validation.byDefaultProvider().configure();
+        ValidatorFactory factory = config.buildValidatorFactory();
+        validator = factory.getValidator();
+        factory.close();
+    }
 
     @GetMapping(value = "/api/user/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<?> userGet(@PathVariable("id") long id){
@@ -20,10 +34,37 @@ public class UserRestfulApi {
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
-    @PutMapping(value = "/apt/user/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> userPut(@PathVariable("id") long id){
+    @PutMapping(value = "/api/user/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> userPut(@PathVariable("id") long id, @RequestBody User userParam){
+        User oldUser = userRepository.findById(id).get();
+        oldUser.setFirstName(userParam.getFirstName());
+        oldUser.setLastName(userParam.getLastName());
 
-        return null;
+        userRepository.save(oldUser);
+
+        Message message = new Message();
+        message.setMessage("Update successfully");
+
+        return new ResponseEntity<Message>(message, HttpStatus.OK);
+    }
+
+    class Message{
+        private String message;
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+
+        Message() {
+        }
+
+        Message(String message) {
+            this.message = message;
+        }
     }
 
 }
