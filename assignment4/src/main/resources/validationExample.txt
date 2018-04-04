@@ -1,0 +1,25 @@
+private static final Validator validator;
+
+static {
+    Configuration<?> config = Validation.byDefaultProvider().configure();
+    ValidatorFactory factory = config.buildValidatorFactory();
+    validator = factory.getValidator();
+    factory.close();
+}
+
+@PostMapping(value = "/api/registration", produces = { MediaType.APPLICATION_JSON_VALUE })
+public ResponseEntity<?> registrationPost(@RequestBody User user) throws IOException {
+
+    Set<ConstraintViolation<User>> constraintViolations = validator.validate(user, Default.class);
+
+    if (constraintViolations.size() > 0) {
+
+        System.out.println("errr------------------");
+
+    } else {
+        //proceed using user object
+        System.out.println(user);
+    }
+
+    return null;
+}

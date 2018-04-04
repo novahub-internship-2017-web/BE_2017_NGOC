@@ -25,8 +25,7 @@ public class LoginRestfulApi {
     @PostMapping(value = "/api/login", produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<?> loginPost(@RequestBody @Valid User user,
                                        BindingResult bindingResult,
-                                       HttpServletRequest request,
-                                       HttpServletResponse response) throws IOException {
+                                       HttpServletRequest request){
         Message message = new Message();
 
         if(bindingResult.hasErrors())
@@ -40,8 +39,11 @@ public class LoginRestfulApi {
             return new ResponseEntity<Message>(message, HttpStatus.BAD_REQUEST);
         }
 
+        request.getSession().setAttribute("userLogin", userRepository.findByEmail(user.getEmail()));
+
+        System.out.println(((User) request.getSession().getAttribute("userLogin")).toString());
         message.setMessage("Login successfully");
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<Message>(message, HttpStatus.OK);
     }
 
     class Message{

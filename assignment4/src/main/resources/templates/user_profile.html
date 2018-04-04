@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>user profile</title>
+</head>
+<body>
+
+
+    <form id="user_profile_form" style="display: none;">
+        <label>Email : </label>
+        <input type="text" name="email" id="email"/> <br/>
+        <label>firstname</label>
+        <input type="text" name="firstName" id="firstName"/> <br/>
+        <label>lastName</label>
+        <input type="text" name="lastName" id="lastName"/> <br/>
+        <input type="submit" name="submit" value="update"/>
+    </form>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+
+    <script>
+
+        var url = window.location.href;
+        var userId = url.substring(url.lastIndexOf('/') + 1);
+
+        $("#user_profile_form").submit(function(event) {
+            event.preventDefault();
+
+            callUserPostApi();
+        });
+
+        function callUserGetApi() {
+            $.ajax({
+                type: "GET",
+                contentType: "application/json",
+                url: window.location.origin + "/api/user/" + userId,
+                dataType: 'json',
+                timeout: 10000,
+                success: function (dataReceive) {
+                    console.log("SUCCESS : ", dataReceive);
+                    $("#email").val(dataReceive.email);
+                    $("#firstName").val(dataReceive.firstName);
+                    $("#lastName").val(dataReceive.lastName);
+
+                    $("#user_profile_form").show();
+                },
+                error: function (e) {
+                    console.log("ERROR : ", e.responseJSON.message);
+                }
+            });
+        }
+
+        function callUserPostApi(){
+
+
+
+            var data = JSON.stringify({
+                "email" : this.email.value,
+                "firstName" : this.firstName.value,
+                "lastName" : this.lastName.value
+            });
+
+            if($("#registration-form").valid()) {
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    url: window.location.origin + "/api/user/" + userId,
+                    data: data,
+                    dataType: 'json',
+                    timeout: 10000,
+                    success: function (dataReceive) {
+                        console.log("SUCCESS : ", dataReceive);
+                        $("#message").text("Update user successfully");
+                    },
+                    error: function (e) {
+                        console.log("ERROR : ", e.responseJSON.message);
+                        $("#message").text(e.responseJSON.message);
+                    }
+
+                    //TODO : handle message when success and error
+                });
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function(){
+            callUserGetApi();
+        });
+    </script>
+
+
+
+</body>
+</html>

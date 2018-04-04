@@ -11,5 +11,7 @@ CREATE TABLE IF NOT EXISTS `book-management`.`book`(`id` INT NOT NULL AUTO_INCRE
 CREATE TABLE IF NOT EXISTS `book-management`.`comment`(`id` INT NOT NULL AUTO_INCREMENT,`book_id` INT NOT NULL,`user_id` INT NOT NULL,`created_at` DATETIME NOT NULL,`updated_at` DATETIME NOT NULL,`content` VARCHAR(200),PRIMARY KEY (`id`))
 
 // users
+INSERT INTO `book-management`.`user` (`email`, `password`, `first_name`, `last_name`, `enabled`, `avatar`, `role_id`) VALUE ("admin@gmail.com", "password", "firstname", "lastname", false, null, 1);
 
+// books
 INSERT INTO `book-management`.`book` (`title`, `author`, `description`, `created_at`, `updated_at`, `image`, `enabled`, `user_id`) VALUE ("title", "author", "description", now(), now(), "image", true, 1);

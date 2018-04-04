@@ -1,5 +1,7 @@
 package com.ngoc.bookmanagement.model;
 
+import com.ngoc.bookmanagement.validation.GroupUserWithoutPassword;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
@@ -13,7 +15,7 @@ public class User {
     private long id;
 
     @Column(name = "email")
-    @NotEmpty(message = "email is not empty")
+    @NotEmpty(message = "email is not empty", groups = GroupUserWithoutPassword.class)
     private String email;
 
     @Column(name = "password")
