@@ -23,3 +23,7 @@ public ResponseEntity<?> registrationPost(@RequestBody User user) throws IOExcep
 
     return null;
 }
+
+private static void printError (ConstraintViolation<User> violation) {
+    System.out.println(violation.getPropertyPath() + " " + violation.getMessage());
+}

@@ -13,10 +13,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import javax.validation.*;
+import javax.validation.groups.Default;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class RegistrationRestfulApi {
@@ -27,37 +29,49 @@ public class RegistrationRestfulApi {
     @Autowired
     private UserRepository userRepository;
 
-    @PostMapping(value = "/api/registration", produces = { MediaType.APPLICATION_JSON_VALUE })
-    public ResponseEntity<?> registrationPost(@RequestBody @Valid User user, BindingResult bindingResult) throws IOException {
-        if (bindingResult.hasErrors()) {
-            ArrayList<String> listErrors = new ArrayList<>();
+    private static final Validator validator;
 
-            for(ObjectError objectError : bindingResult.getAllErrors()){
-                listErrors.add( objectError.toString());
-            }
-
-            return new ResponseEntity<List<String>>( listErrors, HttpStatus.BAD_REQUEST);
-        } else {
-
-            if(!userRepository.existsByEmail(user.getEmail())) {
-
-                Role role = new Role();
-                role.setName(RoleConstant.ROLE_USER);
-                role = roleRepository.save(role);
-
-                user.setRoleId(role.getId());
-                user = userRepository.save(user);
-
-                return new ResponseEntity<User>(user, HttpStatus.OK);
-            }else{
-                Message message = new Message("Email is exist");
-                return new ResponseEntity<Message>(message, HttpStatus.BAD_REQUEST);
-            }
-        }
+    static {
+        Configuration<?> config = Validation.byDefaultProvider().configure();
+        ValidatorFactory factory = config.buildValidatorFactory();
+        validator = factory.getValidator();
+        factory.close();
     }
 
+    @PostMapping(value = "/api/registration", produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<?> registrationPost(@RequestBody User user) {
 
+        Set<ConstraintViolation<User>> constraintViolations = validator.validate(user, Default.class);
 
+        if(constraintViolations.size() > 0){
+            ArrayList<Message> messageArrayList = new ArrayList<>();
+
+            Message message;
+
+            for(ConstraintViolation<User> userConstraintViolation : constraintViolations){
+                message = new Message();
+                message.setMessage(userConstraintViolation.getPropertyPath() + " : " + userConstraintViolation.getMessage());
+                messageArrayList.add(message);
+            }
+
+            return new ResponseEntity<List<Message>>( messageArrayList, HttpStatus.BAD_REQUEST);
+        }
+
+        if(userRepository.existsByEmail(user.getEmail())) {
+            Message message = new Message("Email is exist");
+            return new ResponseEntity<Message>(message, HttpStatus.BAD_REQUEST);
+        }
+
+        Role role = new Role();
+        role.setName(RoleConstant.ROLE_USER);
+        role = roleRepository.save(role);
+
+        user.setRoleId(role.getId());
+        user = userRepository.save(user);
+
+        return new ResponseEntity<User>(user, HttpStatus.OK);
+
+    }
 
     class Message{
         private String message;
@@ -70,7 +84,7 @@ public class RegistrationRestfulApi {
             this.message = message;
         }
 
-        public Message() {
+        Message() {
         }
 
         Message(String message) {
