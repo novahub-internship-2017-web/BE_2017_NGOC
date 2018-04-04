@@ -36,12 +36,12 @@ public class LoginRestfulApi {
         }
 
         if (!userRepository.existsByEmailAndPassword(user.getEmail(), user.getPassword())){
-            message.setMessage("Email is exist");
+            message.setMessage("Email is not exist");
             return new ResponseEntity<Message>(message, HttpStatus.BAD_REQUEST);
         }
 
         message.setMessage("Login successfully");
-        return new ResponseEntity<Message>(message, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     class Message{
