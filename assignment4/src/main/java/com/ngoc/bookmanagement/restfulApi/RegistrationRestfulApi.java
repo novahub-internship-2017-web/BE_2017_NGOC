@@ -5,6 +5,7 @@ import com.ngoc.bookmanagement.model.Role;
 import com.ngoc.bookmanagement.model.User;
 import com.ngoc.bookmanagement.repository.RoleRepository;
 import com.ngoc.bookmanagement.repository.UserRepository;
+import com.ngoc.bookmanagement.service.PasswordEncryption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,6 +29,9 @@ public class RegistrationRestfulApi {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncryption passwordEncryption;
 
     private static final Validator validator;
 
@@ -66,7 +70,10 @@ public class RegistrationRestfulApi {
         role.setName(RoleConstant.ROLE_USER);
         role = roleRepository.save(role);
 
+        String encryptingPassword = passwordEncryption.encryptPassword(user.getPassword());
+
         user.setRoleId(role.getId());
+        user.setPassword(encryptingPassword);
         user = userRepository.save(user);
 
         return new ResponseEntity<User>(user, HttpStatus.OK);

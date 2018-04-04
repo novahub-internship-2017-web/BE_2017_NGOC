@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS `book-management`;
 
 USE `book-management`;
 
-CREATE TABLE IF NOT EXISTS `book-management`.`user`(`id` INT NOT NULL AUTO_INCREMENT,`email` CHAR(50) NOT NULL UNIQUE ,`password` CHAR(50) NOT NULL,`first_name` VARCHAR(50),`last_name` VARCHAR(50),`enabled` BIT NOT NULL DEFAULT FALSE,`avatar` CHAR(255),`role_id` INT NOT NULL,PRIMARY KEY (`id`));
+CREATE TABLE IF NOT EXISTS `book-management`.`user`(`id` INT NOT NULL AUTO_INCREMENT,`email` CHAR(50) NOT NULL UNIQUE ,`password` CHAR(255) NOT NULL,`first_name` VARCHAR(50),`last_name` VARCHAR(50),`enabled` BIT NOT NULL DEFAULT FALSE,`avatar` CHAR(255),`role_id` INT NOT NULL,PRIMARY KEY (`id`));
 
 CREATE TABLE IF NOT EXISTS `book-management`.`role`(`id` INT NOT NULL AUTO_INCREMENT,`name` CHAR(255) NOT NULL,PRIMARY KEY (`id`));
 
@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `book-management`.`book`(`id` INT NOT NULL AUTO_INCRE
 CREATE TABLE IF NOT EXISTS `book-management`.`comment`(`id` INT NOT NULL AUTO_INCREMENT,`book_id` INT NOT NULL,`user_id` INT NOT NULL,`created_at` DATETIME NOT NULL,`updated_at` DATETIME NOT NULL,`content` VARCHAR(200),PRIMARY KEY (`id`))
 
 // users
-INSERT INTO `book-management`.`user` (`email`, `password`, `first_name`, `last_name`, `enabled`, `avatar`, `role_id`) VALUE ("admin@gmail.com", "password", "firstname", "lastname", false, null, 1);
+INSERT INTO `book-management`.`user` (`email`, `password`, `first_name`, `last_name`, `enabled`, `avatar`, `role_id`) VALUE ("admin@gmail.com", "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "firstname", "lastname", false, null, 1);
 
 // books
 INSERT INTO `book-management`.`book` (`title`, `author`, `description`, `created_at`, `updated_at`, `image`, `enabled`, `user_id`) VALUE ("title", "author", "description", now(), now(), "image", true, 1);
