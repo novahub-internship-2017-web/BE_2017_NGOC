@@ -8,12 +8,19 @@
 
 
     <form id="user_profile_form" style="display: none;">
-        <label>Email : </label>
+        <label>email : </label>
         <input type="text" name="email" id="email"/> <br/>
-        <label>firstname</label>
+        <label>firstname : </label>
         <input type="text" name="firstName" id="firstName"/> <br/>
-        <label>lastName</label>
+        <label>lastName : </label>
         <input type="text" name="lastName" id="lastName"/> <br/>
+        <input type="checkbox" name="choice_change_password" id="checkbox_choice_change_password" value="false"/>change password <br/>
+        <div id="changing_password_form" style="display: none;">
+            <label>password : </label>
+            <input type="password" name="password" id="password"/> <br/>
+            <label>confirm password</label>
+            <input type="password" name="repassword" id="repassword"/> <br/>
+        </div>
         <input type="submit" name="submit" value="update"/>
     </form>
 
@@ -26,7 +33,15 @@
         var url = window.location.href;
         var userId = url.substring(url.lastIndexOf('/') + 1);
 
-        $("#user_profile_form").submit(function(event) {
+        $('#checkbox_choice_change_password').change(function () {
+            if ($("#checkbox_choice_change_password").is(":checked")) {
+                $('#changing_password_form').show();
+            } else {
+                $('#changing_password_form').hide();
+            }
+        });
+
+        $('#user_profile_form').submit(function(event) {
             event.preventDefault();
 
             callUserPostApi();
