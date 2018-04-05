@@ -46,11 +46,10 @@ public class RegistrationRestfulApi {
     public ResponseEntity<?> registrationPost(@RequestBody User user) {
 
         Set<ConstraintViolation<User>> constraintViolations = validator.validate(user, Default.class);
+        Message message;
 
         if(constraintViolations.size() > 0){
             ArrayList<Message> messageArrayList = new ArrayList<>();
-
-            Message message;
 
             for(ConstraintViolation<User> userConstraintViolation : constraintViolations){
                 message = new Message();
@@ -58,12 +57,12 @@ public class RegistrationRestfulApi {
                 messageArrayList.add(message);
             }
 
-            return new ResponseEntity<List<Message>>( messageArrayList, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<List<Message>>( messageArrayList, HttpStatus.NOT_ACCEPTABLE);
         }
 
         if(userRepository.existsByEmail(user.getEmail())) {
-            Message message = new Message("Email is exist");
-            return new ResponseEntity<Message>(message, HttpStatus.BAD_REQUEST);
+            message = new Message("Email is exist");
+            return new ResponseEntity<Message>(message, HttpStatus.CONFLICT);
         }
 
         Role role = new Role();

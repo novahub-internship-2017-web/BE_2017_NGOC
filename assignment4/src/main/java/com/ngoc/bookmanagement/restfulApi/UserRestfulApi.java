@@ -29,13 +29,13 @@ public class UserRestfulApi {
     }
 
     @GetMapping(value = "/api/user/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
-    public ResponseEntity<?> userGet(@PathVariable("id") long id){
+    public ResponseEntity<?> getUser(@PathVariable("id") long id){
         User user = userRepository.findById(id).get();
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
     @PutMapping(value = "/api/user/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> userPut(@PathVariable("id") long id, @RequestBody User userParam){
+    public ResponseEntity<?> updateUserProfile(@PathVariable("id") long id, @RequestBody User userParam){
         User oldUser = userRepository.findById(id).get();
         oldUser.setFirstName(userParam.getFirstName());
         oldUser.setLastName(userParam.getLastName());
@@ -44,6 +44,26 @@ public class UserRestfulApi {
 
         Message message = new Message();
         message.setMessage("Update successfully");
+
+        return new ResponseEntity<Message>(message, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/api/user/{id}/lock", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> lockUser(@PathVariable("id") long id){
+        User userSelected = userRepository.findById(id).get();
+        userSelected.setEnabled(true);
+
+        Message message = new Message(("Lock user successfully"));
+
+        return new ResponseEntity<Message>(message, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/api/user/{id}/unlock", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> unlockUser(@PathVariable("id") long id){
+        User userSelected = userRepository.findById(id).get();
+        userSelected.setEnabled(false);
+
+        Message message = new Message(("Unlock user successfully"));
 
         return new ResponseEntity<Message>(message, HttpStatus.OK);
     }
