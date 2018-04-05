@@ -18,7 +18,7 @@ public class BookRestfulApi {
     private BookRepository bookRepository;
 
     @GetMapping(value = "/api/book", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> getAllBook(){
+    public ResponseEntity<?> getAllBooks(){
         List<Book> bookList = bookRepository.getAllByEnabled(true);
 
         return new ResponseEntity<List<Book>>(bookList, HttpStatus.OK);
