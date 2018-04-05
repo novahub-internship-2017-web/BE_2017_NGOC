@@ -15,7 +15,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 @RestController
-public class UserRestfulApi {
+public class UserRestfulAPI {
 
     @Autowired
     private UserRepository userRepository;

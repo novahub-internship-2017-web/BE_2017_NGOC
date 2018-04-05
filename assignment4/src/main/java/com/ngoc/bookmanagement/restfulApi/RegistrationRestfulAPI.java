@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-public class RegistrationRestfulApi {
+public class RegistrationRestfulAPI {
 
     @Autowired
     private RoleRepository roleRepository;

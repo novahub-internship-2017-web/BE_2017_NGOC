@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-public class BookRestfulApi {
+public class BookRestfulAPI {
 
     @Autowired
     private BookRepository bookRepository;

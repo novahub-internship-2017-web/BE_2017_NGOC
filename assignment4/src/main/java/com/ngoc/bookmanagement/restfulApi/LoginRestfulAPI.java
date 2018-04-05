@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
-public class LoginRestfulApi {
+public class LoginRestfulAPI {
 
     @Autowired
     private UserRepository userRepository;

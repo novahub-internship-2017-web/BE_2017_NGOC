@@ -33,7 +33,7 @@ public class Book {
     private boolean enabled = false;
 
     @Column(name = "user_id")
-    private boolean userId;
+    private long userId;
 
     public long getId() {
         return id;
@@ -91,7 +91,7 @@ public class Book {
         this.image = image;
     }
 
-    public boolean isEnabled() {
+    public boolean getEnabled() {
         return enabled;
     }
 
@@ -99,11 +99,11 @@ public class Book {
         this.enabled = enabled;
     }
 
-    public boolean isUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(boolean userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 

@@ -17,3 +17,8 @@ INSERT INTO `book-management`.`user` (`email`, `password`, `first_name`, `last_n
 INSERT INTO `book-management`.`book` (`title`, `author`, `description`, `created_at`, `updated_at`, `image`, `enabled`, `user_id`) VALUE ("title", "author", "description", now(), now(), "image", true, 1);
 INSERT INTO `book-management`.`book` (`title`, `author`, `description`, `created_at`, `updated_at`, `image`, `enabled`, `user_id`) VALUE ("title1", "author1", "description1", now(), now(), "image1", true, 1);
 INSERT INTO `book-management`.`book` (`title`, `author`, `description`, `created_at`, `updated_at`, `image`, `enabled`, `user_id`) VALUE ("title2", "author2", "description2", now(), now(), "image2", false , 1);
+
+// comments
+INSERT INTO `book-management`.`comment` (`book_id`, `user_id`, `created_at`, `updated_at`, `content`) VALUE (1 , 1, now(), now(), "sach hay");
+INSERT INTO `book-management`.`comment` (`book_id`, `user_id`, `created_at`, `updated_at`, `content`) VALUE (1 , 2, now(), now(), "sach hay tot ghe");
+INSERT INTO `book-management`.`comment` (`book_id`, `user_id`, `created_at`, `updated_at`, `content`) VALUE (1 , 1, now(), now(), "sach hay day");
