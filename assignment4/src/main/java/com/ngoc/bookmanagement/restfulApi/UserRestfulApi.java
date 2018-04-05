@@ -51,7 +51,9 @@ public class UserRestfulApi {
     @PutMapping(value = "/api/user/{id}/lock", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> lockUser(@PathVariable("id") long id){
         User userSelected = userRepository.findById(id).get();
-        userSelected.setEnabled(true);
+        userSelected.setEnabled(false);
+
+        userRepository.save(userSelected);
 
         Message message = new Message(("Lock user successfully"));
 
@@ -61,7 +63,9 @@ public class UserRestfulApi {
     @PutMapping(value = "/api/user/{id}/unlock", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> unlockUser(@PathVariable("id") long id){
         User userSelected = userRepository.findById(id).get();
-        userSelected.setEnabled(false);
+        userSelected.setEnabled(true);
+
+        userRepository.save(userSelected);
 
         Message message = new Message(("Unlock user successfully"));
 
