@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface BookRepository extends CrudRepository<Book, Long> {
     List<Book> getAllByEnabled(boolean enabled);
-    Book getById(long id);
     List<Book> getAllByEnabledAndImage(boolean enabled, String image);
+    boolean existsById(long id);
 }

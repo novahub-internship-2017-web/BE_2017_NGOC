@@ -34,19 +34,17 @@ public class LoginRestfulApi {
         if(bindingResult.hasErrors())
         {
             message.setMessage(bindingResult.getAllErrors().toString());
-            return new ResponseEntity<Message>(message, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Message>(message, HttpStatus.NOT_ACCEPTABLE);
         }
 
         String encryptingPassword = passwordEncryption.encryptPassword(user.getPassword());
 
         if (!userRepository.existsByEmailAndPassword(user.getEmail(), encryptingPassword)){
             message.setMessage("Email is not exist");
-            return new ResponseEntity<Message>(message, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Message>(message, HttpStatus.NO_CONTENT);
         }
 
         request.getSession().setAttribute("userLogin", userRepository.findByEmail(user.getEmail()));
-
-        System.out.println(((User) request.getSession().getAttribute("userLogin")).toString());
         message.setMessage("Login successfully");
         return new ResponseEntity<Message>(message, HttpStatus.OK);
     }

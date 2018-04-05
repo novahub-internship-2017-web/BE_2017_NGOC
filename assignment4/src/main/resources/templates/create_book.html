@@ -1,0 +1,58 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+        <form id="book_create_form">
+            <label>title : </label>
+            <input type="text" name="title" id="title"/> <br/>
+            <label>author : </label>
+            <input type="text" name="author" id="author"/> <br/>
+            <label>description : </label>
+            <input type="text" name="description" id="description"/> <br/>
+            <input type="submit" name="submit" value="update"/>
+        </form>
+    </body>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+
+    <script>
+        var rootUrl = window.location.origin;
+        var userId = [[${session.userLogin.id}]];
+
+        $('#book_create_form').submit(function(event) {
+            event.preventDefault();
+
+            callBookPostAPI();
+        });
+
+        function callBookPostAPI() {
+            var data = JSON.stringify({
+                "title" : this.title.value,
+                "author" : this.author.value,
+                "description" : this.description.value,
+                "user_id" : userId
+            });
+
+            $.ajax({
+                type: "POST",
+                data: data,
+                contentType: "application/json",
+                url: rootUrl + "/api/book",
+                dataType: 'json',
+                timeout: 10000,
+                success: function (dataReceive) {
+                    console.log("SUCCESS : ", dataReceive);
+                },
+                error: function (e) {
+                    console.log("ERROR : ", e.responseJSON.message);
+                }
+            });
+        }
+
+    </script>
+</html>

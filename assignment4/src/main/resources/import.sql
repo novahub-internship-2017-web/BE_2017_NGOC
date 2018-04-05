@@ -15,3 +15,5 @@ INSERT INTO `book-management`.`user` (`email`, `password`, `first_name`, `last_n
 
 // books
 INSERT INTO `book-management`.`book` (`title`, `author`, `description`, `created_at`, `updated_at`, `image`, `enabled`, `user_id`) VALUE ("title", "author", "description", now(), now(), "image", true, 1);
+INSERT INTO `book-management`.`book` (`title`, `author`, `description`, `created_at`, `updated_at`, `image`, `enabled`, `user_id`) VALUE ("title1", "author1", "description1", now(), now(), "image1", true, 1);
+INSERT INTO `book-management`.`book` (`title`, `author`, `description`, `created_at`, `updated_at`, `image`, `enabled`, `user_id`) VALUE ("title2", "author2", "description2", now(), now(), "image2", false , 1);
