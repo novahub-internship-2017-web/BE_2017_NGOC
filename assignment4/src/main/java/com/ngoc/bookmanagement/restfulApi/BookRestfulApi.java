@@ -41,6 +41,7 @@ public class BookRestfulApi {
 
     @PostMapping(value = "/api/book", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> createBook(@RequestBody Book bookParam){
+        // TODO: check title is exist
         bookParam.setCreatedAt(new Date());
         bookParam.setUpdatedAt(new Date());
         bookRepository.save(bookParam);
@@ -48,6 +49,46 @@ public class BookRestfulApi {
         Message message;
 
         message = new Message("Create a new book successfully");
+
+        return new ResponseEntity<Message>(message, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/api/book/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> updateBook(@PathVariable("id") long id, @RequestBody Book bookParam){
+        // TODO: check duplication title
+        Book bookIsSelected = bookRepository.findById(id).get();
+
+        bookIsSelected.setUpdatedAt(new Date());
+        bookIsSelected.setTitle(bookParam.getTitle());
+        bookIsSelected.setAuthor(bookParam.getAuthor());
+        bookIsSelected.setDescription(bookParam.getDescription());
+
+        bookRepository.save(bookIsSelected);
+
+        return new ResponseEntity<Book>(bookIsSelected, HttpStatus.OK);
+
+    }
+
+    @PutMapping(value = "/api/book/{id}/lock", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> lockBook(@PathVariable("id") long id){
+        Book bookIsSelected = bookRepository.findById(id).get();
+        bookIsSelected.setEnabled(false);
+        bookRepository.save(bookIsSelected);
+
+        Message message;
+        message = new Message("Lock book successfully");
+
+        return new ResponseEntity<Message>(message, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/api/book/{id}/unlock", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> unlockBook(@PathVariable("id") long id){
+        Book bookIsSelected = bookRepository.findById(id).get();
+        bookIsSelected.setEnabled(true);
+        bookRepository.save(bookIsSelected);
+
+        Message message;
+        message = new Message("Unlock book successfully");
 
         return new ResponseEntity<Message>(message, HttpStatus.OK);
     }
