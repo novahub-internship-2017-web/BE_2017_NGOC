@@ -2,6 +2,7 @@ package com.ngoc.bookmanagement.restfulApi;
 
 import com.ngoc.bookmanagement.model.User;
 import com.ngoc.bookmanagement.repository.UserRepository;
+import com.ngoc.bookmanagement.service.PasswordEncryption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,6 +19,9 @@ public class UserRestfulApi {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncryption passwordEncryption;
 
     private static final Validator validator;
 
@@ -39,6 +43,9 @@ public class UserRestfulApi {
         User oldUser = userRepository.findById(id).get();
         oldUser.setFirstName(userParam.getFirstName());
         oldUser.setLastName(userParam.getLastName());
+
+        if(userParam.getPassword() != null)
+            oldUser.setPassword(passwordEncryption.encryptPassword(userParam.getPassword()));
 
         userRepository.save(oldUser);
 

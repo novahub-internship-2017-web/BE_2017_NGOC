@@ -70,11 +70,22 @@
 
         function callUserPostApi(){
 
-            var data = JSON.stringify({
-                "email" : this.email.value,
-                "firstName" : this.firstName.value,
-                "lastName" : this.lastName.value
-            });
+            var data;
+
+            if ($("#checkbox_choice_change_password").is(":checked")){
+                data = JSON.stringify({
+                    "email" : this.email.value,
+                    "firstName" : this.firstName.value,
+                    "lastName" : this.lastName.value,
+                    "password" : this.password.value
+                });
+            } else {
+                data = JSON.stringify({
+                    "email": this.email.value,
+                    "firstName": this.firstName.value,
+                    "lastName": this.lastName.value
+                });
+            }
 
             if($("#user_profile_form").valid()) {
                 $.ajax({
