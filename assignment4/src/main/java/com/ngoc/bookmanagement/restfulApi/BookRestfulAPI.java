@@ -9,10 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Iterator;
+import java.util.*;
 
 @RestController
 public class BookRestfulAPI {
@@ -29,6 +26,22 @@ public class BookRestfulAPI {
         while (bookIterator.hasNext()){
             bookList.add(bookIterator.next());
         }
+
+        return new ResponseEntity<>(bookList, HttpStatus.OK);
+    }
+
+    // API get all books, which is enabled
+    @GetMapping(value = "/api/book/enabled", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> getAllBooksEnabled(){
+        List<Book> bookList = bookRepository.getAllByEnabled(true);
+
+        return new ResponseEntity<>(bookList, HttpStatus.OK);
+    }
+
+    // API get all books, which is disabled
+    @GetMapping(value = "/api/book/disabled", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> getAllBooksDisabled(){
+        List<Book> bookList = bookRepository.getAllByEnabled(false);
 
         return new ResponseEntity<>(bookList, HttpStatus.OK);
     }
