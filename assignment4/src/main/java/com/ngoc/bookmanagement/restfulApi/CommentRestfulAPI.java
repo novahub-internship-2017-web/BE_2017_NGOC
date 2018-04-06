@@ -1,22 +1,21 @@
 package com.ngoc.bookmanagement.restfulApi;
 
-import com.ngoc.bookmanagement.model.Book;
 import com.ngoc.bookmanagement.model.Comment;
 import com.ngoc.bookmanagement.model.Message;
-import com.ngoc.bookmanagement.repository.BookRepository;
+import com.ngoc.bookmanagement.model.User;
 import com.ngoc.bookmanagement.repository.CommentRepository;
+import com.ngoc.bookmanagement.validation.GroupCommentCreate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Configuration;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
+import javax.validation.*;
+import javax.validation.groups.Default;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 
 @RestController
@@ -53,14 +52,19 @@ public class CommentRestfulAPI {
     // API create new comment for book, which rely on bookId
     @PostMapping(value = "/api/book/{bookId}/comment", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> createComment(@PathVariable("bookId") long bookId, @RequestBody Comment commentParam){
-        // TODO : validate data
-        
+        Message message = new Message();
+        Set<ConstraintViolation<Comment>> constraintViolations = validator.validate(commentParam, GroupCommentCreate.class);
+
+        if(constraintViolations.size() > 0){
+            for(ConstraintViolation<Comment> commentConstraintViolation : constraintViolations){
+                message.getContent().put(commentConstraintViolation.getPropertyPath().toString(), commentConstraintViolation.getMessage());
+            }
+
+            return new ResponseEntity<>(message.getContent(), HttpStatus.NOT_ACCEPTABLE);
+        }
 
         commentParam.setCreatedAt(new Date());
         commentParam.setUpdatedAt(new Date());
-        commentParam.setBookId(bookId);
-        commentParam.setUserId(commentParam.getUserId());
-
         commentRepository.save(commentParam);
 
         return new ResponseEntity<>(commentParam, HttpStatus.OK);

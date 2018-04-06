@@ -4,6 +4,7 @@ import com.ngoc.bookmanagement.validation.GroupCommentCreate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
@@ -15,23 +16,23 @@ public class Comment {
     private long id;
 
     @Column(name = "book_id")
-    @NotEmpty
+    @NotNull(groups = {GroupCommentCreate.class})
     private long bookId;
 
     @Column(name = "user_id")
-    @NotEmpty
+    @NotNull(groups = {GroupCommentCreate.class})
     private long userId;
 
     @Column(name = "created_at")
-    @NotEmpty
+    @NotNull
     private Date createdAt;
 
     @Column(name = "updated_at")
-    @NotEmpty
+    @NotNull
     private Date updatedAt;
 
     @Column(name = "message")
-    @NotEmpty
+    @NotEmpty(groups = {GroupCommentCreate.class})
     private String message;
 
     public long getId() {
