@@ -2,7 +2,6 @@ package com.ngoc.bookmanagement.restfulApi;
 
 import com.ngoc.bookmanagement.model.Comment;
 import com.ngoc.bookmanagement.model.Message;
-import com.ngoc.bookmanagement.model.User;
 import com.ngoc.bookmanagement.repository.CommentRepository;
 import com.ngoc.bookmanagement.validation.GroupCommentCreate;
 import com.ngoc.bookmanagement.validation.GroupCommentUpdate;
@@ -13,11 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.*;
-import javax.validation.groups.Default;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-
 
 @RestController
 public class CommentRestfulAPI {
@@ -105,7 +102,4 @@ public class CommentRestfulAPI {
 
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
-
-
-
 }

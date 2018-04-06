@@ -18,6 +18,7 @@ public class BookRestfulAPI {
     @Autowired
     private BookRepository bookRepository;
 
+    // API get all books, which are enabled
     @GetMapping(value = "/api/book", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getAllBooks(){
         List<Book> bookList = bookRepository.getAllByEnabled(true);
@@ -25,17 +26,23 @@ public class BookRestfulAPI {
         return new ResponseEntity<>(bookList, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/api/book/id", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> getBook(@PathVariable("id") long id){
+    // API get a book
+    @GetMapping(value = "/api/book/{bookId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> getBook(@PathVariable("bookId") long bookId){
 
         Message message = new Message();
 
-        if(!bookRepository.existsById(id)) {
+        if(!bookRepository.existsBookById(bookId)) {
             message.getContent().put("message", "Book isn't exist");
             return new ResponseEntity<>(message.getContent(), HttpStatus.NOT_FOUND);
         }
 
-        Book bookIsGetted = bookRepository.findById(id).get();
+        if(!bookRepository.findById(bookId).get().getEnabled()){
+            message.getContent().put("message", "Book is blocked");
+            return new ResponseEntity<>(message.getContent(), HttpStatus.LOCKED);
+        }
+
+        Book bookIsGetted = bookRepository.findById(bookId).get();
         return new ResponseEntity<>(bookIsGetted, HttpStatus.OK);
     }
 
