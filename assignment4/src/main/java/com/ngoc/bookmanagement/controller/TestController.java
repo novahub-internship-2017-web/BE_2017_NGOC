@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.validation.Validator;
 
 @Controller
 public class TestController {
@@ -19,6 +20,7 @@ public class TestController {
         //System.out.println(bookRepository.getById(1));
         //System.out.println(bookRepository.getAllByEnabled(true));
         //System.out.println(bookRepository.getAllByEnabledAndImage(true, "image"));
+
         return "test";
     }
 

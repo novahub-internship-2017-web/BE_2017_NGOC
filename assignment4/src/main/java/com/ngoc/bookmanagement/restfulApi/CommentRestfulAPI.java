@@ -19,25 +19,25 @@ import java.util.List;
 public class CommentRestfulAPI {
 
     @Autowired
-    private BookRepository bookRepository;
-
-    @Autowired
     private CommentRepository commentRepository;
 
+    // API get a comment by id
     @GetMapping(value = "/api/comment/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getComment(@PathVariable("id") long id){
         Comment commentIsSelected = commentRepository.findById(id).get();
 
-        return new ResponseEntity<Comment>(commentIsSelected, HttpStatus.OK);
+        return new ResponseEntity<>(commentIsSelected, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/api/book/{id}/comment", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> getAllCommentOfBook(@PathVariable("id") long id){
-        List<Comment> commentList = commentRepository.getAllByBookId(id);
+    // API get all comments of book by bookId
+    @GetMapping(value = "/api/book/{bookId}/comment", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> getAllCommentOfBook(@PathVariable("bookId") long bookId){
+        List<Comment> commentList = commentRepository.getAllByBookId(bookId);
 
-        return new ResponseEntity<List<Comment>>(commentList, HttpStatus.OK);
+        return new ResponseEntity<>(commentList, HttpStatus.OK);
     }
 
+    // API create new comment for book, which rely on bookId
     @PostMapping(value = "/api/book/{bookId}/comment", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> createComment(@PathVariable("bookId") long bookId, @RequestBody Comment commentParam){
         // TODO : validate data
@@ -49,9 +49,10 @@ public class CommentRestfulAPI {
 
         commentRepository.save(commentParam);
 
-        return new ResponseEntity<Comment>(commentParam, HttpStatus.OK);
+        return new ResponseEntity<>(commentParam, HttpStatus.OK);
     }
 
+    // API update a comment, which rely on commentId
     @PutMapping(value = "/api/comment/{commentId}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> updateComment(@PathVariable("commentId") long commentId,
                                            @RequestBody Comment commentParam){
@@ -62,9 +63,10 @@ public class CommentRestfulAPI {
 
         commentRepository.save(commentIsSelected);
 
-        return new ResponseEntity<Comment>(commentIsSelected, HttpStatus.OK);
+        return new ResponseEntity<>(commentIsSelected, HttpStatus.OK);
     }
 
+    // API delete a comment, which rely on commentId
     @DeleteMapping(value = "/api/comment/{commentId}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> deleteComment(@PathVariable("commentId") long commentId){
         // TODO : validate data

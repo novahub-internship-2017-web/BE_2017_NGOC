@@ -1,6 +1,7 @@
 package com.ngoc.bookmanagement.restfulApi;
 
 import com.ngoc.bookmanagement.constant.RoleConstant;
+import com.ngoc.bookmanagement.model.Message;
 import com.ngoc.bookmanagement.model.Role;
 import com.ngoc.bookmanagement.model.User;
 import com.ngoc.bookmanagement.repository.RoleRepository;
@@ -10,15 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.*;
 import javax.validation.groups.Default;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -46,23 +42,19 @@ public class RegistrationRestfulAPI {
     public ResponseEntity<?> registrationPost(@RequestBody User user) {
 
         Set<ConstraintViolation<User>> constraintViolations = validator.validate(user, Default.class);
-        Message message;
+        Message message = new Message();
 
         if(constraintViolations.size() > 0){
-            ArrayList<Message> messageArrayList = new ArrayList<>();
-
             for(ConstraintViolation<User> userConstraintViolation : constraintViolations){
-                message = new Message();
-                message.setMessage(userConstraintViolation.getPropertyPath() + " : " + userConstraintViolation.getMessage());
-                messageArrayList.add(message);
+                message.getContent().put(userConstraintViolation.getPropertyPath().toString(), userConstraintViolation.getMessage());
             }
 
-            return new ResponseEntity<List<Message>>( messageArrayList, HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>(message.getContent(), HttpStatus.NOT_ACCEPTABLE);
         }
 
         if(userRepository.existsByEmail(user.getEmail())) {
-            message = new Message("Email is exist");
-            return new ResponseEntity<Message>(message, HttpStatus.CONFLICT);
+            message.getContent().put("message", "Email is exist");
+            return new ResponseEntity<>(message.getContent(), HttpStatus.CONFLICT);
         }
 
         Role role = new Role();
@@ -75,27 +67,7 @@ public class RegistrationRestfulAPI {
         user.setPassword(encryptingPassword);
         user = userRepository.save(user);
 
-        return new ResponseEntity<User>(user, HttpStatus.OK);
-
-    }
-
-    class Message{
-        private String message;
-
-        public String getMessage() {
-            return message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
-
-        Message() {
-        }
-
-        Message(String message) {
-            this.message = message;
-        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }
 

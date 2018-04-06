@@ -22,7 +22,7 @@ public class BookRestfulAPI {
     public ResponseEntity<?> getAllBooks(){
         List<Book> bookList = bookRepository.getAllByEnabled(true);
 
-        return new ResponseEntity<List<Book>>(bookList, HttpStatus.OK);
+        return new ResponseEntity<>(bookList, HttpStatus.OK);
     }
 
     @GetMapping(value = "/api/book/id", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -36,8 +36,7 @@ public class BookRestfulAPI {
         }
 
         Book bookIsGetted = bookRepository.findById(id).get();
-
-        return new ResponseEntity<Book>(bookIsGetted, HttpStatus.OK);
+        return new ResponseEntity<>(bookIsGetted, HttpStatus.OK);
     }
 
     @PostMapping(value = "/api/book", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -65,7 +64,7 @@ public class BookRestfulAPI {
 
         bookRepository.save(bookIsSelected);
 
-        return new ResponseEntity<Book>(bookIsSelected, HttpStatus.OK);
+        return new ResponseEntity<>(bookIsSelected, HttpStatus.OK);
 
     }
 
