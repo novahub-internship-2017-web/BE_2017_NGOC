@@ -9,8 +9,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
+import java.util.Iterator;
 
 @RestController
 public class BookRestfulAPI {
@@ -18,10 +20,15 @@ public class BookRestfulAPI {
     @Autowired
     private BookRepository bookRepository;
 
-    // API get all books, which are enabled
+    // API get all books
     @GetMapping(value = "/api/book", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getAllBooks(){
-        List<Book> bookList = bookRepository.getAllByEnabled(true);
+        Iterator<Book> bookIterator = bookRepository.findAll().iterator();
+
+        ArrayList<Book> bookList = new ArrayList<>();
+        while (bookIterator.hasNext()){
+            bookList.add(bookIterator.next());
+        }
 
         return new ResponseEntity<>(bookList, HttpStatus.OK);
     }
@@ -46,9 +53,9 @@ public class BookRestfulAPI {
         return new ResponseEntity<>(bookIsGetted, HttpStatus.OK);
     }
 
+    // API create a book
     @PostMapping(value = "/api/book", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> createBook(@RequestBody Book bookParam){
-        // TODO: check title is exist
         bookParam.setCreatedAt(new Date());
         bookParam.setUpdatedAt(new Date());
         bookRepository.save(bookParam);
