@@ -5,6 +5,7 @@ import com.ngoc.bookmanagement.model.Message;
 import com.ngoc.bookmanagement.model.User;
 import com.ngoc.bookmanagement.repository.CommentRepository;
 import com.ngoc.bookmanagement.validation.GroupCommentCreate;
+import com.ngoc.bookmanagement.validation.GroupCommentUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -74,7 +75,17 @@ public class CommentRestfulAPI {
     @PutMapping(value = "/api/comment/{commentId}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> updateComment(@PathVariable("commentId") long commentId,
                                            @RequestBody Comment commentParam){
-        // TODO : validate data
+        Message message = new Message();
+        Set<ConstraintViolation<Comment>> constraintViolations = validator.validate(commentParam, GroupCommentUpdate.class);
+
+        if(constraintViolations.size() > 0){
+            for(ConstraintViolation<Comment> commentConstraintViolation : constraintViolations){
+                message.getContent().put(commentConstraintViolation.getPropertyPath().toString(), commentConstraintViolation.getMessage());
+            }
+
+            return new ResponseEntity<>(message.getContent(), HttpStatus.NOT_ACCEPTABLE);
+        }
+
         Comment commentIsSelected = commentRepository.findById(commentId).get();
         commentIsSelected.setUpdatedAt(new Date());
         commentIsSelected.setMessage(commentParam.getMessage());

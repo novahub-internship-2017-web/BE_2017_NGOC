@@ -1,6 +1,7 @@
 package com.ngoc.bookmanagement.model;
 
 import com.ngoc.bookmanagement.validation.GroupCommentCreate;
+import com.ngoc.bookmanagement.validation.GroupCommentUpdate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -32,7 +33,7 @@ public class Comment {
     private Date updatedAt;
 
     @Column(name = "message")
-    @NotEmpty(groups = {GroupCommentCreate.class})
+    @NotEmpty(groups = {GroupCommentCreate.class, GroupCommentUpdate.class})
     private String message;
 
     public long getId() {
