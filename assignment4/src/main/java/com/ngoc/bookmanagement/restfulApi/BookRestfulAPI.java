@@ -79,9 +79,9 @@ public class BookRestfulAPI {
         return new ResponseEntity<>(message.getContent(), HttpStatus.OK);
     }
 
+    // API update book
     @PutMapping(value = "/api/book/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> updateBook(@PathVariable("id") long id, @RequestBody Book bookParam){
-        // TODO: check duplication title
         Book bookIsSelected = bookRepository.findById(id).get();
 
         bookIsSelected.setUpdatedAt(new Date());
@@ -95,6 +95,7 @@ public class BookRestfulAPI {
 
     }
 
+    // API update enable (false) of book - lock book
     @PutMapping(value = "/api/book/{id}/lock", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> lockBook(@PathVariable("id") long id){
         Book bookIsSelected = bookRepository.findById(id).get();
@@ -107,6 +108,7 @@ public class BookRestfulAPI {
         return new ResponseEntity<>(message.getContent(), HttpStatus.OK);
     }
 
+    // API update enable (true) of book - unlock book
     @PutMapping(value = "/api/book/{id}/unlock", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> unlockBook(@PathVariable("id") long id){
         Book bookIsSelected = bookRepository.findById(id).get();
