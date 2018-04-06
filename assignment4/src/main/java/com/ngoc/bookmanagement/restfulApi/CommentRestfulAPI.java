@@ -98,8 +98,6 @@ public class CommentRestfulAPI {
     // API delete a comment, which rely on commentId
     @DeleteMapping(value = "/api/comment/{commentId}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> deleteComment(@PathVariable("commentId") long commentId){
-        // TODO : validate data
-
         commentRepository.deleteById(commentId);
 
         Message message = new Message();
