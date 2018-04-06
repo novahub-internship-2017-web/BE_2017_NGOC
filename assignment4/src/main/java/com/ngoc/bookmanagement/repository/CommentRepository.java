@@ -7,4 +7,7 @@ import java.util.List;
 
 public interface CommentRepository extends CrudRepository<Comment, Long> {
     List<Comment> getAllByBookId(long bookId);
+    Comment getCommentById(long bookId);
+    boolean existsCommentById(long commentId);
+    long countById(long commentId);
 }

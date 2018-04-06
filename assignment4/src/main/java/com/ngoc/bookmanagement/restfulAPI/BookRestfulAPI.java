@@ -1,4 +1,4 @@
-package com.ngoc.bookmanagement.restfulApi;
+package com.ngoc.bookmanagement.restfulAPI;
 
 import com.ngoc.bookmanagement.model.Book;
 import com.ngoc.bookmanagement.model.Message;
@@ -47,12 +47,12 @@ public class BookRestfulAPI {
     }
 
     // API get a book
-    @GetMapping(value = "/api/book/{bookId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/api/book/bookId", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getBook(@PathVariable("bookId") long bookId){
 
         Message message = new Message();
 
-        if(!bookRepository.existsBookById(bookId)) {
+        if(!bookRepository.existsById(bookId)) {
             message.getContent().put("message", "Book isn't exist");
             return new ResponseEntity<>(message.getContent(), HttpStatus.NOT_FOUND);
         }

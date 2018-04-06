@@ -1,5 +1,6 @@
-package com.ngoc.bookmanagement.restfulApi;
+package com.ngoc.bookmanagement.restfulAPI;
 
+import com.ngoc.bookmanagement.model.Message;
 import com.ngoc.bookmanagement.model.User;
 import com.ngoc.bookmanagement.repository.UserRepository;
 import com.ngoc.bookmanagement.service.PasswordEncryption;
@@ -32,8 +33,10 @@ public class UserRestfulAPI {
         factory.close();
     }
 
+    // API get an User
     @GetMapping(value = "/api/user/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<?> getUser(@PathVariable("id") long id){
+
         User user = userRepository.findById(id).get();
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
@@ -50,9 +53,9 @@ public class UserRestfulAPI {
         userRepository.save(oldUser);
 
         Message message = new Message();
-        message.setMessage("Update successfully");
+        message.getContent().put("message", "Update successfully");
 
-        return new ResponseEntity<Message>(message, HttpStatus.OK);
+        return new ResponseEntity<>(message.getContent(), HttpStatus.OK);
     }
 
     @PutMapping(value = "/api/user/{id}/lock", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -62,40 +65,22 @@ public class UserRestfulAPI {
 
         userRepository.save(userSelected);
 
-        Message message = new Message(("Lock user successfully"));
+        Message message = new Message();
+        message.getContent().put("message", "Lock user successfully");
 
-        return new ResponseEntity<Message>(message, HttpStatus.OK);
+        return new ResponseEntity<>(message.getContent(), HttpStatus.OK);
     }
 
     @PutMapping(value = "/api/user/{id}/unlock", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> unlockUser(@PathVariable("id") long id){
         User userSelected = userRepository.findById(id).get();
         userSelected.setEnabled(true);
-
         userRepository.save(userSelected);
 
-        Message message = new Message(("Unlock user successfully"));
+        Message message = new Message();
+        message.getContent().put("message", "Unlock user successfully");
 
         return new ResponseEntity<Message>(message, HttpStatus.OK);
-    }
-
-    class Message{
-        private String message;
-
-        public String getMessage() {
-            return message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
-
-        Message() {
-        }
-
-        Message(String message) {
-            this.message = message;
-        }
     }
 
 }

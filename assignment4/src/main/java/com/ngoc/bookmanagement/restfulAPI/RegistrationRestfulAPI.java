@@ -1,25 +1,27 @@
-package com.ngoc.bookmanagement.restfulApi;
+package com.ngoc.bookmanagement.restfulAPI;
 
+import com.ngoc.bookmanagement.constant.RoleConstant;
 import com.ngoc.bookmanagement.model.Message;
+import com.ngoc.bookmanagement.model.Role;
 import com.ngoc.bookmanagement.model.User;
+import com.ngoc.bookmanagement.repository.RoleRepository;
 import com.ngoc.bookmanagement.repository.UserRepository;
 import com.ngoc.bookmanagement.service.PasswordEncryption;
-import com.ngoc.bookmanagement.validation.GroupUserLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.*;
+import javax.validation.groups.Default;
 import java.util.Set;
 
 @RestController
-public class LoginRestfulAPI {
+public class RegistrationRestfulAPI {
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -36,11 +38,11 @@ public class LoginRestfulAPI {
         factory.close();
     }
 
-    @PostMapping(value = "/api/login", produces = { MediaType.APPLICATION_JSON_VALUE })
-    public ResponseEntity<?> loginPost(@RequestBody User user,
-                                       HttpServletRequest request){
+    @PostMapping(value = "/api/registration", produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<?> registrationPost(@RequestBody User user) {
+
+        Set<ConstraintViolation<User>> constraintViolations = validator.validate(user, Default.class);
         Message message = new Message();
-        Set<ConstraintViolation<User>> constraintViolations = validator.validate(user, GroupUserLogin.class);
 
         if(constraintViolations.size() > 0){
             for(ConstraintViolation<User> userConstraintViolation : constraintViolations){
@@ -50,15 +52,23 @@ public class LoginRestfulAPI {
             return new ResponseEntity<>(message.getContent(), HttpStatus.NOT_ACCEPTABLE);
         }
 
-        String encryptingPassword = passwordEncryption.encryptPassword(user.getPassword());
-
-        if (!userRepository.existsByEmailAndPassword(user.getEmail(), encryptingPassword)){
-            message.getContent().put("message", "Email is not exist");
-            return new ResponseEntity<Message>(message, HttpStatus.NO_CONTENT);
+        if(userRepository.existsByEmail(user.getEmail())) {
+            message.getContent().put("message", "Email is exist");
+            return new ResponseEntity<>(message.getContent(), HttpStatus.CONFLICT);
         }
 
-        request.getSession().setAttribute("userLogin", userRepository.findByEmail(user.getEmail()));
-        message.getContent().put("message", "Login successfully");
-        return new ResponseEntity<Message>(message, HttpStatus.OK);
+        Role role = new Role();
+        role.setName(RoleConstant.ROLE_USER);
+        role = roleRepository.save(role);
+
+        String encryptingPassword = passwordEncryption.encryptPassword(user.getPassword());
+
+        user.setRoleId(role.getId());
+        user.setPassword(encryptingPassword);
+        user = userRepository.save(user);
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }
+
+

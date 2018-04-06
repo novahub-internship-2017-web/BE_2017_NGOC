@@ -1,4 +1,4 @@
-package com.ngoc.bookmanagement.restfulApi;
+package com.ngoc.bookmanagement.restfulAPI;
 
 import com.ngoc.bookmanagement.model.Message;
 import org.springframework.http.HttpStatus;
