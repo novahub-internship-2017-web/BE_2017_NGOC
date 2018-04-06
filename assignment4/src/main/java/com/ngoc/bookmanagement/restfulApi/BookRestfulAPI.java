@@ -1,6 +1,7 @@
 package com.ngoc.bookmanagement.restfulApi;
 
 import com.ngoc.bookmanagement.model.Book;
+import com.ngoc.bookmanagement.model.Message;
 import com.ngoc.bookmanagement.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,11 +28,11 @@ public class BookRestfulAPI {
     @GetMapping(value = "/api/book/id", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getBook(@PathVariable("id") long id){
 
-        Message message;
+        Message message = new Message();
 
         if(!bookRepository.existsById(id)) {
-            message = new Message("Book isn't exist");
-            return new ResponseEntity<Message>(message,HttpStatus.NOT_FOUND);
+            message.getContent().put("message", "Book isn't exist");
+            return new ResponseEntity<>(message.getContent(), HttpStatus.NOT_FOUND);
         }
 
         Book bookIsGetted = bookRepository.findById(id).get();
@@ -46,11 +47,10 @@ public class BookRestfulAPI {
         bookParam.setUpdatedAt(new Date());
         bookRepository.save(bookParam);
 
-        Message message;
+        Message message = new Message();
+        message.getContent().put("message", "Create a new book successfully");
 
-        message = new Message("Create a new book successfully");
-
-        return new ResponseEntity<Message>(message, HttpStatus.OK);
+        return new ResponseEntity<>(message.getContent(), HttpStatus.OK);
     }
 
     @PutMapping(value = "/api/book/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -75,10 +75,10 @@ public class BookRestfulAPI {
         bookIsSelected.setEnabled(false);
         bookRepository.save(bookIsSelected);
 
-        Message message;
-        message = new Message("Lock book successfully");
+        Message message = new Message();
+        message.getContent().put("message", "Lock book successfully");
 
-        return new ResponseEntity<Message>(message, HttpStatus.OK);
+        return new ResponseEntity<>(message.getContent(), HttpStatus.OK);
     }
 
     @PutMapping(value = "/api/book/{id}/unlock", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -87,28 +87,9 @@ public class BookRestfulAPI {
         bookIsSelected.setEnabled(true);
         bookRepository.save(bookIsSelected);
 
-        Message message;
-        message = new Message("Unlock book successfully");
+        Message message = new Message();
+        message.getContent().put("message", "Unlock book successfully");
 
-        return new ResponseEntity<Message>(message, HttpStatus.OK);
-    }
-
-    class Message{
-        private String message;
-
-        public String getMessage() {
-            return message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
-
-        public Message() {
-        }
-
-        Message(String message) {
-            this.message = message;
-        }
+        return new ResponseEntity<>(message.getContent(), HttpStatus.OK);
     }
 }

@@ -1,5 +1,6 @@
 package com.ngoc.bookmanagement.restfulApi;
 
+import com.ngoc.bookmanagement.model.Message;
 import com.ngoc.bookmanagement.model.User;
 import com.ngoc.bookmanagement.repository.UserRepository;
 import com.ngoc.bookmanagement.service.PasswordEncryption;
@@ -31,41 +32,22 @@ public class LoginRestfulAPI {
                                        HttpServletRequest request){
         Message message = new Message();
 
-        if(bindingResult.hasErrors())
-        {
-            message.setMessage(bindingResult.getAllErrors().toString());
-            return new ResponseEntity<Message>(message, HttpStatus.NOT_ACCEPTABLE);
-        }
+        // TODO : replace this code by validate group
+//        if(bindingResult.hasErrors())
+//        {
+//            message.setMessage(bindingResult.getAllErrors().toString());
+//            return new ResponseEntity<Message>(message, HttpStatus.NOT_ACCEPTABLE);
+//        }
 
         String encryptingPassword = passwordEncryption.encryptPassword(user.getPassword());
 
         if (!userRepository.existsByEmailAndPassword(user.getEmail(), encryptingPassword)){
-            message.setMessage("Email is not exist");
+            message.getContent().put("message", "Email is not exist");
             return new ResponseEntity<Message>(message, HttpStatus.NO_CONTENT);
         }
 
         request.getSession().setAttribute("userLogin", userRepository.findByEmail(user.getEmail()));
-        message.setMessage("Login successfully");
+        message.getContent().put("message", "Login successfully");
         return new ResponseEntity<Message>(message, HttpStatus.OK);
     }
-
-    class Message{
-        private String message;
-
-        public String getMessage() {
-            return message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
-
-        public Message() {
-        }
-
-        Message(String message) {
-            this.message = message;
-        }
-    }
-
 }

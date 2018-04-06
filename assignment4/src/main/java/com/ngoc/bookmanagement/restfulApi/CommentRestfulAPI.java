@@ -2,6 +2,7 @@ package com.ngoc.bookmanagement.restfulApi;
 
 import com.ngoc.bookmanagement.model.Book;
 import com.ngoc.bookmanagement.model.Comment;
+import com.ngoc.bookmanagement.model.Message;
 import com.ngoc.bookmanagement.repository.BookRepository;
 import com.ngoc.bookmanagement.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,28 +70,12 @@ public class CommentRestfulAPI {
         // TODO : validate data
         commentRepository.deleteById(commentId);
 
-        Message message = new Message("Delete comment successfully");
+        Message message = new Message();
+        message.getContent().put("message", "Delete comment successfully");
 
-        return new ResponseEntity<Message>(message, HttpStatus.OK);
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
-    class Message{
-        private String message;
 
-        public String getMessage() {
-            return message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
-
-        public Message() {
-        }
-
-        Message(String message) {
-            this.message = message;
-        }
-    }
 
 }
