@@ -11,6 +11,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Configuration;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +24,15 @@ public class CommentRestfulAPI {
 
     @Autowired
     private CommentRepository commentRepository;
+
+    private static final Validator validator;
+
+    static {
+        Configuration<?> config = Validation.byDefaultProvider().configure();
+        ValidatorFactory factory = config.buildValidatorFactory();
+        validator = factory.getValidator();
+        factory.close();
+    }
 
     // API get a comment by id
     @GetMapping(value = "/api/comment/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -41,6 +54,7 @@ public class CommentRestfulAPI {
     @PostMapping(value = "/api/book/{bookId}/comment", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> createComment(@PathVariable("bookId") long bookId, @RequestBody Comment commentParam){
         // TODO : validate data
+        
 
         commentParam.setCreatedAt(new Date());
         commentParam.setUpdatedAt(new Date());
@@ -59,7 +73,7 @@ public class CommentRestfulAPI {
         // TODO : validate data
         Comment commentIsSelected = commentRepository.findById(commentId).get();
         commentIsSelected.setUpdatedAt(new Date());
-        commentIsSelected.setContent(commentParam.getContent());
+        commentIsSelected.setMessage(commentParam.getMessage());
 
         commentRepository.save(commentIsSelected);
 
@@ -70,6 +84,7 @@ public class CommentRestfulAPI {
     @DeleteMapping(value = "/api/comment/{commentId}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> deleteComment(@PathVariable("commentId") long commentId){
         // TODO : validate data
+
         commentRepository.deleteById(commentId);
 
         Message message = new Message();

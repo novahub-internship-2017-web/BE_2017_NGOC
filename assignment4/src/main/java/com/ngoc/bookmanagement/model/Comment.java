@@ -1,6 +1,9 @@
 package com.ngoc.bookmanagement.model;
 
+import com.ngoc.bookmanagement.validation.GroupCommentCreate;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 
 @Entity
@@ -12,19 +15,24 @@ public class Comment {
     private long id;
 
     @Column(name = "book_id")
+    @NotEmpty
     private long bookId;
 
     @Column(name = "user_id")
+    @NotEmpty
     private long userId;
 
     @Column(name = "created_at")
+    @NotEmpty
     private Date createdAt;
 
     @Column(name = "updated_at")
+    @NotEmpty
     private Date updatedAt;
 
-    @Column(name = "content")
-    private String content;
+    @Column(name = "message")
+    @NotEmpty
+    private String message;
 
     public long getId() {
         return id;
@@ -66,11 +74,23 @@ public class Comment {
         this.updatedAt = updatedAt;
     }
 
-    public String getContent() {
-        return content;
+    public String getMessage() {
+        return message;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", bookId=" + bookId +
+                ", userId=" + userId +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", message='" + message + '\'' +
+                '}';
     }
 }
