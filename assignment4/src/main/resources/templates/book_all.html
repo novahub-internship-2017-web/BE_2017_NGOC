@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+
+    <div id="search_book">
+        <input type="text" id="text_search"/>
+        <button id="button_search">Search</button>
+    </div>
+
+    <div id="body">
+        <table id="books_list" style="display: none">
+            <tr>
+                <th>id</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Created at</th>
+                <th>Updated at</th>
+            </tr>
+        </table>
+        <div id="div_book_not_found" style="display: none">
+            <p>Book not found</p>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+
+    <script>
+        var url = window.location.href;
+        var wordsSearch;
+        $("#button_search").click(function () {
+             wordsSearch = $("#text_search").val();
+
+            searchBooks(wordsSearch);
+        });
+
+        function searchBooks(wordsSearch){
+            $.ajax({
+                type: "GET",
+                contentType: "application/json",
+                url: window.location.origin + "/api/book/search?wordsSearch=" + wordsSearch,
+                dataType: 'json',
+                timeout: 10000,
+                success: function (dataReceive) {
+                    if(dataReceive.length == 0){
+                        showMessageNotFound();
+                    } else {
+                        showBooksResult(dataReceive);
+                    }
+                },
+                error: function (e) {
+                    console.log("ERROR : ", e.responseJSON.message);
+                }
+            });
+        }
+
+        function showMessageNotFound(){
+            $("#books_list").hide();
+            $("#div_book_not_found").show();
+        }
+
+        function showBooksResult(dataReceive){
+            $("#books_list").show();
+            $("#div_book_not_found").hide();
+
+            $(".tr_a_book").remove();
+
+            table_books_list = document.getElementById("books_list");
+
+            var bookIndex;
+            for(bookIndex = 0; bookIndex < dataReceive.length; bookIndex++){
+                tr_a_book = document.createElement("tr");
+                tr_a_book.id = "tr_a_book_" + bookIndex;
+                tr_a_book.className = "tr_a_book";
+                table_books_list.appendChild(tr_a_book);
+
+                td_a_book_id = document.createElement("td");
+                td_a_book_id.className = "td_a_book_id";
+                td_a_book_id.id = "td_a_book_id_" + bookIndex;
+                td_a_book_id.innerText = dataReceive[bookIndex].id;
+                tr_a_book.appendChild(td_a_book_id);
+
+                td_a_book_title = document.createElement("td");
+                td_a_book_title.className = "td_a_book_title";
+                td_a_book_title.id = "td_a_book_title_" + bookIndex;
+                td_a_book_title.innerText = dataReceive[bookIndex].title;
+                tr_a_book.appendChild(td_a_book_title);
+
+                td_a_book_author = document.createElement("td");
+                td_a_book_author.className = "td_a_book_author";
+                td_a_book_author.id = "td_a_book_author_" + bookIndex;
+                td_a_book_author.innerText = dataReceive[bookIndex].author;
+                tr_a_book.appendChild(td_a_book_author);
+
+                td_a_book_created_at = document.createElement("td");
+                td_a_book_created_at.className = "td_a_book_created_at";
+                td_a_book_created_at.id = "td_a_book_created_at_" + bookIndex;
+                td_a_book_created_at.innerText = dataReceive[bookIndex].createdAt;
+                tr_a_book.appendChild(td_a_book_created_at);
+
+                td_a_book_updated_at = document.createElement("td");
+                td_a_book_updated_at.className = "td_a_book_updated_at";
+                td_a_book_updated_at.id = "td_a_book_updated_at_" + bookIndex;
+                td_a_book_updated_at.innerText = dataReceive[bookIndex].updatedAt;
+                tr_a_book.appendChild(td_a_book_updated_at);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function(){
+            searchBooks("");
+        });
+    </script>
+
+</body>
+</html>

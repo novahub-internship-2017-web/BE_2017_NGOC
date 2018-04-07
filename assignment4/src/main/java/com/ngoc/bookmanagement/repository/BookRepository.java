@@ -7,5 +7,7 @@ import java.util.List;
 
 public interface BookRepository extends CrudRepository<Book, Long> {
     List<Book> getAllByEnabled(boolean enabled);
-    List<Book> getAllByEnabledAndImage(boolean enabled, String image);
+    List<Book> getAllByUserId(long userId);
+    List<Book> getAllByUserIdAndEnabled(long userId, boolean enabled);
+    List<Book> getAllByAuthorLikeOrTitleLike(String author, String title);
 }

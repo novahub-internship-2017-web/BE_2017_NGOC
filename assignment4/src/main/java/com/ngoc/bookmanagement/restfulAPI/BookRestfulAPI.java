@@ -17,6 +17,15 @@ public class BookRestfulAPI {
     @Autowired
     private BookRepository bookRepository;
 
+    // API get all books like author or title
+    @GetMapping(value = "/api/book/search", produces = {MediaType.APPLICATION_JSON_VALUE}, params = {"wordsSearch"})
+    public ResponseEntity<?> getAllBooks(@RequestParam("wordsSearch") String wordSearch){
+        wordSearch = "%" + wordSearch + "%";
+
+        List<Book> bookList = bookRepository.getAllByAuthorLikeOrTitleLike(wordSearch, wordSearch);
+        return new ResponseEntity<>(bookList, HttpStatus.OK);
+    }
+
     // API get all books
     @GetMapping(value = "/api/book", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getAllBooks(){

@@ -11,4 +11,10 @@ public class BookController {
         return "create_book";
     }
 
+    @GetMapping(value = "/books")
+    public String allBooksGet(){
+        return "book_all";
+    }
+
+
 }
