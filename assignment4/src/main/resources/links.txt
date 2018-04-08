@@ -1,0 +1,25 @@
+/login
+/registration
+
+## API book
+# API get all books like author or title
+/api/book/search - GET
+# API get all books
+/api/book - GET
+# API get all books, which is enabled
+/api/book/enabled - GET
+# API get all books, which is diabled
+/api/book/disabled - GET
+# API get a book
+/api/book/{bookId} - GET
+# API create a book - POST
+/api/book
+# API update a book - PUT
+/api/book/{bookId}
+# API update enable {false} of a book (lock book) - PUT
+/api/bool/{bookId}/lock
+# API update enable {true} of a book (unlock book) - PUT
+/api/book/{bookId}/unlock
+
+## API USER
+#

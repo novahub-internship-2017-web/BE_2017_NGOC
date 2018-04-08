@@ -12,7 +12,8 @@ import javax.validation.Configuration;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-@SpringBootApplication
+
+@SpringBootApplication(scanBasePackages = "com.ngoc.bookmanagement")
 public class BookmanagementApplication {
 
     public static void main(String[] args) {

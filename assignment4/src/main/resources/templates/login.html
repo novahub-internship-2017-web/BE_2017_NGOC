@@ -7,16 +7,51 @@
 </head>
 <body>
     <p id="message"></p>
-    <form id="login-form">
-        <label>Email : </label>
-        <input type="text" name="email" id="email"/> <br/>
-        <label>Password : </label>
-        <input type="password" name="password" id="password"/> <br/>
-        <input type="submit" name="submit" value="Login"/>
-    </form>
+    <div class="container">
+        <form id="login-form" class="form-horizontal">
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <h2 style="text-align: center">Please Login</h2>
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label >Email : </label>
+                        <input type="text" name="email" id="email" class="form-control"/>
+                    </div>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label >Password : </label>
+                        <input type="password" name="password" id="password" class="form-control"/>
+                    </div>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="submit" name="submit" value="Login" class="form-control btn btn-primary"/>
+                    </div>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+        </form>
+    </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
     <script>
         $(document).ready(function(s) {
@@ -61,6 +96,7 @@
                     dataType: 'json',
                     timeout: 10000,
                     success: function (data) {
+                        console.log(data);
                         if(data.name == "ADMIN"){
                             window.location.replace(window.location.origin + "/admin/home");
                         } else {
