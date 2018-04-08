@@ -52,20 +52,24 @@
                 "password" : this.password.value,
             });
 
-            if($("#login-form").valid() == true) {
+            if($("#login-form").valid() ) {
                 $.ajax({
                     type: "POST",
                     contentType: "application/json",
-                    url: "/api/login",
+                    url: window.location.origin + "/api/login",
                     data: data,
                     dataType: 'json',
                     timeout: 10000,
                     success: function (data) {
-                        window.location.replace("/test");
+                        if(data.name == "ADMIN"){
+                            window.location.replace(window.location.origin + "/admin/home");
+                        } else {
+                            window.location.replace(window.location.origin + "/user/home");
+                        }
                     },
                     error: function (e) {
-                        console.log("ERROR : ", e.responseJSON.message);
-                        $("#message").text(e.responseJSON.message);
+                        console.log("ERROR : ", e);
+                        $("#message").text(e);
                     }
 
                     //TODO : handle message when success and error

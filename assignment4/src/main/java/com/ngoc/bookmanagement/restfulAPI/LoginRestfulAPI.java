@@ -1,7 +1,9 @@
 package com.ngoc.bookmanagement.restfulAPI;
 
 import com.ngoc.bookmanagement.model.Message;
+import com.ngoc.bookmanagement.model.Role;
 import com.ngoc.bookmanagement.model.User;
+import com.ngoc.bookmanagement.repository.RoleRepository;
 import com.ngoc.bookmanagement.repository.UserRepository;
 import com.ngoc.bookmanagement.service.PasswordEncryption;
 import com.ngoc.bookmanagement.validation.GroupUserLogin;
@@ -25,6 +27,9 @@ public class LoginRestfulAPI {
 
     @Autowired
     private PasswordEncryption passwordEncryption;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     private static final Validator validator;
 
@@ -56,8 +61,10 @@ public class LoginRestfulAPI {
             return new ResponseEntity<Message>(message, HttpStatus.NO_CONTENT);
         }
 
-        request.getSession().setAttribute("userLogin", userRepository.findByEmail(user.getEmail()));
-        message.getContent().put("message", "Login successfully");
-        return new ResponseEntity<Message>(message, HttpStatus.OK);
+        User userLogin = userRepository.findByEmail(user.getEmail());
+        Role role = roleRepository.findById(userLogin.getRoleId()).get();
+        request.getSession().setAttribute("userLogin", userLogin);
+
+        return new ResponseEntity<>(role, HttpStatus.OK);
     }
 }

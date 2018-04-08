@@ -10,4 +10,6 @@ public class UserController {
     public String userGet(){
         return "user_profile";
     }
+
+
 }
