@@ -1,5 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>User home</title>
@@ -107,6 +108,26 @@
         </div>
     </div> 
 
+    <div class="modal" id="bookViewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h2>Title : </h2>
+                    <p id="titleBookView"></p>
+                    <h2>Author : </h2>
+                    <p id="authorBookView"></p>
+                    <h2>Description : </h2>
+                    <p id="descriptionBookView"></p>
+                </div>
+            </div>
+        </div>
+    </div> 
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -128,6 +149,7 @@
         var url = window.location.origin + "/api/book";
         var wordsSearch;
         var userId = [[${session.userLogin.id}]];
+        var bookList;
 
         $("#btnAll").click(function(){
            url = window.location.origin + "/api/book";
@@ -169,6 +191,7 @@
         }
 
         function showBooksResult(dataReceive){
+            bookList = dataReceive;
             $("#books_list").show();
             $("#div_book_not_found").hide();
 
@@ -190,9 +213,13 @@
                 tr_a_book.appendChild(th_a_book_id);
 
                 td_a_book_title = document.createElement("td");
-                // td_a_book_title.className = "td_a_book_title";
-                // td_a_book_title.id = "td_a_book_title_" + bookIndex;
-                td_a_book_title.innerText = dataReceive[bookIndex].title;
+                a_a_book_title = document.createElement("a");
+                a_a_book_title.id = bookIndex;
+                a_a_book_title.innerText = dataReceive[bookIndex].title;
+                a_a_book_title.setAttribute("data-toggle", "modal");
+                a_a_book_title.setAttribute("href", "#bookViewModal");
+                a_a_book_title.setAttribute("onClick", "onClickLinkBook(this.id)");
+                td_a_book_title.appendChild(a_a_book_title);
                 tr_a_book.appendChild(td_a_book_title);
 
                 td_a_book_author = document.createElement("td");
@@ -215,85 +242,91 @@
             }
         }
 
+        function onClickLinkBook(bookIndex)
+        {
+            $("#titleBookView").text(bookList[bookIndex].title);
+            $("#authorBookView").text(bookList[bookIndex].author);
+            $("#descriptionBookView").text(bookList[bookIndex].description);
+        }
+
         document.addEventListener("DOMContentLoaded", function(){
             searchBooks("");
         });
     </script>
 
     <script>
-            const BTN_ADD_BOOK_PRESSED = 3;
-            const BTN_EDIT_BOOK_PRESSED = 4;
-            var userId = [[${session.userLogin.id}]];
+        const BTN_ADD_BOOK_PRESSED = 3;
+        const BTN_EDIT_BOOK_PRESSED = 4;
+        var userId = [[${session.userLogin.id}]];
 
-            var dataRequest, state, urlRequest,typeRequest;
+        var dataRequest, state, urlRequest,typeRequest;
 
-            $("#btnEdit").click( function (event){
-                $("#form-title").text("Edit book");
-                $("#btn-action").val("Update");
-                urlRequest = window.location.origin + "/api/book/1";
-                state = BTN_EDIT_BOOK_PRESSED;
-                typeRequest = "PUT";
-            });
+        $("#btnEdit").click( function (event){
+            $("#form-title").text("Edit book");
+            $("#btn-action").val("Update");
+            urlRequest = window.location.origin + "/api/book/1";
+            state = BTN_EDIT_BOOK_PRESSED;
+            typeRequest = "PUT";
+        });
 
-            $("#btnAdd").click( function (event) {
-               $("#form-title").text("Create a new book");
-               $("#btn-action").val("Create");
-               urlRequest = window.location.origin + "/api/book";
-               state = BTN_ADD_BOOK_PRESSED;
-               typeRequest = "POST";
-            });
+        $("#btnAdd").click( function (event) {
+           $("#form-title").text("Create a new book");
+           $("#btn-action").val("Create");
+           urlRequest = window.location.origin + "/api/book";
+           state = BTN_ADD_BOOK_PRESSED;
+           typeRequest = "POST";
+        });
 
-            $("#book-form").submit(function(event) {
-                event.preventDefault();
+        $("#book-form").submit(function(event) {
+            event.preventDefault();
 
-                if(state == BTN_ADD_BOOK_PRESSED || state == BTN_EDIT_BOOK_PRESSED){
-                    dataRequest = JSON.stringify({
-                        "title" : this.title.value,
-                        "author" : this.author.value,
-                        "description" : this.description.value,
-                        "user_id" : userId
-                    });
-                }
-                
-                if($("#book-form").valid()){
-                    $.ajax({
-                        type : typeRequest,
-                        contentType: "application/json",
-                        url: urlRequest,
-                        data: dataRequest,
-                        dataType: 'json',
-                        timeout: 10000,
-                        success: function (dataReceive) {
-                            console.log("SUCCESS : " + dataReceive);
-                        },
-                        error: function (e) {
-                            console.log("ERROR : " + dataReceive);
-                        }
-                    });
-                }
-            });
+            if(state == BTN_ADD_BOOK_PRESSED || state == BTN_EDIT_BOOK_PRESSED){
+                dataRequest = JSON.stringify({
+                    "title" : this.title.value,
+                    "author" : this.author.value,
+                    "description" : this.description.value,
+                    "user_id" : userId
+                });
+            }
             
-            $(document).ready(function(s) {
-                $("#book-form").validate({
-                    rules:{
-                        title : {
-                            required: true,
-                        },
-                        author: {
-                            required: true,
-                        }
+            if($("#book-form").valid()){
+                $.ajax({
+                    type : typeRequest,
+                    contentType: "application/json",
+                    url: urlRequest,
+                    data: dataRequest,
+                    dataType: 'json',
+                    timeout: 10000,
+                    success: function (dataReceive) {
+                        console.log("SUCCESS : " + dataReceive);
                     },
-                    messages :{
-                        title : {
-                            required: "Title is not empty",
-                        },
-                        author: {
-                            required: "Author is not empty",
-                        }
+                    error: function (e) {
+                        console.log("ERROR : " + dataReceive);
                     }
                 });
+            }
+        });
+        
+        $(document).ready(function(s) {
+            $("#book-form").validate({
+                rules:{
+                    title : {
+                        required: true,
+                    },
+                    author: {
+                        required: true,
+                    }
+                },
+                messages :{
+                    title : {
+                        required: "Title is not empty",
+                    },
+                    author: {
+                        required: "Author is not empty",
+                    }
+                }
             });
-
-        </script>
+        });
+    </script>
 </body>
 </html>

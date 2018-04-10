@@ -26,13 +26,13 @@ INSERT INTO `user` (`email`, `password`, `first_name`, `last_name`, `enabled`, `
 INSERT INTO `user` (`email`, `password`, `first_name`, `last_name`, `enabled`, `avatar`, `role_id`) VALUE ("user@gmail.com", "16F78A7D6317F102BBD95FC9A4F3FF2E3249287690B8BDAD6B7810F82B34ACE3", "firstname", "lastname", false, null, 2);
 
 // books
-INSERT INTO `book` (`title`, `author`, `description`, `created_at`, `updated_at`, `image`, `enabled`, `user_id`) VALUE ("title_1", "tình yêu màu n", "description", now(), now(), "image", true, 1);
-INSERT INTO `book` (`title`, `author`, `description`, `created_at`, `updated_at`, `image`, `enabled`, `user_id`) VALUE ("title1_1", "nguyen anh dung", "description1", now(), now(), "image1", true, 1);
-INSERT INTO `book` (`title`, `author`, `description`, `created_at`, `updated_at`, `image`, `enabled`, `user_id`) VALUE ("title2_1", "author2", "description2", now(), now(), "image2", false , 1);
+INSERT INTO `book` (`title`, `author`, `description`, `created_at`, `updated_at`, `image`, `enabled`, `user_id`) VALUE ("title_1", "xuan dieu", "description", now(), now(), "image", true, 1);
+INSERT INTO `book` (`title`, `author`, `description`, `created_at`, `updated_at`, `image`, `enabled`, `user_id`) VALUE ("title1_1", "nguyen nhat anh", "description1", now(), now(), "image1", true, 1);
+INSERT INTO `book` (`title`, `author`, `description`, `created_at`, `updated_at`, `image`, `enabled`, `user_id`) VALUE ("title2_1", "han mac tu", "description2", now(), now(), "image2", false , 1);
 
-INSERT INTO `book` (`title`, `author`, `description`, `created_at`, `updated_at`, `image`, `enabled`, `user_id`) VALUE ("title_2", "tình yêu màu n", "description", now(), now(), "image", true, 2);
-INSERT INTO `book` (`title`, `author`, `description`, `created_at`, `updated_at`, `image`, `enabled`, `user_id`) VALUE ("title1_2", "nguyen anh dung", "description1", now(), now(), "image1", true, 2);
-INSERT INTO `book` (`title`, `author`, `description`, `created_at`, `updated_at`, `image`, `enabled`, `user_id`) VALUE ("title2_2", "author2", "description2", now(), now(), "image2", false , 2);
+INSERT INTO `book` (`title`, `author`, `description`, `created_at`, `updated_at`, `image`, `enabled`, `user_id`) VALUE ("title_2", "chi dau", "description", now(), now(), "image", true, 2);
+INSERT INTO `book` (`title`, `author`, `description`, `created_at`, `updated_at`, `image`, `enabled`, `user_id`) VALUE ("title1_2", "chi pheo", "description1", now(), now(), "image1", true, 2);
+INSERT INTO `book` (`title`, `author`, `description`, `created_at`, `updated_at`, `image`, `enabled`, `user_id`) VALUE ("title2_2", "ngo tat to", "description2", now(), now(), "image2", false , 2);
 
 
 // comments
