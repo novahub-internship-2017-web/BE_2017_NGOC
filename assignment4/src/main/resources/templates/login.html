@@ -25,13 +25,7 @@
             </ul>
         </div>
     </nav>
-
-    <p id="message"></p>
-    
-
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-        Login
-    </button>
+  
 
     <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -67,7 +61,7 @@
                             <input type="text" name="lastName" id="lastName" class="form-control"/>
                         </div>
                         <div class="form-group" style="margin-top: 15px">
-                            <input type="submit" name="submit" value="Sign up" id="btn-action" class="btn btn-primary form-control"/>
+                            <input type="submit" name="submit" id="btn-action" class="btn btn-primary form-control"/>
                         </div>
                     </form>
                 </div>
@@ -80,7 +74,24 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
+    <style type="text/css">
+        .form-group {
+            margin-bottom: 0px;
+        }
+
+        label.error {
+            color: red;
+            font-style: italic;
+            font-size: 12px;
+        }
+    </style>
+
     <script>
+        const BTN_SIGN_UP_PRESSED = 1;
+        const BTN_SIGN_IN_PRESSED = 2;
+
+        var state, urlRequest;
+
         $("#btnSignUp").click( function(envet){
             $("#form-title").text("Please Sign Up");
             $("#repassword").prop("disabled", false);
@@ -89,7 +100,15 @@
             $("#group-repassword").show();
             $("#group-firstname").show();
             $("#group-lastname").show();
-            $("#btn-action").text("Sign up");
+            $("#btn-action").val("Sign up");
+
+            if(state != BTN_SIGN_UP_PRESSED){
+                clearForm();
+                cleanErrorMessages();
+            }
+
+            state = BTN_SIGN_UP_PRESSED;
+            urlRequest = window.location.origin + "/api/registration";
         });
 
         $("#btnSignIn").click( function(envet){
@@ -100,11 +119,99 @@
             $("#group-repassword").hide();
             $("#group-firstname").hide();
             $("#group-lastname").hide();
-            $("#btn-action").text("Sign in");
+            $("#btn-action").val("Sign in");
+            
+            if(state != BTN_SIGN_IN_PRESSED){
+                clearForm();
+                cleanErrorMessages(); 
+            }            
+
+            state = BTN_SIGN_IN_PRESSED;
+            urlRequest = window.location.origin + "/api/login";
         });
 
+        function cleanErrorMessages(){
+            $(".error").hide();
+            $("#email").css("border-color", "#ced4da");
+            $("#password").css("border-color", "#ced4da");
+            $("#repassword").css("border-color", "#ced4da");
+            $("#firstName").css("border-color", "#ced4da");
+            $("#lastName").css("border-color", "#ced4da");
+        }
+
+        function clearForm(){
+            $(".error").hide();
+            $("#email").val("");
+            $("#email").css("border-color", "#ced4da");
+            $("#password").val("");
+            $("#password").css("border-color", "#ced4da");
+            $("#repassword").val("");
+            $("#repassword").css("border-color", "#ced4da");
+            $("#firstName").val("");
+            $("#firstName").css("border-color", "#ced4da");
+            $("#lastName").val("");
+            $("#lastName").css("border-color", "#ced4da");
+        }
+
+        $("#login-form").submit(function(event) {
+            event.preventDefault();
+            var data;
+
+            if(state == BTN_SIGN_IN_PRESSED){
+                data = JSON.stringify({
+                    "email" : this.email.value,
+                    "password" : this.password.value,
+                });
+            } else {
+                data = JSON.stringify({
+                    "email" : this.email.value,
+                    "password" : this.password.value,
+                    "firstName" : this.firstName.value,
+                    "lastName" : this.lastName.value
+                });
+            }
+
+            if($("#login-form").valid() ) {
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    url: urlRequest,
+                    data: data,
+                    dataType: 'json',
+                    timeout: 10000,
+                    success: function (data) {
+                        if(state == BTN_SIGN_UP_PRESSED){
+                            clearForm();
+                        }
+                        else{
+                            if(data.name == "ADMIN"){
+                                window.location.replace(window.location.origin + "/admin/home");
+                            } else {
+                                window.location.replace(window.location.origin + "/user/home");
+                            }
+                        }
+                    },
+                    error: function (e) {
+                        console.log("ERROR : ", e);
+                        $("#message").text(e);
+                    }
+
+                    //TODO : handle message when success and error
+                });
+            }
+        });
+
+        // validation
         $(document).ready(function(s) {
             $("#login-form").validate({
+                highlight : 
+                    function(element, errorClass) {
+                        $(element).css("border-color", "#d9534f");
+                    },
+                unhighlight : 
+                    function(element, errorClass) {
+                        $(element).css("border-color", "#5cb85c");
+                    },
                 rules:{
                     email : {
                         required: true,
@@ -130,43 +237,7 @@
                     }
                 }
             });
-
-
         });
-
-        $("#login-form").submit(function(event) {
-            event.preventDefault();
-
-            var data = JSON.stringify({
-                "email" : this.email.value,
-                "password" : this.password.value,
-            });
-
-            if($("#login-form").valid() ) {
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json",
-                    url: window.location.origin + "/api/login",
-                    data: data,
-                    dataType: 'json',
-                    timeout: 10000,
-                    success: function (data) {
-                        console.log(data);
-                        if(data.name == "ADMIN"){
-                            window.location.replace(window.location.origin + "/admin/home");
-                        } else {
-                            window.location.replace(window.location.origin + "/user/home");
-                        }
-                    },
-                    error: function (e) {
-                        console.log("ERROR : ", e);
-                        $("#message").text(e);
-                    }
-
-                    //TODO : handle message when success and error
-                });
-            }
-        })
     </script>
 </body>
 </html>
