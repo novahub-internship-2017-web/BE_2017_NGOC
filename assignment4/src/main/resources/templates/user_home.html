@@ -5,18 +5,23 @@
     <title>User home</title>
 </head>
 <body>
-    <style>
-        /*table {*/
-            /*width: 100%;*/
-            /*border-collapse: collapse;*/
-        /*}*/
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="/"><i class="fa fa-home" style="font-size: 26px"></i> Home</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-        /*table, th, td {*/
-            /*border: 1px solid black;*/
-        /*}*/
-    </style>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="nav navbar-nav mr-auto"></ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="modal" data-target="#exampleModal" id="btnAddNewBook">Sign up</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
-    <div class="container">
+    <div class="body container" style="margin-top: 100px;">
         <div style="text-align: center">
             <a id="btnAll" class="btn btn-primary">All</a>
             <a id="btnMyBook" class="btn btn-primary">My book</a>
@@ -24,8 +29,16 @@
 
 
         <div id="search_book">
-            <input type="text" id="text_search"/>
-            <button id="button_search">Searchd</button>
+            <div class="form-group row">
+                <div class="col-md-1"></div>
+                <div class="col-md-9">
+                    <input type="text" id="text_search" class="form-control" />
+                </div>
+                <div class="col-md-1">
+                    <input type="button" id="button_search" class="btn btn-primary" value="Search"/>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
         </div>
 
         <div id="body">
@@ -50,6 +63,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <style type="text/css">
+        .form-group {
+            margin-bottom: 0px;
+        }
+
+        label.error {
+            color: red;
+            font-style: italic;
+            font-size: 12px;
+        }
+    </style>
 
     <script>
         var url = window.location.origin + "/api/book";
