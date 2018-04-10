@@ -3,14 +3,18 @@ package com.ngoc.bookmanagement.restfulAPI;
 import com.ngoc.bookmanagement.model.Message;
 import com.ngoc.bookmanagement.model.Role;
 import com.ngoc.bookmanagement.model.User;
+import com.ngoc.bookmanagement.repository.BookRepository;
 import com.ngoc.bookmanagement.repository.RoleRepository;
 import com.ngoc.bookmanagement.repository.UserRepository;
 import com.ngoc.bookmanagement.service.PasswordEncryption;
 import com.ngoc.bookmanagement.validation.GroupUserLogin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,9 +44,20 @@ public class LoginRestfulAPI {
         factory.close();
     }
 
+    private static final Logger logger = LoggerFactory.getLogger(BookRestfulAPI.class);
+
+    private static void log(HttpServletRequest request) {
+        logger.info("URL : " + request.getRequestURL());
+        logger.info("Method : " + request.getMethod());
+        logger.info("IP : " + request.getRemoteAddr());
+    }
+
     @PostMapping(value = "/api/login", produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<?> loginPost(@RequestBody User user,
                                        HttpServletRequest request){
+        log(request);
+        logger.info("User : " + user.toString());
+
         Message message = new Message();
         Set<ConstraintViolation<User>> constraintViolations = validator.validate(user, GroupUserLogin.class);
 
@@ -66,5 +81,14 @@ public class LoginRestfulAPI {
         request.getSession().setAttribute("userLogin", userLogin);
 
         return new ResponseEntity<>(role, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/api/logout", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> logoutPost(HttpServletRequest request){
+        request.getSession().invalidate();
+
+        Message message = new Message();
+        message.getContent().put("message", "Logout successfully");
+        return new ResponseEntity<>(message.getContent(), HttpStatus.OK);
     }
 }

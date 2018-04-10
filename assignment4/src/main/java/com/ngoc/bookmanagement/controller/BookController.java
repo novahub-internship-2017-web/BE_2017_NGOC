@@ -16,5 +16,8 @@ public class BookController {
         return "book_all";
     }
 
-
+    @GetMapping(value = "/books/{id}/edit")
+    public String editBook(){
+        return "book_edit";
+    }
 }

@@ -21,9 +21,9 @@ public class TestController {
 
     @GetMapping(value = "/test")
     public String testGet(HttpServletRequest request){
-        List<Book> bookList = bookRepository.getAllByAuthorLikeOrTitleLike("%màu%", "%title%");
+        List<Book> bookList = bookRepository.getAllByUserIdAndAuthorLikeOrTitleLike(2, "%title%", "%title%");
 
-        System.out.println(bookList.size());
+        System.out.println(bookList);
 
         return "test";
     }

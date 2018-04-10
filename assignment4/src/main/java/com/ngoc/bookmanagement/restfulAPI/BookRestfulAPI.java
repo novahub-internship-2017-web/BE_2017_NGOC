@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,27 +32,29 @@ public class BookRestfulAPI {
     }
 
     // API get all books like author or title
-    @GetMapping(value = "/api/book/search", produces = {MediaType.APPLICATION_JSON_VALUE}, params = {"wordsSearch"})
-    public ResponseEntity<?> getAllBooks(@RequestParam("wordsSearch") String wordSearch,
+    @GetMapping(value = "/api/book", produces = {MediaType.APPLICATION_JSON_VALUE}, params = {"wordsSearch"})
+    public ResponseEntity<?> getAllBooks(@RequestParam("wordsSearch") @Nullable String wordSearch,
                                          HttpServletRequest request){
         log(request);
-        wordSearch = "%" + wordSearch + "%";
+        if(wordSearch == null)
+            wordSearch = "";
+        else
+            wordSearch = "%" + wordSearch + "%";
 
         List<Book> bookList = bookRepository.getAllByAuthorLikeOrTitleLike(wordSearch, wordSearch);
         return new ResponseEntity<>(bookList, HttpStatus.OK);
     }
 
-    // API get all books
-    @GetMapping(value = "/api/book", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> getAllBooks(HttpServletRequest request){
+    // API get all books of user by userId
+    @GetMapping(value = "/api/user/{userId}/book", produces = {MediaType.APPLICATION_JSON_VALUE}, params = {"wordsSearch"})
+    public ResponseEntity<?> getAllBooksOfUser(@RequestParam("wordsSearch") @Nullable  String wordSearch,
+                                               @PathVariable("userId") long userId,
+                                               HttpServletRequest request){
         log(request);
-        Iterator<Book> bookIterator = bookRepository.findAll().iterator();
+        // TODO: validate
 
-        ArrayList<Book> bookList = new ArrayList<>();
-        while (bookIterator.hasNext()){
-            bookList.add(bookIterator.next());
-        }
-
+        wordSearch = "%" + wordSearch + "%";
+        List<Book> bookList = bookRepository.getAllByUserIdAndAuthorLikeOrTitleLike(userId, wordSearch, wordSearch);
         return new ResponseEntity<>(bookList, HttpStatus.OK);
     }
 
