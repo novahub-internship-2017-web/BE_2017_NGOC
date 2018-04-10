@@ -7,24 +7,33 @@
     </head>
     <body>
 
-        <button type="button" id="btnEdit" class="btn btn-primary">Edit</button>
-        <button type="button" id="btnAdd" class="btn btn-primary">Add</button>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-            Launch demo modal
-        </button>
+        <button type="button" id="btnEdit" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Edit</button>
+        <button type="button" id="btnAdd" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Add</button>
+        
 
-        <!-- Modal -->
         <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="formTitle">Edit Book</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form id="book-form" >
+                        <form id="login-form">
+                            <div class="form-group">
+                                <h2 style="text-align: center" id="form-title">Book Edit</h2>
+                            </div>      
+                            <div class="alert alert-success" id="alert-success-message" style="display: none;">
+                                <p style="text-align: center; margin-bottom: 0px;">
+                                    <strong>Success!</strong> <span id="success-message"></span>.
+                                </p>
+                            </div>
+                            <div class="alert alert-danger" id="alert-error-message" style="display: none;">
+                                <p style="text-align: center; margin-bottom: 0px;">
+                                    <strong>Danger!</strong> <span id="error-message"></span>.
+                                </p>
+                            </div>
                             <div class="from-group">
                                 <label class="col-form-label">Title:</label>
                                 <input type="text" name="title" id="title" class="form-control"/>
@@ -37,15 +46,14 @@
                                 <label class="col-form-label">Description : </label>
                                 <textarea class="form-control" name="description" id="description" rows="3"></textarea>
                             </div>
+                            <div class="form-group" style="margin-top: 15px">
+                                <input type="submit" name="submit" id="btn-action" class="btn btn-primary form-control"/>
+                            </div>
                         </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        <button type="button" id="btnSave"  class="btn btn-primary">Save changes</button>
                     </div>
                 </div>
             </div>
-        </div>
+        </div>        
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
