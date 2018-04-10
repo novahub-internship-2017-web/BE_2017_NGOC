@@ -71,12 +71,12 @@ public class LoginRestfulAPI {
 
         String encryptingPassword = passwordEncryption.encryptPassword(user.getPassword());
 
-        if (!userRepository.existsByEmailAndPassword(user.getEmail(), encryptingPassword)){
-            message.getContent().put("message", "Email is not exist");
-            return new ResponseEntity<Message>(message, HttpStatus.NO_CONTENT);
-        }
+        User userLogin = userRepository.findByEmailAndPassword(user.getEmail(), encryptingPassword);
 
-        User userLogin = userRepository.findByEmail(user.getEmail());
+        if (userLogin == null){
+            message.getContent().put("message", "Email is not exist");
+            return new ResponseEntity<>(message.getContent(), HttpStatus.NOT_FOUND);
+        }
         Role role = roleRepository.findById(userLogin.getRoleId()).get();
         request.getSession().setAttribute("userLogin", userLogin);
 

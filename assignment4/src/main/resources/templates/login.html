@@ -17,10 +17,10 @@
             <ul class="nav navbar-nav mr-auto"></ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="nav-item">
-                    <a class="nav-link" href="/book/new" data-toggle="modal" data-target="#exampleModal" id="btnSignUp">Sign up</a>
+                    <a class="nav-link" data-toggle="modal" data-target="#exampleModal" id="btnSignUp">Sign up</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/book" data-toggle="modal" data-target="#exampleModal" id="btnSignIn">Sign in</a>
+                    <a class="nav-link" data-toggle="modal" data-target="#exampleModal" id="btnSignIn">Sign in</a>
                 </li>
             </ul>
         </div>
@@ -40,6 +40,16 @@
                         <div class="form-group">
                             <h2 style="text-align: center" id="form-title">Please Login</h2>
                         </div>      
+                        <div class="alert alert-success" id="alert-success-message" style="display: none;">
+                            <p style="text-align: center; margin-bottom: 0px;">
+                                <strong>Success!</strong> You have successfully signed up as a user.
+                            </p>
+                        </div>
+                        <div class="alert alert-danger" id="alert-error-message" style="display: none;">
+                            <p style="text-align: center; margin-bottom: 0px;">
+                                <strong>Danger!</strong> <span id="error-message"></span>.
+                            </p>
+                        </div>
                         <div class="form-group">
                             <label class="col-form-label">Email : </label>
                             <input type="text" name="email" id="email" class="form-control"/>
@@ -92,6 +102,11 @@
 
         var state, urlRequest;
 
+        $("#login-form").click( function(event){
+            $("#alert-error-message").hide();
+            $("#alert-success-message").hide();
+        });
+
         $("#btnSignUp").click( function(envet){
             $("#form-title").text("Please Sign Up");
             $("#repassword").prop("disabled", false);
@@ -101,14 +116,15 @@
             $("#group-firstname").show();
             $("#group-lastname").show();
             $("#btn-action").val("Sign up");
+            urlRequest = window.location.origin + "/api/registration";
 
             if(state != BTN_SIGN_UP_PRESSED){
                 clearForm();
-                cleanErrorMessages();
+                clearErrorMessages();
             }
 
             state = BTN_SIGN_UP_PRESSED;
-            urlRequest = window.location.origin + "/api/registration";
+            
         });
 
         $("#btnSignIn").click( function(envet){
@@ -120,17 +136,20 @@
             $("#group-firstname").hide();
             $("#group-lastname").hide();
             $("#btn-action").val("Sign in");
-            
+            urlRequest = window.location.origin + "/api/login";
+
             if(state != BTN_SIGN_IN_PRESSED){
                 clearForm();
-                cleanErrorMessages(); 
+                clearErrorMessages(); 
             }            
 
             state = BTN_SIGN_IN_PRESSED;
-            urlRequest = window.location.origin + "/api/login";
+            
         });
 
-        function cleanErrorMessages(){
+        function clearErrorMessages(){
+            $("#alert-success-message").hide();
+            $("#alert-error-message").hide();
             $(".error").hide();
             $("#email").css("border-color", "#ced4da");
             $("#password").css("border-color", "#ced4da");
@@ -160,7 +179,7 @@
             if(state == BTN_SIGN_IN_PRESSED){
                 data = JSON.stringify({
                     "email" : this.email.value,
-                    "password" : this.password.value,
+                    "password" : this.password.value
                 });
             } else {
                 data = JSON.stringify({
@@ -181,6 +200,8 @@
                     timeout: 10000,
                     success: function (data) {
                         if(state == BTN_SIGN_UP_PRESSED){
+                            $("#alert-success-message").show();
+                            $("#alert-error-message").hide();
                             clearForm();
                         }
                         else{
@@ -192,11 +213,10 @@
                         }
                     },
                     error: function (e) {
-                        console.log("ERROR : ", e);
-                        $("#message").text(e);
+                        $("#alert-error-message").show();
+                        $("#alert-success-message").hide();
+                        $("#error-message").text(e.responseJSON.message.trim());
                     }
-
-                    //TODO : handle message when success and error
                 });
             }
         });
