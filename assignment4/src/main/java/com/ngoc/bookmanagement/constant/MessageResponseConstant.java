@@ -6,4 +6,7 @@ public class MessageResponseConstant {
     public static final int NO_CONTENT = 2;
     public static final int BOOK_IS_BLOCKED = 3;
     public static final int BOOK_IS_NOT_EXIST = 4;
+    public static final int COMMENT_IS_NOT_EXIST = 5;
+    public static final int BOOK_ERROR_VALIDATION= 6;
+    public static final int COMMENT_ERROR_VALIDATION = 7;
 }
