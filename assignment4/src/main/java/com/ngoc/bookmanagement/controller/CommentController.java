@@ -1,4 +1,4 @@
-package com.ngoc.bookmanagement.restfulAPI;
+package com.ngoc.bookmanagement.controller;
 
 import com.ngoc.bookmanagement.model.Comment;
 import com.ngoc.bookmanagement.model.Message;
@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-public class CommentRestfulAPI {
+public class CommentController {
 
     @Autowired
     private CommentRepository commentRepository;

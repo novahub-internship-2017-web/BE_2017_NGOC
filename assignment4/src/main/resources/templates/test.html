@@ -12,9 +12,32 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
+    <a id="btnTouch" class="btn btn-primary">BAM</a>
 
 
+    <script>
+    	$("#btnTouch").click( function(event) {
+    		
 
+    		$.ajax({
+		        type: "GET",
+		        contentType: "application/json",
+		        url: window.location.origin + "/api/book",
+		        dataType: 'json',
+		        timeout: 10000,
+		        beforeSend: function(request) {
+				    request.setRequestHeader('wordSearch', 'title');
+			  	},	
+		        success: function (dataReceive) {
+		            console.log("Success : " + dataReceive);
+		        },
+		        error: function (e) {
+		            console.log ("Error : " + e);
+		        }
+		    });
+    	});	    
+    </script>
+    
 
 </body>
 </html>

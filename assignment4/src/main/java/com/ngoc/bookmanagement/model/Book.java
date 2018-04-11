@@ -20,9 +20,11 @@ public class Book {
     @Column(name = "description")
     private String description;
 
+    @Temporal(TemporalType.TIME)
     @Column(name = "created_at")
     private Date createdAt;
 
+    @Temporal(TemporalType.TIME)
     @Column(name = "updated_at")
     private Date updatedAt;
 

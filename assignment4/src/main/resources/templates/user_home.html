@@ -16,7 +16,7 @@
             <ul class="nav navbar-nav mr-auto"></ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="modal" data-target="#exampleModal" id="btnAddNewBook">Sign up</a>
+                    <a class="nav-link" id="btnLogout">Logout</a>
                 </li>
             </ul>
         </div>
@@ -146,17 +146,19 @@
     </style>
 
     <script>
-        var url = window.location.origin + "/api/book";
-        var wordsSearch;
+        const BTN_ADD_BOOK_PRESSED = 3;
+        const BTN_EDIT_BOOK_PRESSED = 4;
+
+        var dataRequest, state, urlRequest, typeRequest, bookList, wordsSearch;
         var userId = [[${session.userLogin.id}]];
-        var bookList;
+        var urlRequestSearchBook = window.location.origin + "/api/book";
 
         $("#btnAll").click(function(){
-           url = window.location.origin + "/api/book";
+           urlRequestSearchBook = window.location.origin + "/api/book";
         });
 
         $("#btnMyBook").click(function(){
-            url = window.location.origin + "/api/user/" + userId + "/book";
+            urlRequestSearchBook = window.location.origin + "/api/user/" + userId + "/book";
         });
 
         $("#button_search").click(function () {
@@ -169,7 +171,7 @@
             $.ajax({
                 type: "GET",
                 contentType: "application/json",
-                url: url + "?wordsSearch=" + wordsSearch,
+                url: urlRequestSearchBook + "?wordsSearch=" + wordsSearch,
                 dataType: 'json',
                 timeout: 10000,
                 success: function (dataReceive) {
@@ -249,18 +251,6 @@
             $("#descriptionBookView").text(bookList[bookIndex].description);
         }
 
-        document.addEventListener("DOMContentLoaded", function(){
-            searchBooks("");
-        });
-    </script>
-
-    <script>
-        const BTN_ADD_BOOK_PRESSED = 3;
-        const BTN_EDIT_BOOK_PRESSED = 4;
-        var userId = [[${session.userLogin.id}]];
-
-        var dataRequest, state, urlRequest,typeRequest;
-
         $("#btnEdit").click( function (event){
             $("#form-title").text("Edit book");
             $("#btn-action").val("Update");
@@ -277,6 +267,7 @@
            typeRequest = "POST";
         });
 
+        // code to submit book-form
         $("#book-form").submit(function(event) {
             event.preventDefault();
 
@@ -307,6 +298,7 @@
             }
         });
         
+        // validate book-form
         $(document).ready(function(s) {
             $("#book-form").validate({
                 rules:{
@@ -326,6 +318,33 @@
                     }
                 }
             });
+        });
+
+        $("#btnLogout").click(function (event) {
+           event.preventDefault();
+
+           callLogoutAPI();
+        });
+
+        function callLogoutAPI(){
+            $.ajax({
+                type: "GET",
+                contentType: "application/json",
+                url: window.location.origin + "/api/logout",
+                dataType: 'json',
+                timeout: 10000,
+                success: function (dataReceive) {
+                    window.location.replace(window.location.origin + "/login");
+                },
+                error: function (e) {
+                    console.log("ERROR : ", e.responseJSON.message);
+                }
+            });
+        }
+
+        // code to search all books when website is loaded complete
+        document.addEventListener("DOMContentLoaded", function(){
+            searchBooks("");
         });
     </script>
 </body>

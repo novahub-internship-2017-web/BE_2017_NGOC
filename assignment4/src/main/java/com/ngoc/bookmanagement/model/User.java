@@ -7,6 +7,8 @@ import com.ngoc.bookmanagement.validation.GroupUserWithoutPassword;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -39,8 +41,15 @@ public class User {
     private String avatar;
 
     @Column(name = "role_id")
-    @JsonIgnore
     private long roleId;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "role_id", insertable = false, updatable = false)
+    private Role role;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    private Set<Book> bookList;
 
     public long getId() {
         return id;
@@ -104,5 +113,36 @@ public class User {
 
     public void setRoleId(long roleId) {
         this.roleId = roleId;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public Set<Book> getBookList() {
+        return bookList;
+    }
+
+    public void setBookList(Set<Book> bookList) {
+        this.bookList = bookList;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", enabled=" + enabled +
+                ", avatar='" + avatar + '\'' +
+                ", roleId=" + roleId +
+                ", role=" + role +
+                '}';
     }
 }
