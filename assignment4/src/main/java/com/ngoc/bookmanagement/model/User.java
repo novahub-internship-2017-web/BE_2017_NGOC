@@ -1,6 +1,5 @@
 package com.ngoc.bookmanagement.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ngoc.bookmanagement.validation.GroupUserLogin;
 import com.ngoc.bookmanagement.validation.GroupUserWithoutPassword;
@@ -9,11 +8,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "user")
-
 public class User implements Serializable {
 
     @Id

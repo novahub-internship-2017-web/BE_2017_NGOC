@@ -1,5 +1,7 @@
 package com.ngoc.bookmanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -39,6 +41,7 @@ public class Book implements Serializable {
     @Column(name = "user_id")
     private long userId;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id", insertable = false, updatable = false)
     private Set<Comment> commentList;

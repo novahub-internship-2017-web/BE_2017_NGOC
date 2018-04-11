@@ -23,15 +23,6 @@ public class BookmanagementApplication {
     public static void main(String[] args) {
         SpringApplication.run(BookmanagementApplication.class, args);
     }
-//
-//    @Bean
-//    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
-//        ObjectMapper mapper = new ObjectMapper();
-//        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-//        MappingJackson2HttpMessageConverter converter =
-//                new MappingJackson2HttpMessageConverter(mapper);
-//        return converter;
-//    }
 
     @Bean
     public ObjectMapper getObjectMapper() {
