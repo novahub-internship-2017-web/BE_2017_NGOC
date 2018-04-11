@@ -6,11 +6,12 @@ import com.ngoc.bookmanagement.validation.GroupCommentUpdate;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "comment")
-public class Comment {
+public class Comment implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,10 +25,12 @@ public class Comment {
     @NotNull(groups = {GroupCommentCreate.class})
     private long userId;
 
+    @Temporal(TemporalType.TIME)
     @Column(name = "created_at")
     @NotNull
     private Date createdAt;
 
+    @Temporal(TemporalType.TIME)
     @Column(name = "updated_at")
     @NotNull
     private Date updatedAt;

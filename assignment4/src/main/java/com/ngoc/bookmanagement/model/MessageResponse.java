@@ -1,6 +1,8 @@
 package com.ngoc.bookmanagement.model;
 
-public class MessageResponse {
+import java.io.Serializable;
+
+public class MessageResponse implements Serializable {
 
     private int code;
 

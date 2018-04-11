@@ -1,11 +1,13 @@
 package com.ngoc.bookmanagement.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "book")
-public class Book {
+public class Book implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +38,10 @@ public class Book {
 
     @Column(name = "user_id")
     private long userId;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id", insertable = false, updatable = false)
+    private Set<Comment> commentList;
 
     public long getId() {
         return id;
@@ -107,6 +113,18 @@ public class Book {
 
     public void setUserId(long userId) {
         this.userId = userId;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public Set<Comment> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(Set<Comment> commentList) {
+        this.commentList = commentList;
     }
 
     @Override

@@ -1,8 +1,9 @@
 package com.ngoc.bookmanagement.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Message {
+public class Message implements Serializable {
     HashMap<String, Object> content;
 
     public Message() {
