@@ -6,6 +6,8 @@ import com.ngoc.bookmanagement.model.Message;
 import com.ngoc.bookmanagement.model.MessageResponse;
 import com.ngoc.bookmanagement.model.User;
 import com.ngoc.bookmanagement.repository.BookRepository;
+import com.ngoc.bookmanagement.validation.BookValidation;
+import com.ngoc.bookmanagement.validation.UserValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,13 @@ public class BookServiceImpl implements BookService{
 
     @Autowired
     private BookRepository bookRepository;
+
+    @Autowired
+    private UserValidation userValidation;
+
+    @Autowired
+    private BookValidation bookValidation;
+
 
     private static void log(HttpServletRequest request) {
         logger.info("URL : " + request.getRequestURL());
@@ -46,14 +55,23 @@ public class BookServiceImpl implements BookService{
         return messageResponse;
     }
 
+
+    // get all books of user (both enable and disable)
     @Override
     public MessageResponse getAllBooksOfUser(String wordSearch, long userId, HttpServletRequest request) {
         log(request);
 
+        MessageResponse messageResponse;
+        messageResponse = userValidation.checkUserIsExist(userId);
+        if(messageResponse != null)
+            return messageResponse;
+
+        // TODO: check request userId = userId (session) || ROLE_ADMIN
+
         wordSearch = "%" + wordSearch + "%";
         List<Book> bookList = bookRepository.getAllByUserIdAndAuthorLikeOrTitleLike(userId, wordSearch, wordSearch);
 
-        MessageResponse messageResponse = new MessageResponse();
+        messageResponse = new MessageResponse();
         if(bookList.size() == 0)
             messageResponse.setCode(MessageResponseConstant.OK);
         else
@@ -85,36 +103,30 @@ public class BookServiceImpl implements BookService{
     public MessageResponse getBook(long bookId, HttpServletRequest request) {
         log(request);
 
-        MessageResponse messageResponse = new MessageResponse();
+        MessageResponse messageResponse;
         Message message = new Message();
 
-        if(!bookRepository.existsById(bookId)) {
-            message.getContent().put("message", "Book isn't exist");
-
-            messageResponse.setCode(MessageResponseConstant.BOOK_IS_NOT_EXIST);
-            messageResponse.setObject(message.getContent());
+        messageResponse = bookValidation.checkBookIsExist(bookId);
+        if(messageResponse != null)
             return messageResponse;
-        }
 
-        Book bookIsGetted = bookRepository.findById(bookId).get();
-
-
-        if(!bookIsGetted.getEnabled()){
-            message.getContent().put("message", "Book is blocked");
-
-            messageResponse.setCode(MessageResponseConstant.BOOK_IS_BLOCKED);
-            messageResponse.setObject(message.getContent());
+        messageResponse = bookValidation.checkBookIsLocked(bookId);
+        if(messageResponse != null)
             return messageResponse;
-        }
 
+        Book book = bookRepository.findById(bookId).get();
+        messageResponse = new MessageResponse();
         messageResponse.setCode(MessageResponseConstant.OK);
-        messageResponse.setObject(bookIsGetted);
+        messageResponse.setObject(book);
         return messageResponse;
     }
 
     @Override
     public MessageResponse createBook(Book book, HttpServletRequest request) {
         log(request);
+
+        MessageResponse messageResponse;
+        Message message;
 
         User userLogin = (User) request.getSession().getAttribute("userLogin");
 
@@ -123,10 +135,10 @@ public class BookServiceImpl implements BookService{
         book.setUserId(userLogin.getId());
         bookRepository.save(book);
 
-        Message message = new Message();
+        message = new Message();
         message.getContent().put("message", "create new book successfully");
 
-        MessageResponse messageResponse = new MessageResponse();
+        messageResponse = new MessageResponse();
         messageResponse.setCode(MessageResponseConstant.OK);
         messageResponse.setObject(message.getContent());
 
@@ -137,6 +149,15 @@ public class BookServiceImpl implements BookService{
     public MessageResponse updateBook(long bookId, Book book, HttpServletRequest request) {
         log(request);
 
+        MessageResponse messageResponse;
+        Message message;
+
+        messageResponse = bookValidation.checkBookIsExist(bookId);
+        if(messageResponse != null)
+            return messageResponse;
+
+        // TODO: write function into bookValidationImpl to validate data receive
+
         Book bookIsSelected = bookRepository.findById(bookId).get();
         bookIsSelected.setUpdatedAt(new Date());
         bookIsSelected.setTitle(book.getTitle());
@@ -144,10 +165,10 @@ public class BookServiceImpl implements BookService{
         bookIsSelected.setDescription(book.getDescription());
         bookRepository.save(bookIsSelected);
 
-        Message message = new Message();
+        message = new Message();
         message.getContent().put("message", "create new book successfully");
 
-        MessageResponse messageResponse = new MessageResponse();
+        messageResponse = new MessageResponse();
         messageResponse.setCode(MessageResponseConstant.OK);
         messageResponse.setObject(message.getContent());
 
@@ -158,14 +179,21 @@ public class BookServiceImpl implements BookService{
     public MessageResponse lockBook(long bookId, HttpServletRequest request) {
         log(request);
 
+        MessageResponse messageResponse;
+        Message message;
+
+        messageResponse = bookValidation.checkBookIsExist(bookId);
+        if(messageResponse != null)
+            return messageResponse;
+
         Book bookIsSelected = bookRepository.findById(bookId).get();
         bookIsSelected.setEnabled(false);
         bookRepository.save(bookIsSelected);
 
-        Message message = new Message();
+        message = new Message();
         message.getContent().put("message", "Lock book successfully");
 
-        MessageResponse messageResponse = new MessageResponse();
+        messageResponse = new MessageResponse();
         messageResponse.setCode(MessageResponseConstant.OK);
         messageResponse.setObject(message.getContent());
 
@@ -176,14 +204,21 @@ public class BookServiceImpl implements BookService{
     public MessageResponse unlockBook(long bookId, HttpServletRequest request) {
         log(request);
 
+        MessageResponse messageResponse;
+        Message message;
+
+        messageResponse = bookValidation.checkBookIsExist(bookId);
+        if(messageResponse != null)
+            return messageResponse;
+
         Book bookIsSelected = bookRepository.findById(bookId).get();
         bookIsSelected.setEnabled(true);
         bookRepository.save(bookIsSelected);
 
-        Message message = new Message();
+        message = new Message();
         message.getContent().put("message", "Unlock book successfully");
 
-        MessageResponse messageResponse = new MessageResponse();
+        messageResponse = new MessageResponse();
         messageResponse.setCode(MessageResponseConstant.OK);
         messageResponse.setObject(message.getContent());
 

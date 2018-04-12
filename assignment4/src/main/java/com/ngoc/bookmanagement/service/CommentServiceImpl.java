@@ -4,6 +4,8 @@ import com.ngoc.bookmanagement.constant.MessageResponseConstant;
 import com.ngoc.bookmanagement.model.*;
 import com.ngoc.bookmanagement.repository.BookRepository;
 import com.ngoc.bookmanagement.repository.CommentRepository;
+import com.ngoc.bookmanagement.validation.BookValidation;
+import com.ngoc.bookmanagement.validation.CommentValidation;
 import com.ngoc.bookmanagement.validation.GroupCommentCreate;
 import com.ngoc.bookmanagement.validation.GroupCommentUpdate;
 import org.slf4j.Logger;
@@ -26,7 +28,10 @@ public class CommentServiceImpl implements CommentService {
     private CommentRepository commentRepository;
 
     @Autowired
-    private BookRepository bookRepository;
+    private BookValidation bookValidation;
+
+    @Autowired
+    private CommentValidation commentValidation;
 
     private static void log(HttpServletRequest request) {
         logger.info("URL : " + request.getRequestURL());
@@ -34,32 +39,19 @@ public class CommentServiceImpl implements CommentService {
         logger.info("IP : " + request.getRemoteAddr());
     }
 
-    private static final Validator validator;
-
-    static {
-        Configuration<?> config = Validation.byDefaultProvider().configure();
-        ValidatorFactory factory = config.buildValidatorFactory();
-        validator = factory.getValidator();
-        factory.close();
-    }
-
     @Override
     public MessageResponse getCommentById(long commentId, HttpServletRequest request) {
         log(request);
 
-        MessageResponse messageResponse = new MessageResponse();
+        MessageResponse messageResponse;
+
+
+        messageResponse = commentValidation.checkCommentIsExist(commentId);
+        if(messageResponse != null)
+            return messageResponse;
 
         Comment commentIsSelected = commentRepository.getCommentById(commentId);
-
-        if(commentIsSelected == null){
-            Message message = new Message();
-            message.getContent().put("message", "Comment isn't exist");
-
-            messageResponse.setCode(MessageResponseConstant.COMMENT_IS_NOT_EXIST);
-            messageResponse.setObject(message.getContent());
-            return messageResponse;
-        }
-
+        messageResponse = new MessageResponse();
         messageResponse.setCode(MessageResponseConstant.OK);
         messageResponse.setObject(commentIsSelected);
         return  messageResponse;
@@ -69,17 +61,13 @@ public class CommentServiceImpl implements CommentService {
     public MessageResponse getAllCommentsByBookId(long bookId, HttpServletRequest request) {
         log(request);
 
-        MessageResponse messageResponse = new MessageResponse();
+        MessageResponse messageResponse;
 
-        if(!bookRepository.existsById(bookId)){
-            Message message = new Message();
-            message.getContent().put("message", "Book is not exist");
-
-            messageResponse.setCode(MessageResponseConstant.BOOK_IS_NOT_EXIST);
-            messageResponse.setObject(message.getContent());
+        messageResponse = bookValidation.checkBookIsExist(bookId);
+        if(messageResponse != null)
             return messageResponse;
-        }
 
+        messageResponse = new MessageResponse();
         List<Comment> commentList = commentRepository.getAllByBookId(bookId);
         messageResponse.setCode(MessageResponseConstant.OK);
         messageResponse.setObject(commentList);
@@ -90,28 +78,16 @@ public class CommentServiceImpl implements CommentService {
     public MessageResponse createCommentOfBookByBookId(long bookId, Comment comment, HttpServletRequest request) {
         log(request);
 
-        MessageResponse messageResponse = new MessageResponse();
-        Message message = new Message();
+        MessageResponse messageResponse;
+        Message message;
 
-        if(!bookRepository.existsById(bookId)){
-            message.getContent().put("message", "Book is not exist");
-
-            messageResponse.setCode(MessageResponseConstant.BOOK_IS_NOT_EXIST);
-            messageResponse.setObject(message.getContent());
+        messageResponse = bookValidation.checkBookIsExist(bookId);
+        if(messageResponse != null)
             return messageResponse;
-        }
 
-        Set<ConstraintViolation<Comment>> constraintViolations = validator.validate(comment, GroupCommentCreate.class);
-
-        if(constraintViolations.size() > 0){
-            for(ConstraintViolation<Comment> commentConstraintViolation : constraintViolations){
-                message.getContent().put(commentConstraintViolation.getPropertyPath().toString(), commentConstraintViolation.getMessage());
-            }
-
-            messageResponse.setCode(MessageResponseConstant.COMMENT_ERROR_VALIDATION);
-            messageResponse.setObject(message.getContent());
+        messageResponse = commentValidation.validateComment(comment, GroupCommentCreate.class);
+        if(messageResponse != null)
             return messageResponse;
-        }
 
         long userId = ((User) request.getSession().getAttribute("userLogin")).getId();
 
@@ -121,6 +97,8 @@ public class CommentServiceImpl implements CommentService {
         comment.setUserId(userId);
         commentRepository.save(comment);
 
+        messageResponse = new MessageResponse();
+        message = new Message();
         message.getContent().put("message", "Create new comment successfully");
         messageResponse.setCode(MessageResponseConstant.OK);
         messageResponse.setObject(message.getContent());
@@ -131,34 +109,23 @@ public class CommentServiceImpl implements CommentService {
     public MessageResponse updateCommentById(long commentId, Comment comment, HttpServletRequest request) {
         log(request);
 
-        MessageResponse messageResponse = new MessageResponse();
-        Message message = new Message();
+        MessageResponse messageResponse;
+        Message message;
 
-        if(!commentRepository.existsById(commentId)){
-            message.getContent().put("message", "Comment is not exist");
-
-            messageResponse.setCode(MessageResponseConstant.COMMENT_IS_NOT_EXIST);
-            messageResponse.setObject(message.getContent());
+        messageResponse = commentValidation.checkCommentIsExist(commentId);
+        if(messageResponse != null)
             return messageResponse;
-        }
 
-        Set<ConstraintViolation<Comment>> constraintViolations = validator.validate(comment, GroupCommentUpdate.class);
-
-        if(constraintViolations.size() > 0){
-            for(ConstraintViolation<Comment> commentConstraintViolation : constraintViolations){
-                message.getContent().put(commentConstraintViolation.getPropertyPath().toString(), commentConstraintViolation.getMessage());
-            }
-
-            messageResponse.setCode(MessageResponseConstant.COMMENT_ERROR_VALIDATION);
-            messageResponse.setObject(message.getContent());
+        messageResponse = commentValidation.validateComment(comment, GroupCommentUpdate.class);
+        if(messageResponse != null)
             return messageResponse;
-        }
 
         Comment commentIsSelected = commentRepository.findById(commentId).get();
         commentIsSelected.setUpdatedAt(new Date());
         commentIsSelected.setMessage(comment.getMessage());
         commentRepository.save(commentIsSelected);
 
+        message = new Message();
         message.getContent().put("message", "Update comment successfully");
         messageResponse.setCode(MessageResponseConstant.OK);
         messageResponse.setObject(message.getContent());
@@ -170,22 +137,21 @@ public class CommentServiceImpl implements CommentService {
     public MessageResponse deleteCommentById(long commentId, HttpServletRequest request) {
         log(request);
 
-        MessageResponse messageResponse = new MessageResponse();
-        Message message = new Message();
+        MessageResponse messageResponse;
+        Message message;
 
-        if(!commentRepository.existsById(commentId)){
-            message.getContent().put("message", "Comment is not exist");
-
-            messageResponse.setCode(MessageResponseConstant.COMMENT_IS_NOT_EXIST);
-            messageResponse.setObject(message.getContent());
+        messageResponse = commentValidation.checkCommentIsExist(commentId);
+        if(messageResponse != null)
             return messageResponse;
-        }
 
         commentRepository.deleteById(commentId);
 
+        message = new Message();
         message.getContent().put("message", "Delete comment successfully");
         messageResponse.setCode(MessageResponseConstant.OK);
         messageResponse.setObject(message.getContent());
         return messageResponse;
     }
+
+
 }

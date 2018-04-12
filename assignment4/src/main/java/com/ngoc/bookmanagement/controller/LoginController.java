@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.*;
@@ -44,18 +45,24 @@ public class LoginController {
     }
 
     @GetMapping(value =  "/login")
-    public String loginGet(){
-        return "login";
+    public ModelAndView loginGet(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("login");
+        return modelAndView;
     }
 
     @GetMapping(value = "/admin/home")
-    public String adminHome(){
-        return "admin_home";
+    public ModelAndView adminHome(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("admin_home");
+        return modelAndView;
     }
 
     @GetMapping(value = "/user/home")
-    public String userHome(){
-        return "user_home";
+    public ModelAndView userHome(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("user_home");
+        return modelAndView;
     }
 
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);

@@ -21,15 +21,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    private static final Validator validator;
-
-    static {
-        Configuration<?> config = Validation.byDefaultProvider().configure();
-        ValidatorFactory factory = config.buildValidatorFactory();
-        validator = factory.getValidator();
-        factory.close();
-    }
-
     @GetMapping("/user/{id}")
     public String userGet(){
         return "user_profile";
@@ -44,6 +35,7 @@ public class UserController {
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
 
+    // API create an User
     @PostMapping(value = "/api/user", produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<?> registrationPost(@RequestBody User user,
                                               HttpServletRequest request) {
@@ -52,7 +44,7 @@ public class UserController {
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
 
-    // 6
+    // API update User
     @PutMapping(value = "/api/user/{userId}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> updateUserProfile(@PathVariable("userId") long userId,
                                                @RequestBody User userParam,
@@ -61,6 +53,7 @@ public class UserController {
         MessageResponse messageResponse = userService.updateUserById(userId, userParam, request);
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
+
 
     @PutMapping(value = "/api/user/{userId}/lock", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> lockUser(@PathVariable("userId") long userId,
