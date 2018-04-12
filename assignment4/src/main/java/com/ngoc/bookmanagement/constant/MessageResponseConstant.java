@@ -9,4 +9,5 @@ public class MessageResponseConstant {
     public static final int COMMENT_IS_NOT_EXIST = 5;
     public static final int BOOK_ERROR_VALIDATION= 6;
     public static final int COMMENT_ERROR_VALIDATION = 7;
+    public static final int USER_IS_NOT_EXIST = 8;
 }
