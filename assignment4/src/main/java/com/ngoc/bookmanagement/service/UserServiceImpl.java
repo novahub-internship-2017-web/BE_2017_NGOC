@@ -16,8 +16,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 
 @Service
@@ -47,6 +49,7 @@ public class UserServiceImpl implements UserService {
     public MessageResponse getUser(String email, String password, HttpServletRequest request) {
         log(request);
 
+        // TODO: refactor code
         MessageResponse messageResponse;
         Message message;
         messageResponse = userValidation.validateUser(new User(email, password), GroupUserLogin.class);

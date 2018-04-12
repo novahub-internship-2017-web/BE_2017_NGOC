@@ -1,5 +1,8 @@
 package com.ngoc.bookmanagement.controller;
 
+import com.ngoc.bookmanagement.constant.MessageResponseConstant;
+import com.ngoc.bookmanagement.constant.RoleConstant;
+import com.ngoc.bookmanagement.model.Message;
 import com.ngoc.bookmanagement.model.MessageResponse;
 import com.ngoc.bookmanagement.model.User;
 import com.ngoc.bookmanagement.service.UserService;
@@ -14,6 +17,7 @@ import javax.validation.Configuration;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import javax.validation.constraints.NotNull;
 
 @RestController
 public class UserController {
@@ -32,7 +36,6 @@ public class UserController {
     public ResponseEntity<?> getUser(@RequestHeader("email") String email,
                                      @RequestHeader("password") String password,
                                      HttpServletRequest request){
-        // TODO: validate
         MessageResponse messageResponse = userService.getUser(email, password, request);
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
@@ -50,7 +53,6 @@ public class UserController {
     @PostMapping(value = "/api/user", produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<?> registrationPost(@RequestBody User user,
                                               HttpServletRequest request) {
-        // TODO: validate
         MessageResponse messageResponse = userService.createUser(user, request);
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
@@ -59,26 +61,62 @@ public class UserController {
     @PutMapping(value = "/api/user/{userId}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> updateUserProfile(@PathVariable("userId") long userId,
                                                @RequestBody User userParam,
-                                               HttpServletRequest request){
-        // TODO: validate
-        MessageResponse messageResponse = userService.updateUserById(userId, userParam, request);
+                                               HttpServletRequest request,
+                                               @SessionAttribute("userLogin") User userLogin){
+        MessageResponse messageResponse;
+
+        if(!checkTrueUserOrAdminPermission(userId, userLogin)){
+            messageResponse = new MessageResponse();
+            messageResponse.setCode(MessageResponseConstant.ACCESS_DENIED);
+        }
+        else
+            messageResponse = userService.updateUserById(userId, userParam, request);
+
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
 
 
     @PutMapping(value = "/api/user/{userId}/lock", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> lockUser(@PathVariable("userId") long userId,
-                                      HttpServletRequest request){
-        // TODO: validate
-        MessageResponse messageResponse = userService.updateEnabledById(userId, false, request);
+                                      HttpServletRequest request,
+                                      @SessionAttribute("userLogin") User userLogin){
+        MessageResponse messageResponse;
+
+        if(!checkAdminPermission(userLogin)){
+            messageResponse = new MessageResponse();
+            messageResponse.setCode(MessageResponseConstant.ACCESS_DENIED);
+        }
+        else
+            messageResponse = userService.updateEnabledById(userId, false, request);
+
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
 
     @PutMapping(value = "/api/user/{userId}/unlock", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> unlockUser(@PathVariable("userId") long userId,
-                                        HttpServletRequest request){
-        // TODO: validate
-        MessageResponse messageResponse = userService.updateEnabledById(userId, true, request);
+                                        HttpServletRequest request,
+                                        @SessionAttribute("userLogin") User userLogin){
+        MessageResponse messageResponse;
+
+        if(!checkAdminPermission(userLogin)){
+            messageResponse = new MessageResponse();
+            messageResponse.setCode(MessageResponseConstant.ACCESS_DENIED);
+        }
+        else
+            messageResponse = userService.updateEnabledById(userId, true, request);
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
+    }
+
+    private boolean checkAdminPermission(User userLogin){
+
+        return  userLogin.getRole().getName().equals(RoleConstant.ROLE_ADMIN);
+    }
+
+    private boolean checkTrueUserOrAdminPermission(long userId, User userLogin){
+
+        if(userLogin.getRole().getName().equals(RoleConstant.ROLE_ADMIN))
+            return true;
+
+        return userId == userLogin.getId();
     }
 }
