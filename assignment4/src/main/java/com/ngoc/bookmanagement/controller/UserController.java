@@ -26,6 +26,17 @@ public class UserController {
         return "user_profile";
     }
 
+    // API for login
+    // API get user (login) with header {email, password}
+    @GetMapping(value = "/api/user", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> getUser(@RequestHeader("email") String email,
+                                     @RequestHeader("password") String password,
+                                     HttpServletRequest request){
+        // TODO: validate
+        MessageResponse messageResponse = userService.getUser(email, password, request);
+        return new ResponseEntity<>(messageResponse, HttpStatus.OK);
+    }
+
     // API get an User
     @GetMapping(value = "/api/user/{userId}", produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<?> getUser(@PathVariable("userId") long userId,

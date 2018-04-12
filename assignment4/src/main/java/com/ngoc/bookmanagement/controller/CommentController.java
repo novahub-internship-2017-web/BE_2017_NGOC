@@ -14,6 +14,7 @@ import javax.validation.*;
 
 @RestController
 public class CommentController {
+
     @Autowired
     private CommentService commentService;
 
@@ -27,7 +28,7 @@ public class CommentController {
     }
 
     // API get all comments of book by bookId
-    @GetMapping(value = "/api/book/{bookId}/comment", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/api/book/{bookId}/comments", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getAllCommentOfBook(@PathVariable("bookId") long bookId,
                                                  HttpServletRequest request){
         // TODO: validate
@@ -63,4 +64,5 @@ public class CommentController {
         MessageResponse messageResponse = commentService.deleteCommentById(commentId, request);
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
+
 }

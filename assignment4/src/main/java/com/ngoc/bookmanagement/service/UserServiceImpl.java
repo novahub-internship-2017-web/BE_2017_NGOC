@@ -8,11 +8,14 @@ import com.ngoc.bookmanagement.model.Role;
 import com.ngoc.bookmanagement.model.User;
 import com.ngoc.bookmanagement.repository.RoleRepository;
 import com.ngoc.bookmanagement.repository.UserRepository;
+import com.ngoc.bookmanagement.validation.GroupUserLogin;
 import com.ngoc.bookmanagement.validation.UserValidation;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.validation.groups.Default;
@@ -38,6 +41,40 @@ public class UserServiceImpl implements UserService {
         logger.info("URL : " + request.getRequestURL());
         logger.info("Method : " + request.getMethod());
         logger.info("IP : " + request.getRemoteAddr());
+    }
+
+    @Override
+    public MessageResponse getUser(String email, String password, HttpServletRequest request) {
+        log(request);
+
+        MessageResponse messageResponse;
+        Message message;
+        messageResponse = userValidation.validateUser(new User(email, password), GroupUserLogin.class);
+        if(messageResponse != null)
+            return messageResponse;
+
+        String encryptingPassword = passwordEncryption.encryptPassword(password);
+        User userLogin = userRepository.findByEmailAndPassword(email, encryptingPassword);
+
+        if (userLogin == null){
+            message = new Message();
+            message.getContent().put("message", "Email is not exist");
+
+            messageResponse = new MessageResponse();
+            messageResponse.setCode(MessageResponseConstant.EMAIL_IS_NOT_EXIST);
+            messageResponse.setObject(message.getContent());
+            return messageResponse;
+        }
+
+        request.getSession().setAttribute("userLogin", userLogin);
+
+        message = new Message();
+        message.getContent().put("message", "Login successfully");
+
+        messageResponse = new MessageResponse();
+        messageResponse.setCode(MessageResponseConstant.OK);
+        messageResponse.setObject(message.getContent());
+        return messageResponse;
     }
 
     @Override

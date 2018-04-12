@@ -61,7 +61,7 @@ public class BookController {
     }
 
     // API get all books like author or title
-    @GetMapping(value = "/api/book", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/api/books", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getAllBooks(@RequestHeader("wordSearch") @Nullable  String wordSearch,
                                          HttpServletRequest request){
         // TODO: validate
@@ -80,7 +80,7 @@ public class BookController {
     }
 
     // API get all books, which is enabled
-    @GetMapping(value = "/api/book/enabled", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/api/books/enabled", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getAllBooksEnabled(HttpServletRequest request){
         // TODO: validate
         MessageResponse messageResponse = bookService.getAllBooksByEnabled(request, true);
@@ -88,7 +88,7 @@ public class BookController {
     }
 
     // API get all books, which is disabled
-    @GetMapping(value = "/api/book/disabled", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/api/books/disabled", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getAllBooksDisabled(HttpServletRequest request){
         // TODO: validate
         MessageResponse messageResponse = bookService.getAllBooksByEnabled(request, false);

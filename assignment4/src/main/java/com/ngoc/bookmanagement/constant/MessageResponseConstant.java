@@ -13,4 +13,5 @@ public class MessageResponseConstant {
     public static final int USER_ERROR_VALIDATION = 9;
     public static final int USER_IS_EXIST = 10;
     public static final int EMAIL_IS_EXIST = 11;
+    public static final int EMAIL_IS_NOT_EXIST = 12;
 }
