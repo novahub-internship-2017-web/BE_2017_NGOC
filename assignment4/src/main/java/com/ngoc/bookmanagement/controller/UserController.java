@@ -44,6 +44,14 @@ public class UserController {
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
 
+    @PostMapping(value = "/api/user", produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<?> registrationPost(@RequestBody User user,
+                                              HttpServletRequest request) {
+        // TODO: validate
+        MessageResponse messageResponse = userService.createUser(user, request);
+        return new ResponseEntity<>(messageResponse, HttpStatus.OK);
+    }
+
     // 6
     @PutMapping(value = "/api/user/{userId}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> updateUserProfile(@PathVariable("userId") long userId,

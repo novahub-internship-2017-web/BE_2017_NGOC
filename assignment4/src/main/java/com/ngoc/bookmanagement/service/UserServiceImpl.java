@@ -69,8 +69,7 @@ public class UserServiceImpl implements UserService {
         messageResponse.setObject(user);
         return messageResponse;
     }
-
-    // TODO: add into user controller
+    
     @Override
     public MessageResponse createUser(User user, HttpServletRequest request){
         log(request);
