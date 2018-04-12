@@ -8,6 +8,8 @@ public interface UserService {
 
     MessageResponse getUserById(long userId, HttpServletRequest request);
 
+    MessageResponse createUser(User user, HttpServletRequest request);
+
     MessageResponse updateUserById(long userId, User user, HttpServletRequest request);
 
     MessageResponse updateEnabledById(long userId, boolean enabled, HttpServletRequest request);

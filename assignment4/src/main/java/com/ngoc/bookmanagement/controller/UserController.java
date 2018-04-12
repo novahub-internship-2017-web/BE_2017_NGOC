@@ -1,10 +1,7 @@
 package com.ngoc.bookmanagement.controller;
 
-import com.ngoc.bookmanagement.model.Message;
 import com.ngoc.bookmanagement.model.MessageResponse;
 import com.ngoc.bookmanagement.model.User;
-import com.ngoc.bookmanagement.repository.UserRepository;
-import com.ngoc.bookmanagement.service.PasswordEncryption;
 import com.ngoc.bookmanagement.service.UserService;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
