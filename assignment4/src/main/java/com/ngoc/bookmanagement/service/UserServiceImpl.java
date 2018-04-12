@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
         messageResponse.setObject(user);
         return messageResponse;
     }
-    
+
     @Override
     public MessageResponse createUser(User user, HttpServletRequest request){
         log(request);
@@ -96,10 +96,9 @@ public class UserServiceImpl implements UserService {
 
         Role role = new Role();
         role.setName(RoleConstant.ROLE_USER);
-        role = roleRepository.save(role);
+        roleRepository.save(role);
 
         String encryptingPassword = passwordEncryption.encryptPassword(user.getPassword());
-        // TODO: try add role into user and use only save user (exclude save role)
         user.setRoleId(role.getId());
         user.setPassword(encryptingPassword);
         user = userRepository.save(user);
