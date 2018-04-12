@@ -2,7 +2,6 @@ package com.ngoc.bookmanagement.service;
 
 import com.ngoc.bookmanagement.constant.MessageResponseConstant;
 import com.ngoc.bookmanagement.model.*;
-import com.ngoc.bookmanagement.repository.BookRepository;
 import com.ngoc.bookmanagement.repository.CommentRepository;
 import com.ngoc.bookmanagement.validation.BookValidation;
 import com.ngoc.bookmanagement.validation.CommentValidation;
@@ -14,10 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.*;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -44,7 +41,6 @@ public class CommentServiceImpl implements CommentService {
         log(request);
 
         MessageResponse messageResponse;
-
 
         messageResponse = commentValidation.checkCommentIsExist(commentId);
         if(messageResponse != null)
@@ -127,9 +123,10 @@ public class CommentServiceImpl implements CommentService {
 
         message = new Message();
         message.getContent().put("message", "Update comment successfully");
+
+        messageResponse = new MessageResponse();
         messageResponse.setCode(MessageResponseConstant.OK);
         messageResponse.setObject(message.getContent());
-
         return messageResponse;
     }
 
@@ -148,10 +145,11 @@ public class CommentServiceImpl implements CommentService {
 
         message = new Message();
         message.getContent().put("message", "Delete comment successfully");
+
+        messageResponse = new MessageResponse();
         messageResponse.setCode(MessageResponseConstant.OK);
         messageResponse.setObject(message.getContent());
         return messageResponse;
     }
-
 
 }

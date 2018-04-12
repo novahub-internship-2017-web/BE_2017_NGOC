@@ -31,7 +31,6 @@ public class BookServiceImpl implements BookService{
     @Autowired
     private BookValidation bookValidation;
 
-
     private static void log(HttpServletRequest request) {
         logger.info("URL : " + request.getRequestURL());
         logger.info("Method : " + request.getMethod());
@@ -54,7 +53,6 @@ public class BookServiceImpl implements BookService{
 
         return messageResponse;
     }
-
 
     // get all books of user (both enable and disable)
     @Override
