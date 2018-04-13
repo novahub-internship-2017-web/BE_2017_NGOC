@@ -1,10 +1,13 @@
 package com.ngoc.bookmanagement.controller;
 
+import com.ngoc.bookmanagement.constant.MessageResponseConstant;
+import com.ngoc.bookmanagement.constant.RoleConstant;
 import com.ngoc.bookmanagement.model.Book;
-import com.ngoc.bookmanagement.model.Message;
 import com.ngoc.bookmanagement.model.MessageResponse;
+import com.ngoc.bookmanagement.model.User;
 import com.ngoc.bookmanagement.repository.BookRepository;
 import com.ngoc.bookmanagement.service.BookService;
+import com.ngoc.bookmanagement.validation.BookValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.List;
 
 @RestController
 public class BookController {
@@ -25,10 +26,10 @@ public class BookController {
     private static final Logger logger = LoggerFactory.getLogger(BookController.class);
 
     @Autowired
-    private BookRepository bookRepository;
+    private BookService bookService;
 
     @Autowired
-    private BookService bookService;
+    private BookRepository bookRepository;
 
     private static void log(HttpServletRequest request) {
         logger.info("URL : " + request.getRequestURL());
@@ -60,84 +61,223 @@ public class BookController {
         return modelAndView;
     }
 
+    // API for ROLE : ADMIN
     // API get all books like author or title
     @GetMapping(value = "/api/books", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> getAllBooks(@RequestHeader("wordSearch") @Nullable  String wordSearch,
-                                         HttpServletRequest request){
-        // TODO: validate
-        MessageResponse messageResponse = bookService.getAllBooks(wordSearch, request);
+    public ResponseEntity<?> getAllBooks(@RequestHeader(value = "wordSearch", required = false) String wordSearch,
+                                         HttpServletRequest request,
+                                         @SessionAttribute("userLogin") @Nullable User userLogin){
+        MessageResponse messageResponse;
+
+        if(!checkAdminPermission(userLogin))
+            messageResponse = new MessageResponse(MessageResponseConstant.ACCESS_DENIED);
+        else
+            messageResponse = bookService.getAllBooks(wordSearch, request);
+        
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
 
-    // API get all books of user by userId
-    @GetMapping(value = "/api/user/{userId}/book", produces = {MediaType.APPLICATION_JSON_VALUE}, params = {"wordsSearch"})
-    public ResponseEntity<?> getAllBooksOfUser(@RequestHeader("wordSearch") @Nullable  String wordSearch,
+    // API for ROLE : USER | ADMIN
+    // API get all books of user by userId with wordSearch
+    @GetMapping(value = "/api/user/{userId}/books", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> getAllBooksOfUser(@RequestHeader(value = "wordSearch", required = false)  String wordSearch,
                                                @PathVariable("userId") long userId,
-                                               HttpServletRequest request){
-        // TODO: validate
-        MessageResponse messageResponse = bookService.getAllBooksOfUser(wordSearch, userId, request);
+                                               HttpServletRequest request,
+                                               @SessionAttribute("userLogin") User userLogin){
+        MessageResponse messageResponse;
+
+        if(!checkTrueUserOrAdminPermission(userId, userLogin))
+            messageResponse = new MessageResponse(MessageResponseConstant.ACCESS_DENIED);
+        else 
+            messageResponse = bookService.getAllBooksOfUser(wordSearch, userId, request);
+        
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
 
+    // API for ROLE : USER | ADMIN | GUEST
+    // API get all books of user by userId with wordSearch, enable status
+    @GetMapping(value = "/api/user/{userId}/books/enabled", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> getAllBooksEnabledOfUser(@RequestHeader(value = "wordSearch", required = false)  String wordSearch,
+                                               @PathVariable("userId") long userId,
+                                               HttpServletRequest request,
+                                               @SessionAttribute("userLogin") User userLogin){
+        MessageResponse messageResponse;
+        // TODO: change code service && check permission
+        if(!checkTrueUserOrAdminPermission(userId, userLogin))
+            messageResponse = new MessageResponse(MessageResponseConstant.ACCESS_DENIED);
+        else
+            messageResponse = bookService.getAllBooksOfUser(wordSearch, userId, request);
+
+        return new ResponseEntity<>(messageResponse, HttpStatus.OK);
+    }
+
+    // API for ROLE : USER | ADMIN
+    // API get all books of user by userId with wordSearch, enable status
+    @GetMapping(value = "/api/user/{userId}/books/disabled", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> getAllBooksDisabledOfUser(@RequestHeader(value = "wordSearch", required = false)  String wordSearch,
+                                                      @PathVariable("userId") long userId,
+                                                      HttpServletRequest request,
+                                                      @SessionAttribute("userLogin") User userLogin){
+        MessageResponse messageResponse;
+        // TODO: change code service && check permission
+        if(!checkTrueUserOrAdminPermission(userId, userLogin))
+            messageResponse = new MessageResponse(MessageResponseConstant.ACCESS_DENIED);
+        else
+            messageResponse = bookService.getAllBooksOfUser(wordSearch, userId, request);
+
+        return new ResponseEntity<>(messageResponse, HttpStatus.OK);
+    }
+
+    // API for ROLE : USER | ADMIN | GUEST
     // API get all books, which is enabled
     @GetMapping(value = "/api/books/enabled", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getAllBooksEnabled(HttpServletRequest request){
-        // TODO: validate
         MessageResponse messageResponse = bookService.getAllBooksByEnabled(request, true);
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
 
+    // API for ROLE : ADMIN
     // API get all books, which is disabled
     @GetMapping(value = "/api/books/disabled", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> getAllBooksDisabled(HttpServletRequest request){
-        // TODO: validate
-        MessageResponse messageResponse = bookService.getAllBooksByEnabled(request, false);
+    public ResponseEntity<?> getAllBooksDisabled(HttpServletRequest request,
+                                                 @SessionAttribute("userLogin") User userLogin){
+        MessageResponse messageResponse;
+
+        if(!checkAdminPermission(userLogin))
+            messageResponse = new MessageResponse(MessageResponseConstant.ACCESS_DENIED);
+        else
+            messageResponse = bookService.getAllBooksByEnabled(request, false);
+
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
 
+    // API for ROLE: USER | ADMIN | GUEST
+    // But GUEST can get book which isn't locked
     // API get a book
     @GetMapping(value = "/api/book/{bookId}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getBook(@PathVariable("bookId") long bookId,
-                                     HttpServletRequest request){
-        // TODO: validate
-        MessageResponse messageResponse = bookService.getBook(bookId, request);
+                                     HttpServletRequest request,
+                                     @SessionAttribute("userLogin") User userLogin){
+        MessageResponse messageResponse;
+
+        if(!checkPermissionWhenGettingBook(bookId, userLogin))
+            messageResponse = new MessageResponse(MessageResponseConstant.ACCESS_DENIED);
+        else
+            messageResponse = bookService.getBook(bookId, request);
+
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
 
+    // API for ROLE: USER | ADMIN
+    // Required login
     // API create a book
     @PostMapping(value = "/api/book", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> createBook(@RequestBody Book bookParam,
-                                        HttpServletRequest request){
-        // TODO: validate
-        MessageResponse messageResponse = bookService.createBook(bookParam, request);
+                                        HttpServletRequest request,
+                                        @SessionAttribute("userLogin") User userLogin){
+        MessageResponse messageResponse;
+
+        if(!checkLogin(userLogin))
+            messageResponse = new MessageResponse(MessageResponseConstant.ACCESS_DENIED);
+        else
+            messageResponse = bookService.createBook(bookParam, request);
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
 
+    // API for ROLE: USER | ADMIN
+    // Required login
     // API update book
     @PutMapping(value = "/api/book/{bookId}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> updateBook(@PathVariable("bookId") long bookId,
                                         @RequestBody Book bookParam,
-                                        HttpServletRequest request){
-        // TODO: validate
-        MessageResponse messageResponse = bookService.updateBook(bookId, bookParam, request);
+                                        HttpServletRequest request,
+                                        @SessionAttribute("userLogin") User userLogin){
+        MessageResponse messageResponse;
+
+        if(!checkTrueUserOrAdminPermissionWhenUpdateBook(bookId, userLogin))
+            messageResponse = new MessageResponse(MessageResponseConstant.ACCESS_DENIED);
+        else
+            messageResponse = bookService.updateBook(bookId, bookParam, request);
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
 
+    // API for ROLE: ADMIN
     // API update enable (false) of book - lock book
     @PutMapping(value = "/api/book/{bookId}/lock", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> lockBook(@PathVariable("bookId") long bookId,
-                                      HttpServletRequest request){
-        // TODO: validate
-        MessageResponse messageResponse = bookService.lockBook(bookId, request);
+                                      HttpServletRequest request,
+                                      @SessionAttribute("userLogin") User userLogin){
+        MessageResponse messageResponse;
+
+        if(!checkAdminPermission(userLogin))
+            messageResponse = new MessageResponse(MessageResponseConstant.ACCESS_DENIED);
+        else
+            messageResponse = bookService.lockBook(bookId, request);
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
 
     // API update enable (true) of book - unlock book
     @PutMapping(value = "/api/book/{bookId}/unlock", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> unlockBook(@PathVariable("bookId") long bookId,
-                                        HttpServletRequest request){
-        // TODO: validate
-        MessageResponse messageResponse = bookService.unlockBook(bookId, request);
+                                        HttpServletRequest request,
+                                        @SessionAttribute("userLogin") User userLogin){
+        MessageResponse messageResponse;
+
+        if(!checkAdminPermission(userLogin))
+            messageResponse = new MessageResponse(MessageResponseConstant.ACCESS_DENIED);
+        else
+            messageResponse = bookService.unlockBook(bookId, request);
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
+
+    private boolean checkLogin(User userLogin){
+        return (userLogin != null);
+    }
+
+    private boolean checkAdminPermission(User userLogin){
+
+        if(!checkLogin(userLogin))
+            return false;
+
+        return  userLogin.getRole().getName().equals(RoleConstant.ROLE_ADMIN);
+    }
+
+    private boolean checkTrueUserOrAdminPermission(long userId, User userLogin){
+
+        if(!checkLogin(userLogin))
+            return false;
+
+        if(userLogin.getRole().getName().equals(RoleConstant.ROLE_ADMIN))
+            return true;
+
+        return (userId == userLogin.getId());
+    }
+
+    private boolean checkTrueUserOrAdminPermissionWhenUpdateBook(long bookId, User userLogin){
+
+        if(!checkLogin(userLogin))
+            return false;
+
+        if(userLogin.getRole().getName().equals(RoleConstant.ROLE_ADMIN))
+            return true;
+
+        Book book = bookRepository.findById(bookId).get();
+        return (book.getUserId() == userLogin.getId());
+    }
+
+    private boolean checkPermissionWhenGettingBook(long bookId, User userLogin){
+
+        if(!checkLogin(userLogin))
+            return false;
+
+        // When book is locked, user create book or admin have permission to access
+        Book book = bookRepository.findById(bookId).get();
+        if(!book.getEnabled()){
+            return ((userLogin.getRole().getName().equals(RoleConstant.ROLE_ADMIN))
+                || (userLogin.getId() == book.getUserId()));
+        }
+
+        return true;
+    }
+
 }

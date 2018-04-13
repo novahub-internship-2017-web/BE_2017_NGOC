@@ -28,14 +28,14 @@ public class CommentValidationImpl implements CommentValidation{
 
     public MessageResponse checkCommentIsExist(long commentId){
         MessageResponse messageResponse = null;
-        Message message;
+        //Message message;
 
         if(!commentRepository.existsById(commentId)){
-            message = new Message();
-            message.getContent().put("message", "Comment is not exist");
+            //message = new Message();
+            //message.getContent().put("message", "Comment is not exist");
 
             messageResponse.setCode(MessageResponseConstant.COMMENT_IS_NOT_EXIST);
-            messageResponse.setObject(message.getContent());
+            //messageResponse.setObject(message.getContent());
         }
 
         return  messageResponse;

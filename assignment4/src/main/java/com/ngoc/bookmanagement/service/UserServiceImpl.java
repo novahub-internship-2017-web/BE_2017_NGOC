@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
 
         // TODO: refactor code
         MessageResponse messageResponse;
-        Message message;
+        //Message message;
         messageResponse = userValidation.validateUser(new User(email, password), GroupUserLogin.class);
         if(messageResponse != null)
             return messageResponse;
@@ -60,23 +60,23 @@ public class UserServiceImpl implements UserService {
         User userLogin = userRepository.findByEmailAndPassword(email, encryptingPassword);
 
         if (userLogin == null){
-            message = new Message();
-            message.getContent().put("message", "Email is not exist");
+            //message = new Message();
+            //message.getContent().put("message", "Email is not exist");
 
             messageResponse = new MessageResponse();
             messageResponse.setCode(MessageResponseConstant.EMAIL_IS_NOT_EXIST);
-            messageResponse.setObject(message.getContent());
+            //messageResponse.setObject(message.getContent());
             return messageResponse;
         }
 
         request.getSession().setAttribute("userLogin", userLogin);
 
-        message = new Message();
-        message.getContent().put("message", "Login successfully");
+        //message = new Message();
+        //message.getContent().put("message", "Login successfully");
 
         messageResponse = new MessageResponse();
         messageResponse.setCode(MessageResponseConstant.OK);
-        messageResponse.setObject(message.getContent());
+        //messageResponse.setObject(message.getContent());
         return messageResponse;
     }
 
@@ -102,7 +102,7 @@ public class UserServiceImpl implements UserService {
         log(request);
 
         MessageResponse messageResponse;
-        Message message;
+        //Message message;
 
         messageResponse = userValidation.validateUser(user, Default.class);
         if(messageResponse != null)
@@ -121,12 +121,12 @@ public class UserServiceImpl implements UserService {
         user.setPassword(encryptingPassword);
         userRepository.save(user);
 
-        message = new Message();
-        message.getContent().put("message", "Add user successfully");
+        //message = new Message();
+        //message.getContent().put("message", "Add user successfully");
 
         messageResponse = new MessageResponse();
         messageResponse.setCode(MessageResponseConstant.OK);
-        messageResponse.setObject(message.getContent());
+        //messageResponse.setObject(message.getContent());
 
         return messageResponse;
     }
@@ -136,7 +136,7 @@ public class UserServiceImpl implements UserService {
         log(request);
 
         MessageResponse messageResponse;
-        Message message;
+        //Message message;
 
 
         messageResponse = userValidation.checkUserIsExist(userId);
@@ -152,12 +152,12 @@ public class UserServiceImpl implements UserService {
         userRepository.save(oldUser);
         request.getSession().setAttribute("userLogin", oldUser);
 
-        message = new Message();
-        message.getContent().put("message", "Update user successfully");
+        //message = new Message();
+        //message.getContent().put("message", "Update user successfully");
 
         messageResponse = new MessageResponse();
         messageResponse.setCode(MessageResponseConstant.OK);
-        messageResponse.setObject(message.getContent());
+        //messageResponse.setObject(message.getContent());
         return messageResponse;
     }
 
@@ -166,7 +166,7 @@ public class UserServiceImpl implements UserService {
         log(request);
 
         MessageResponse messageResponse;
-        Message message;
+        //Message message;
 
         messageResponse = userValidation.checkUserIsExist(userId);
         if(messageResponse != null)
@@ -176,15 +176,15 @@ public class UserServiceImpl implements UserService {
         userSelected.setEnabled(enabled);
         userRepository.save(userSelected);
 
-        message = new Message();
-        if(enabled)
-            message.getContent().put("message", "Unlock user successfully");
-        else
-            message.getContent().put("message", "Lock user successfully");
+        //message = new Message();
+        //if(enabled)
+        //    message.getContent().put("message", "Unlock user successfully");
+        //else
+        //    message.getContent().put("message", "Lock user successfully");
 
         messageResponse = new MessageResponse();
         messageResponse.setCode(MessageResponseConstant.OK);
-        messageResponse.setObject(message.getContent());
+        //messageResponse.setObject(message.getContent());
         return messageResponse;
     }
 }

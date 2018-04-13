@@ -1,11 +1,14 @@
 package com.ngoc.bookmanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.io.Serializable;
 
 public class MessageResponse implements Serializable {
 
     private int code;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Object object;
 
     public int getCode() {
@@ -35,7 +38,7 @@ public class MessageResponse implements Serializable {
         this.code = code;
         this.object = object;
     }
-
+    
     @Override
     public String toString() {
         return "MessageResponse{" +

@@ -15,14 +15,14 @@ public class BookValidationImpl implements BookValidation{
 
     public MessageResponse checkBookIsExist(long bookId){
         MessageResponse messageResponse = null;
-        Message message;
+        //Message message;
 
         if(!bookRepository.existsById(bookId)){
-            message = new Message();
-            message.getContent().put("message", "Book is not exist");
+            //message = new Message();
+            //message.getContent().put("message", "Book is not exist");
 
             messageResponse.setCode(MessageResponseConstant.BOOK_IS_NOT_EXIST);
-            messageResponse.setObject(message.getContent());
+            //messageResponse.setObject(message.getContent());
         }
 
         return messageResponse;
@@ -35,11 +35,11 @@ public class BookValidationImpl implements BookValidation{
         Book book = bookRepository.findById(bookId).get();
 
         if(!book.getEnabled()){
-            Message message = new Message();
-            message.getContent().put("message", "Book is blocked");
+            //Message message = new Message();
+            //message.getContent().put("message", "Book is blocked");
 
             messageResponse.setCode(MessageResponseConstant.BOOK_IS_BLOCKED);
-            messageResponse.setObject(message.getContent());
+            //messageResponse.setObject(message.getContent());
         }
 
         return messageResponse;

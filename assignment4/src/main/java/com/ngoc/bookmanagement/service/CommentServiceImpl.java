@@ -75,7 +75,7 @@ public class CommentServiceImpl implements CommentService {
         log(request);
 
         MessageResponse messageResponse;
-        Message message;
+        //Message message;
 
         messageResponse = bookValidation.checkBookIsExist(bookId);
         if(messageResponse != null)
@@ -94,10 +94,10 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.save(comment);
 
         messageResponse = new MessageResponse();
-        message = new Message();
-        message.getContent().put("message", "Create new comment successfully");
+        //message = new Message();
+        //message.getContent().put("message", "Create new comment successfully");
         messageResponse.setCode(MessageResponseConstant.OK);
-        messageResponse.setObject(message.getContent());
+        //messageResponse.setObject(message.getContent());
         return messageResponse;
     }
 
@@ -106,7 +106,7 @@ public class CommentServiceImpl implements CommentService {
         log(request);
 
         MessageResponse messageResponse;
-        Message message;
+        //Message message;
 
         messageResponse = commentValidation.checkCommentIsExist(commentId);
         if(messageResponse != null)
@@ -121,8 +121,8 @@ public class CommentServiceImpl implements CommentService {
         commentIsSelected.setMessage(comment.getMessage());
         commentRepository.save(commentIsSelected);
 
-        message = new Message();
-        message.getContent().put("message", "Update comment successfully");
+        //message = new Message();
+        //message.getContent().put("message", "Update comment successfully");
 
         messageResponse = new MessageResponse();
         messageResponse.setCode(MessageResponseConstant.OK);
@@ -135,7 +135,7 @@ public class CommentServiceImpl implements CommentService {
         log(request);
 
         MessageResponse messageResponse;
-        Message message;
+        //Message message;
 
         messageResponse = commentValidation.checkCommentIsExist(commentId);
         if(messageResponse != null)
@@ -143,12 +143,12 @@ public class CommentServiceImpl implements CommentService {
 
         commentRepository.deleteById(commentId);
 
-        message = new Message();
-        message.getContent().put("message", "Delete comment successfully");
+        //message = new Message();
+        //message.getContent().put("message", "Delete comment successfully");
 
         messageResponse = new MessageResponse();
         messageResponse.setCode(MessageResponseConstant.OK);
-        messageResponse.setObject(message.getContent());
+        //messageResponse.setObject(message.getContent());
         return messageResponse;
     }
 

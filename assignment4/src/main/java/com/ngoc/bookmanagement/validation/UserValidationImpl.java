@@ -29,14 +29,14 @@ public class UserValidationImpl implements UserValidation {
     @Override
     public MessageResponse checkUserIsExist(long userId) {
         MessageResponse messageResponse = null;
-        Message message;
+        //Message message;
 
         if(!userRepository.existsById(userId)){
-            message = new Message();
-            message.getContent().put("message", "User is not exist");
+            //message = new Message();
+            //message.getContent().put("message", "User is not exist");
 
             messageResponse.setCode(MessageResponseConstant.USER_IS_NOT_EXIST);
-            messageResponse.setObject(message.getContent());
+            //messageResponse.setObject(message.getContent());
         }
 
         return messageResponse;
@@ -66,13 +66,13 @@ public class UserValidationImpl implements UserValidation {
     @Override
     public MessageResponse checkEmailIsExist(User user) {
         MessageResponse messageResponse = null;
-        Message message;
+        //Message message;
 
         if(userRepository.existsByEmail(user.getEmail())) {
-            message = new Message();
-            message.getContent().put("message", "Email is exist");
+            //message = new Message();
+            //message.getContent().put("message", "Email is exist");
             messageResponse.setCode(MessageResponseConstant.EMAIL_IS_EXIST);
-            messageResponse.setObject(message.getContent());
+            //messageResponse.setObject(message.getContent());
         }
 
         return messageResponse;
