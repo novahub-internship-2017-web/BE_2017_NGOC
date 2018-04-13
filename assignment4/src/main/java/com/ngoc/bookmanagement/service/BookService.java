@@ -10,6 +10,8 @@ public interface BookService {
 
     MessageResponse getAllBooksOfUser(String wordSearch, long userId, HttpServletRequest request);
 
+    MessageResponse getAllBooksOfUserByEnabled(String wordSearch, long userId, HttpServletRequest request, boolean enabled);
+
     MessageResponse getAllBooksByEnabled(HttpServletRequest request, boolean enabled);
 
     MessageResponse getBook(long bookId, HttpServletRequest request);

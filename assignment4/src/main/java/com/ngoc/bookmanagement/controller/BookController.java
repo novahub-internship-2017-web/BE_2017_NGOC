@@ -7,7 +7,6 @@ import com.ngoc.bookmanagement.model.MessageResponse;
 import com.ngoc.bookmanagement.model.User;
 import com.ngoc.bookmanagement.repository.BookRepository;
 import com.ngoc.bookmanagement.service.BookService;
-import com.ngoc.bookmanagement.validation.BookValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,11 +101,7 @@ public class BookController {
                                                HttpServletRequest request,
                                                @SessionAttribute("userLogin") User userLogin){
         MessageResponse messageResponse;
-        // TODO: change code service && check permission
-        if(!checkTrueUserOrAdminPermission(userId, userLogin))
-            messageResponse = new MessageResponse(MessageResponseConstant.ACCESS_DENIED);
-        else
-            messageResponse = bookService.getAllBooksOfUser(wordSearch, userId, request);
+        messageResponse = bookService.getAllBooksOfUserByEnabled(wordSearch, userId, request, true);
 
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
@@ -119,11 +114,10 @@ public class BookController {
                                                       HttpServletRequest request,
                                                       @SessionAttribute("userLogin") User userLogin){
         MessageResponse messageResponse;
-        // TODO: change code service && check permission
         if(!checkTrueUserOrAdminPermission(userId, userLogin))
             messageResponse = new MessageResponse(MessageResponseConstant.ACCESS_DENIED);
         else
-            messageResponse = bookService.getAllBooksOfUser(wordSearch, userId, request);
+            messageResponse = bookService.getAllBooksOfUserByEnabled(wordSearch, userId, request, false);
 
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }

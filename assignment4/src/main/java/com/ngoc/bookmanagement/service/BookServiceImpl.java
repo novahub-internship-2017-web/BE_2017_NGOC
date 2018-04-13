@@ -64,10 +64,30 @@ public class BookServiceImpl implements BookService{
         if(messageResponse != null)
             return messageResponse;
 
-        // TODO: check request userId = userId (session) || ROLE_ADMIN
-
         wordSearch = (wordSearch == null) ? "" : "%" + wordSearch + "%";
         List<Book> bookList = bookRepository.getAllByUserIdAndAuthorLikeOrTitleLike(userId, wordSearch, wordSearch);
+
+        messageResponse = new MessageResponse();
+        if(bookList.size() == 0)
+            messageResponse.setCode(MessageResponseConstant.OK);
+        else
+            messageResponse.setCode(MessageResponseConstant.NO_CONTENT);
+        messageResponse.setObject(bookList);
+
+        return messageResponse;
+    }
+
+    @Override
+    public MessageResponse getAllBooksOfUserByEnabled(String wordSearch, long userId, HttpServletRequest request, boolean enabled) {
+        log(request);
+
+        MessageResponse messageResponse;
+        messageResponse = userValidation.checkUserIsExist(userId);
+        if(messageResponse != null)
+            return messageResponse;
+
+        wordSearch = (wordSearch == null) ? "" : "%" + wordSearch + "%";
+        List<Book> bookList = bookRepository.getAllByUserIdAndEnabledAndAuthorLikeOrTitleIsLike(userId, wordSearch, wordSearch, enabled);
 
         messageResponse = new MessageResponse();
         if(bookList.size() == 0)

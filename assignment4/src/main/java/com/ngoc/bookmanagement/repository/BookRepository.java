@@ -19,7 +19,11 @@ public interface BookRepository extends CrudRepository<Book, Long> {
                                                       @Param("author") String author,
                                                       @Param("title") String title);
 
-    List<Book> getAllByUserIdEqualsAndAuthorLikeOrTitleLike(long userId, String author, String title);
+    @Query("FROM Book book WHERE book.userId = :userId AND book.enabled = :enabled AND (book.author LIKE :author OR book.title LIKE :title)")
+    List<Book> getAllByUserIdAndEnabledAndAuthorLikeOrTitleIsLike(@Param("userId") long userId,
+                                                                  @Param("author") String author,
+                                                                  @Param("title") String title,
+                                                                  @Param("enabled") boolean enabled);
 
     List<Book> getAllByUserIdAndEnabled(long userId, boolean enabled);
 
