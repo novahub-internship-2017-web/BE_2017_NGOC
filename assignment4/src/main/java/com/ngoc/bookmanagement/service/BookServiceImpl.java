@@ -2,11 +2,11 @@ package com.ngoc.bookmanagement.service;
 
 import com.ngoc.bookmanagement.constant.MessageResponseConstant;
 import com.ngoc.bookmanagement.model.Book;
-import com.ngoc.bookmanagement.model.Message;
 import com.ngoc.bookmanagement.model.MessageResponse;
 import com.ngoc.bookmanagement.model.User;
 import com.ngoc.bookmanagement.repository.BookRepository;
 import com.ngoc.bookmanagement.validation.BookValidation;
+import com.ngoc.bookmanagement.validation.GroupBookUpdate;
 import com.ngoc.bookmanagement.validation.UserValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,8 +39,8 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public MessageResponse getAllBooks(String wordSearch, HttpServletRequest request) {
-        log(request);
 
+        log(request);
         wordSearch = (wordSearch == null) ? "" : "%" + wordSearch + "%";
         List<Book> bookList = bookRepository.getAllByAuthorLikeOrTitleLike(wordSearch, wordSearch);
 
@@ -48,7 +48,7 @@ public class BookServiceImpl implements BookService{
         if(bookList.size() == 0)
             messageResponse.setCode(MessageResponseConstant.OK);
         else
-            messageResponse.setCode(MessageResponseConstant.NO_CONTENT);
+            messageResponse.setCode(MessageResponseConstant.GET_ALL_BOOKS_SUCCESS);
         messageResponse.setObject(bookList);
 
         return messageResponse;
@@ -71,7 +71,7 @@ public class BookServiceImpl implements BookService{
         if(bookList.size() == 0)
             messageResponse.setCode(MessageResponseConstant.OK);
         else
-            messageResponse.setCode(MessageResponseConstant.NO_CONTENT);
+            messageResponse.setCode(MessageResponseConstant.GET_ALL_BOOKS_USER_SUCCESS);
         messageResponse.setObject(bookList);
 
         return messageResponse;
@@ -91,9 +91,14 @@ public class BookServiceImpl implements BookService{
 
         messageResponse = new MessageResponse();
         if(bookList.size() == 0)
-            messageResponse.setCode(MessageResponseConstant.OK);
-        else
             messageResponse.setCode(MessageResponseConstant.NO_CONTENT);
+        else {
+            if(enabled)
+                messageResponse.setCode(MessageResponseConstant.GET_ALL_BOOKS_USER_ENABLED_SUCCESS);
+            else
+                messageResponse.setCode(MessageResponseConstant.GET_ALL_BOOKS_USER_DISABLED_SUCCESS);
+        }
+
         messageResponse.setObject(bookList);
 
         return messageResponse;
@@ -101,16 +106,19 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public MessageResponse getAllBooksByEnabled(HttpServletRequest request, boolean enabled){
-        log(request);
 
-        List<Book> bookList = bookRepository.getAllByEnabled(true);
-        
+        log(request);
+        List<Book> bookList = bookRepository.getAllByEnabled(enabled);
         MessageResponse messageResponse = new MessageResponse();
 
         if(bookList.size() == 0){
             messageResponse.setCode(MessageResponseConstant.NO_CONTENT);
         } else {
-            messageResponse.setCode(MessageResponseConstant.OK);
+            if(enabled)
+                messageResponse.setCode(MessageResponseConstant.GET_ALL_BOOKS_ENABLED_SUCCESS);
+            else
+                messageResponse.setCode(MessageResponseConstant.GET_ALL_BOOKS_DISABLED_SUCCESS);
+
         }
         messageResponse.setObject(bookList);
 
@@ -119,11 +127,9 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public MessageResponse getBook(long bookId, HttpServletRequest request) {
-        log(request);
-
         MessageResponse messageResponse;
-        //Message message = new Message();
 
+        log(request);
         messageResponse = bookValidation.checkBookIsExist(bookId);
         if(messageResponse != null)
             return messageResponse;
@@ -134,47 +140,41 @@ public class BookServiceImpl implements BookService{
 
         Book book = bookRepository.findById(bookId).get();
         messageResponse = new MessageResponse();
-        messageResponse.setCode(MessageResponseConstant.OK);
+        messageResponse.setCode(MessageResponseConstant.GET_BOOK_SUCCESS);
         messageResponse.setObject(book);
         return messageResponse;
     }
 
     @Override
     public MessageResponse createBook(Book book, HttpServletRequest request) {
-        log(request);
-
         MessageResponse messageResponse;
-        //Message message;
 
+        log(request);
         User userLogin = (User) request.getSession().getAttribute("userLogin");
-
         book.setCreatedAt(new Date());
         book.setUpdatedAt(new Date());
         book.setUserId(userLogin.getId());
         bookRepository.save(book);
 
-        //message = new Message();
-        //message.getContent().put("message", "create new book successfully");
-
         messageResponse = new MessageResponse();
-        messageResponse.setCode(MessageResponseConstant.OK);
-        //messageResponse.setObject(message.getContent());
-
+        messageResponse.setCode(MessageResponseConstant.CREATE_BOOK_SUCCESS);
         return messageResponse;
     }
 
     @Override
     public MessageResponse updateBook(long bookId, Book book, HttpServletRequest request) {
-        log(request);
 
         MessageResponse messageResponse;
-        //Message message;
+
+        log(request);
 
         messageResponse = bookValidation.checkBookIsExist(bookId);
         if(messageResponse != null)
             return messageResponse;
 
-        // TODO: write function into bookValidationImpl to validate data receive
+        messageResponse = bookValidation.validateBook(book, GroupBookUpdate.class);
+        if(messageResponse != null)
+            return messageResponse;
 
         Book bookIsSelected = bookRepository.findById(bookId).get();
         bookIsSelected.setUpdatedAt(new Date());
@@ -183,23 +183,17 @@ public class BookServiceImpl implements BookService{
         bookIsSelected.setDescription(book.getDescription());
         bookRepository.save(bookIsSelected);
 
-        //message = new Message();
-        //message.getContent().put("message", "create new book successfully");
-
         messageResponse = new MessageResponse();
-        messageResponse.setCode(MessageResponseConstant.OK);
-        //messageResponse.setObject(message.getContent());
+        messageResponse.setCode(MessageResponseConstant.UPDATE_BOOK_SUCCESS);
 
         return messageResponse;
     }
 
     @Override
     public MessageResponse lockBook(long bookId, HttpServletRequest request) {
-        log(request);
-
         MessageResponse messageResponse;
-        //Message message;
 
+        log(request);
         messageResponse = bookValidation.checkBookIsExist(bookId);
         if(messageResponse != null)
             return messageResponse;
@@ -208,23 +202,17 @@ public class BookServiceImpl implements BookService{
         bookIsSelected.setEnabled(false);
         bookRepository.save(bookIsSelected);
 
-        //message = new Message();
-        //message.getContent().put("message", "Lock book successfully");
-
         messageResponse = new MessageResponse();
-        messageResponse.setCode(MessageResponseConstant.OK);
-        //messageResponse.setObject(message.getContent());
+        messageResponse.setCode(MessageResponseConstant.LOCK_BOOK_SUCCESS);
 
         return messageResponse;
     }
 
     @Override
     public MessageResponse unlockBook(long bookId, HttpServletRequest request) {
-        log(request);
-
         MessageResponse messageResponse;
-        //Message message;
 
+        log(request);
         messageResponse = bookValidation.checkBookIsExist(bookId);
         if(messageResponse != null)
             return messageResponse;
@@ -233,12 +221,8 @@ public class BookServiceImpl implements BookService{
         bookIsSelected.setEnabled(true);
         bookRepository.save(bookIsSelected);
 
-        //message = new Message();
-        //message.getContent().put("message", "Unlock book successfully");
-
         messageResponse = new MessageResponse();
-        messageResponse.setCode(MessageResponseConstant.OK);
-        //messageResponse.setObject(message.getContent());
+        messageResponse.setCode(MessageResponseConstant.UNLOCK_BOOK_SUCCESS);
 
         return messageResponse;
     }

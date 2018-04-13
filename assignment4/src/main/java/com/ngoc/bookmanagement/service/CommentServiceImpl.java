@@ -126,7 +126,7 @@ public class CommentServiceImpl implements CommentService {
 
         messageResponse = new MessageResponse();
         messageResponse.setCode(MessageResponseConstant.OK);
-        messageResponse.setObject(message.getContent());
+        //messageResponse.setObject(message.getContent());
         return messageResponse;
     }
 

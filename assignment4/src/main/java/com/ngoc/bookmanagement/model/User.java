@@ -5,6 +5,7 @@ import com.ngoc.bookmanagement.validation.GroupUserLogin;
 import com.ngoc.bookmanagement.validation.GroupUserWithoutPassword;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.List;
@@ -43,12 +44,12 @@ public class User implements Serializable {
     private long roleId;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "role_id", insertable = false, updatable = false)
     private Role role;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private List<Book> bookList;
 
@@ -116,6 +117,7 @@ public class User implements Serializable {
         this.roleId = roleId;
     }
 
+    @Transactional
     public Role getRole() {
         return role;
     }
@@ -124,6 +126,7 @@ public class User implements Serializable {
         this.role = role;
     }
 
+    @Transactional
     public List<Book> getBookList() {
         return bookList;
     }
@@ -145,11 +148,14 @@ public class User implements Serializable {
         return "User{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", enabled=" + enabled +
                 ", avatar='" + avatar + '\'' +
                 ", roleId=" + roleId +
+                ", role=" + role +
+                ", bookList=" + bookList +
                 '}';
     }
 }

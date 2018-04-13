@@ -7,6 +7,7 @@ import com.ngoc.bookmanagement.model.MessageResponse;
 import com.ngoc.bookmanagement.model.User;
 import com.ngoc.bookmanagement.repository.BookRepository;
 import com.ngoc.bookmanagement.service.BookService;
+import com.ngoc.bookmanagement.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class BookController {
 
     @Autowired
     private BookService bookService;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private BookRepository bookRepository;
@@ -133,9 +137,9 @@ public class BookController {
     // API for ROLE : ADMIN
     // API get all books, which is disabled
     @GetMapping(value = "/api/books/disabled", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> getAllBooksDisabled(HttpServletRequest request,
-                                                 @SessionAttribute("userLogin") User userLogin){
+    public ResponseEntity<?> getAllBooksDisabled(HttpServletRequest request){
         MessageResponse messageResponse;
+        User userLogin = userService.getUserLoginInSession(request);
 
         if(!checkAdminPermission(userLogin))
             messageResponse = new MessageResponse(MessageResponseConstant.ACCESS_DENIED);
@@ -150,9 +154,9 @@ public class BookController {
     // API get a book
     @GetMapping(value = "/api/book/{bookId}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getBook(@PathVariable("bookId") long bookId,
-                                     HttpServletRequest request,
-                                     @SessionAttribute("userLogin") User userLogin){
+                                     HttpServletRequest request){
         MessageResponse messageResponse;
+        User userLogin = userService.getUserLoginInSession(request);
 
         if(!checkPermissionWhenGettingBook(bookId, userLogin))
             messageResponse = new MessageResponse(MessageResponseConstant.ACCESS_DENIED);
@@ -167,9 +171,9 @@ public class BookController {
     // API create a book
     @PostMapping(value = "/api/book", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> createBook(@RequestBody Book bookParam,
-                                        HttpServletRequest request,
-                                        @SessionAttribute("userLogin") User userLogin){
+                                        HttpServletRequest request){
         MessageResponse messageResponse;
+        User userLogin = userService.getUserLoginInSession(request);
 
         if(!checkLogin(userLogin))
             messageResponse = new MessageResponse(MessageResponseConstant.ACCESS_DENIED);
@@ -184,9 +188,9 @@ public class BookController {
     @PutMapping(value = "/api/book/{bookId}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> updateBook(@PathVariable("bookId") long bookId,
                                         @RequestBody Book bookParam,
-                                        HttpServletRequest request,
-                                        @SessionAttribute("userLogin") User userLogin){
+                                        HttpServletRequest request){
         MessageResponse messageResponse;
+        User userLogin = userService.getUserLoginInSession(request);
 
         if(!checkTrueUserOrAdminPermissionWhenUpdateBook(bookId, userLogin))
             messageResponse = new MessageResponse(MessageResponseConstant.ACCESS_DENIED);
@@ -199,9 +203,9 @@ public class BookController {
     // API update enable (false) of book - lock book
     @PutMapping(value = "/api/book/{bookId}/lock", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> lockBook(@PathVariable("bookId") long bookId,
-                                      HttpServletRequest request,
-                                      @SessionAttribute("userLogin") User userLogin){
+                                      HttpServletRequest request){
         MessageResponse messageResponse;
+        User userLogin = userService.getUserLoginInSession(request);
 
         if(!checkAdminPermission(userLogin))
             messageResponse = new MessageResponse(MessageResponseConstant.ACCESS_DENIED);
@@ -210,12 +214,13 @@ public class BookController {
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
 
+    // API for ROLE: ADMIN
     // API update enable (true) of book - unlock book
     @PutMapping(value = "/api/book/{bookId}/unlock", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> unlockBook(@PathVariable("bookId") long bookId,
-                                        HttpServletRequest request,
-                                        @SessionAttribute("userLogin") User userLogin){
+                                        HttpServletRequest request){
         MessageResponse messageResponse;
+        User userLogin = userService.getUserLoginInSession(request);
 
         if(!checkAdminPermission(userLogin))
             messageResponse = new MessageResponse(MessageResponseConstant.ACCESS_DENIED);

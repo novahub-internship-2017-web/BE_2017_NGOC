@@ -1,8 +1,10 @@
 package com.ngoc.bookmanagement.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ngoc.bookmanagement.validation.GroupBookUpdate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -16,19 +18,19 @@ public class Book implements Serializable {
     private long id;
 
     @Column(name = "title")
+    @NotEmpty(message = "title is not empty", groups = {GroupBookUpdate.class})
     private String title;
 
     @Column(name = "author")
+    @NotEmpty(message = "author is not empty", groups = {GroupBookUpdate.class})
     private String author;
 
     @Column(name = "description")
     private String description;
 
-    @Temporal(TemporalType.TIME)
     @Column(name = "created_at")
     private Date createdAt;
 
-    @Temporal(TemporalType.TIME)
     @Column(name = "updated_at")
     private Date updatedAt;
 

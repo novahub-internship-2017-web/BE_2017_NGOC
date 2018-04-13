@@ -18,12 +18,15 @@ CREATE TABLE IF NOT EXISTS comment(id INT NOT NULL AUTO_INCREMENT, book_id INT N
 # roles
 INSERT INTO role (name) VALUE ("ADMIN");
 INSERT INTO role (name) VALUE ("USER");
+INSERT INTO role (name) VALUE ("USER");
 
 # users
 # password : password
 INSERT INTO user (email, password, first_name, last_name, enabled, avatar, role_id) VALUE ("admin@gmail.com", "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "firstname", "lastname", false, null, 1);
-// password : username
-INSERT INTO user (email, password, first_name, last_name, enabled, avatar, role_id) VALUE ("user@gmail.com", "16F78A7D6317F102BBD95FC9A4F3FF2E3249287690B8BDAD6B7810F82B34ACE3", "firstname", "lastname", false, null, 2);
+# password : username
+INSERT INTO user (email, password, first_name, last_name, enabled, avatar, role_id) VALUE ("user@gmail.com", "16F78A7D6317F102BBD95FC9A4F3FF2E3249287690B8BDAD6B7810F82B34ACE3", "user2", "lastname", false, null, 2);
+# password : username
+INSERT INTO user (email, password, first_name, last_name, enabled, avatar, role_id) VALUE ("user1@gmail.com", "16F78A7D6317F102BBD95FC9A4F3FF2E3249287690B8BDAD6B7810F82B34ACE3", "user3", "lastname", false, null, 3);
 
 # books
 INSERT INTO book (title, author, description, created_at, updated_at, image, enabled, user_id) VALUE ("title_1", "xuan dieu", "description", now(), now(), "image", true, 1);
@@ -34,6 +37,9 @@ INSERT INTO book (title, author, description, created_at, updated_at, image, ena
 INSERT INTO book (title, author, description, created_at, updated_at, image, enabled, user_id) VALUE ("title1_2", "chi pheo", "description1", now(), now(), "image1", true, 2);
 INSERT INTO book (title, author, description, created_at, updated_at, image, enabled, user_id) VALUE ("title2_2", "ngo tat to", "description2", now(), now(), "image2", false , 2);
 
+INSERT INTO book (title, author, description, created_at, updated_at, image, enabled, user_id) VALUE ("title_3", "chi dau 3", "description", now(), now(), "image", true, 3);
+INSERT INTO book (title, author, description, created_at, updated_at, image, enabled, user_id) VALUE ("title1_3", "chi pheo 3", "description1", now(), now(), "image1", false, 3);
+INSERT INTO book (title, author, description, created_at, updated_at, image, enabled, user_id) VALUE ("title2_3", "ngo tat to 3", "description2", now(), now(), "image2", true, 3);
 
 # comments
 INSERT INTO comment (book_id, user_id, created_at, updated_at, message) VALUE (1 , 1, now(), now(), "sach hay");

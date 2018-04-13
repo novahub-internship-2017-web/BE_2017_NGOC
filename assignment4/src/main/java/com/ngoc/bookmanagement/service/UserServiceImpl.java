@@ -2,7 +2,6 @@ package com.ngoc.bookmanagement.service;
 
 import com.ngoc.bookmanagement.constant.MessageResponseConstant;
 import com.ngoc.bookmanagement.constant.RoleConstant;
-import com.ngoc.bookmanagement.model.Message;
 import com.ngoc.bookmanagement.model.MessageResponse;
 import com.ngoc.bookmanagement.model.Role;
 import com.ngoc.bookmanagement.model.User;
@@ -10,16 +9,12 @@ import com.ngoc.bookmanagement.repository.RoleRepository;
 import com.ngoc.bookmanagement.repository.UserRepository;
 import com.ngoc.bookmanagement.validation.GroupUserLogin;
 import com.ngoc.bookmanagement.validation.UserValidation;
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotNull;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.groups.Default;
 
 @Service
@@ -187,4 +182,12 @@ public class UserServiceImpl implements UserService {
         //messageResponse.setObject(message.getContent());
         return messageResponse;
     }
+
+    @Override
+    public User getUserLoginInSession(HttpServletRequest request) {
+        User user = ((User) request.getSession().getAttribute("userLogin"));
+        user = userRepository.findById(user.getId()).get();
+        return user;
+    }
+
 }

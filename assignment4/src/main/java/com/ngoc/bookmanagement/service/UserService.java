@@ -2,7 +2,8 @@ package com.ngoc.bookmanagement.service;
 
 import com.ngoc.bookmanagement.model.MessageResponse;
 import com.ngoc.bookmanagement.model.User;
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+
+import javax.servlet.http.HttpServletRequest;
 
 public interface UserService {
 
@@ -15,4 +16,7 @@ public interface UserService {
     MessageResponse updateUserById(long userId, User user, HttpServletRequest request);
 
     MessageResponse updateEnabledById(long userId, boolean enabled, HttpServletRequest request);
+
+    User getUserLoginInSession(HttpServletRequest request);
+
 }

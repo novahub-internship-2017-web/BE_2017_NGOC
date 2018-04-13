@@ -38,7 +38,7 @@ public class TestController {
     private UserRepository userRepository;
 
     @RequestMapping("/test")
-    public ModelAndView testGet(HttpServletRequest request){
+    public ModelAndView testGet(){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("test");
         return modelAndView;
@@ -46,8 +46,12 @@ public class TestController {
 
     @Transactional
     @GetMapping(value = "/api/test", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> testGet(){
-        User user = userRepository.findByEmail("admin@gmail.com");
+    public ResponseEntity<?> testGet(HttpServletRequest request){
+        User user = userRepository.findByEmail("user@gmail.com");
+        System.out.println(user.getRole().getName());
+
+        User user1 = ((User) request.getSession().getAttribute("userLogin"));
+        System.out.println(userRepository.findById(user1.getId()).get().getRole().getName());
 
         return new ResponseEntity<>(user.getRole(), HttpStatus.OK);
     }
