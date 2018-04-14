@@ -25,7 +25,13 @@
             </ul>
         </div>
     </nav>
-  
+
+    <div class="alert alert-success" id="alert-success-message" style="display: none; margin-top: 65px;">
+        <p style="text-align: center; margin-bottom: 0px;">
+            <strong>Success!</strong> You have successfully signed up as a user.
+        </p>
+    </div>
+
 
     <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -39,12 +45,7 @@
                     <form id="login-form">
                         <div class="form-group">
                             <h2 style="text-align: center" id="form-title">Please Login</h2>
-                        </div>      
-                        <div class="alert alert-success" id="alert-success-message" style="display: none;">
-                            <p style="text-align: center; margin-bottom: 0px;">
-                                <strong>Success!</strong> You have successfully signed up as a user.
-                            </p>
-                        </div>
+                        </div>                              
                         <div class="alert alert-danger" id="alert-error-message" style="display: none;">
                             <p style="text-align: center; margin-bottom: 0px;">
                                 <strong>Danger!</strong> <span id="error-message"></span>.
@@ -100,7 +101,14 @@
         const BTN_SIGN_UP_PRESSED = 1;
         const BTN_SIGN_IN_PRESSED = 2;
 
-        var state, urlRequest;
+        const OK = 0;
+        const EMAIL_IS_EXIST = 11;
+        const EMAIL_OR_PASSWORD_WRONG = 12;
+
+        const ROLE_ADMIN = "ADMIN";
+        const ROLE_USER = "USER";
+
+        var state;
 
         $("#login-form").click( function(event){
             $("#alert-error-message").hide();
@@ -116,13 +124,11 @@
             $("#group-firstname").show();
             $("#group-lastname").show();
             $("#btn-action").val("Sign up");
-            urlRequest = window.location.origin + "/api/user";
 
             if(state != BTN_SIGN_UP_PRESSED){
                 clearForm();
                 clearErrorMessages();
             }
-
             state = BTN_SIGN_UP_PRESSED;
             
         });
@@ -136,7 +142,6 @@
             $("#group-firstname").hide();
             $("#group-lastname").hide();
             $("#btn-action").val("Sign in");
-            urlRequest = window.location.origin + "/api/login";
 
             if(state != BTN_SIGN_IN_PRESSED){
                 clearForm();
@@ -176,12 +181,7 @@
             event.preventDefault();
             var data;
 
-            if(state == BTN_SIGN_IN_PRESSED){
-                data = JSON.stringify({
-                    "email" : this.email.value,
-                    "password" : this.password.value
-                });
-            } else {
+            if(state == BTN_SIGN_UP_PRESSED){
                 data = JSON.stringify({
                     "email" : this.email.value,
                     "password" : this.password.value,
@@ -191,33 +191,86 @@
             }
 
             if($("#login-form").valid() ) {
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json",
-                    url: urlRequest,
-                    data: data,
-                    dataType: 'json',
-                    timeout: 10000,
-                    success: function (data) {
-                        if(state == BTN_SIGN_UP_PRESSED){
-                            $("#alert-success-message").show();
-                            $("#alert-error-message").hide();
-                            clearForm();
+                switch(state){
+                    case BTN_SIGN_UP_PRESSED : 
+                        {
+                            $.ajax({
+                                type: "POST",
+                                contentType: "application/json",
+                                url: window.location.origin + "/api/user",
+                                data: data,
+                                dataType: 'json',
+                                timeout: 10000,
+                                success: function (data) {
+                                    switch(data.code)
+                                    {
+                                        case OK:
+                                            {                                                
+                                                clearForm();    
+                                                $("#exampleModal").modal('hide'); 
+                                                $("#alert-success-message").show();
+                                                $("#alert-error-message").hide();
+                                            }
+                                            break;
+
+                                        case EMAIL_IS_EXIST:
+                                            {
+                                                $("#alert-error-message").show();
+                                                $("#alert-success-message").hide();
+                                                $("#error-message").text("Email is exist");
+                                            }
+                                            break;
+                                    }
+                                                                   
+                                },
+                                error: function (e) {
+                                    // TODO: show message network 
+                                }
+                            });
                         }
-                        else{
-                            if(data.name == "ADMIN"){
-                                window.location.replace(window.location.origin + "/admin/home");
-                            } else {
-                                window.location.replace(window.location.origin + "/user/home");
-                            }
+                        break;
+                    case BTN_SIGN_IN_PRESSED :
+                        {
+                            $.ajax({
+                                type: "GET",
+                                contentType: "application/json",
+                                url: window.location.origin + "/api/user",
+                                headers: {"email" : this.email.value, "password" : this.password.value},
+                                dataType: 'json',
+                                timeout: 10000,
+                                success: function (data) {
+                                    switch(data.code)
+                                    {
+                                        case OK:
+                                            {                                                
+                                                if(data.object.name == ROLE_ADMIN){
+                                                    window.location.replace(window.location.origin + "/admin/home");
+                                                } 
+
+                                                if(data.object.name == ROLE_USER){
+                                                    window.location.replace(window.location.origin + "/user/home");
+                                                }
+                                            }
+                                            break;
+
+                                        case EMAIL_OR_PASSWORD_WRONG:
+                                            {
+                                                $("#alert-error-message").show();
+                                                $("#alert-success-message").hide();
+                                                $("#error-message").text("Email or Password are wrong");
+                                            }
+                                            break;
+                                    }
+                                },
+                                error: function (e) {
+                                    $("#alert-error-message").show();
+                                    $("#alert-success-message").hide();
+                                    $("#error-message").text(e.responseJSON.message.trim());
+                                }
+                            });
                         }
-                    },
-                    error: function (e) {
-                        $("#alert-error-message").show();
-                        $("#alert-success-message").hide();
-                        $("#error-message").text(e.responseJSON.message.trim());
-                    }
-                });
+                        break;
+                }
             }
         });
 
@@ -258,8 +311,6 @@
                 }
             });
         });
-    </script>
-
-    
+    </script>    
 </body>
 </html>

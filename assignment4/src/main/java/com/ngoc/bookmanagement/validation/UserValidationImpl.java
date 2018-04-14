@@ -71,6 +71,7 @@ public class UserValidationImpl implements UserValidation {
         if(userRepository.existsByEmail(user.getEmail())) {
             //message = new Message();
             //message.getContent().put("message", "Email is exist");
+            messageResponse = new MessageResponse();
             messageResponse.setCode(MessageResponseConstant.EMAIL_IS_EXIST);
             //messageResponse.setObject(message.getContent());
         }

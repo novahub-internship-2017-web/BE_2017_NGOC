@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
             //message.getContent().put("message", "Email is not exist");
 
             messageResponse = new MessageResponse();
-            messageResponse.setCode(MessageResponseConstant.EMAIL_IS_NOT_EXIST);
+            messageResponse.setCode(MessageResponseConstant.EMAIL_OR_PASSWORD_WRONG);
             //messageResponse.setObject(message.getContent());
             return messageResponse;
         }
@@ -71,6 +71,7 @@ public class UserServiceImpl implements UserService {
 
         messageResponse = new MessageResponse();
         messageResponse.setCode(MessageResponseConstant.OK);
+        messageResponse.setObject(userLogin.getRole());
         //messageResponse.setObject(message.getContent());
         return messageResponse;
     }

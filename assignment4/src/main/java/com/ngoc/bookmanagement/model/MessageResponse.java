@@ -7,8 +7,7 @@ import java.io.Serializable;
 public class MessageResponse implements Serializable {
 
     private int code;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    
     private Object object;
 
     public int getCode() {
