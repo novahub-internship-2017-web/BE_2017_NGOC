@@ -205,6 +205,7 @@ public class BookServiceImpl implements BookService{
 
         messageResponse = new MessageResponse();
         messageResponse.setCode(MessageResponseConstant.UPDATE_BOOK_SUCCESS);
+        messageResponse.setObject(bookIsSelected);
 
         return messageResponse;
     }

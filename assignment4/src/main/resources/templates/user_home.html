@@ -209,48 +209,50 @@
             table_books_list.appendChild(tbody);
 
             var bookIndex;
-            for(bookIndex = 0; bookIndex < dataReceive.length; bookIndex++){
-                tr_a_book = document.createElement("tr");
-                tbody.appendChild(tr_a_book);
-
-                th_a_book_id = document.createElement("th");
-                // td_a_book_id.className = "td_a_book_id";
-                // td_a_book_id.id = "td_a_book_id_" + bookIndex;
-                th_a_book_id.innerText = dataReceive[bookIndex].id;
-                tr_a_book.appendChild(th_a_book_id);
-
-                td_a_book_title = document.createElement("td");
-                a_a_book_title = document.createElement("a");
-                a_a_book_title.id = bookIndex;
-                a_a_book_title.innerText = dataReceive[bookIndex].title;
-                a_a_book_title.setAttribute("data-toggle", "modal");
-                a_a_book_title.setAttribute("href", "#bookViewModal");
-                a_a_book_title.setAttribute("onClick", "onClickLinkBook(this.id)");
-                td_a_book_title.appendChild(a_a_book_title);
-                tr_a_book.appendChild(td_a_book_title);
-
-                td_a_book_author = document.createElement("td");
-                // td_a_book_author.className = "td_a_book_author";
-                // td_a_book_author.id = "td_a_book_author_" + bookIndex;
-                td_a_book_author.innerText = dataReceive[bookIndex].author;
-                tr_a_book.appendChild(td_a_book_author);
-
-                td_a_book_methods = document.createElement("td");
-                
-                if(dataReceive[bookIndex].userId == userId){
-                    button_edit = document.createElement("a");
-                    button_edit.setAttribute("data-toggle", "modal");
-                    button_edit.setAttribute("data-target", "#exampleModal");
-                    button_edit.className = "btn btn-primary btnEdit";
-                    button_edit.id = "btnEdit_" + userId;
-                    button_edit.innerText = "Edit";
-                    button_edit.setAttribute("onclick", "onClickEditButton(" + dataReceive[bookIndex].id  + ")");
-                    td_a_book_methods.appendChild(button_edit);
-                }
-
-                tr_a_book.appendChild(td_a_book_methods);
+            for(bookIndex = 0; bookIndex < bookList.length; bookIndex++){
+                showABookResult(bookList[bookIndex]);
             }
         }
+
+        function showABookResult(aBookResult){
+            tr_a_book = document.createElement("tr");
+            tbody.appendChild(tr_a_book);
+
+            th_a_book_id = document.createElement("th");
+            th_a_book_id.innerText = aBookResult.id;
+            tr_a_book.appendChild(th_a_book_id);
+
+            td_a_book_title = document.createElement("td");
+            a_a_book_title = document.createElement("a");
+            a_a_book_title.id = aBookResult.id;
+            a_a_book_title.innerText = aBookResult.title;
+            a_a_book_title.setAttribute("data-toggle", "modal");
+            a_a_book_title.setAttribute("href", "#bookViewModal");
+            a_a_book_title.setAttribute("onClick", "onClickLinkBook(this.id)");
+            td_a_book_title.appendChild(a_a_book_title);
+            tr_a_book.appendChild(td_a_book_title);
+
+            td_a_book_author = document.createElement("td");
+            td_a_book_author.innerText = aBookResult.author;
+            tr_a_book.appendChild(td_a_book_author);
+
+            td_a_book_methods = document.createElement("td");
+            
+            if(aBookResult.userId == userId){
+                button_edit = document.createElement("a");
+                button_edit.setAttribute("data-toggle", "modal");
+                button_edit.setAttribute("data-target", "#exampleModal");
+                button_edit.className = "btn btn-primary btnEdit";
+                button_edit.id = "btnEdit_" + userId;
+                button_edit.innerText = "Edit";
+                button_edit.setAttribute("onclick", "onClickEditButton(" + aBookResult.id  + ")");
+                td_a_book_methods.appendChild(button_edit);
+            }
+
+            tr_a_book.appendChild(td_a_book_methods);
+        }
+
+
     </script>
 
     <!-- add / edit book-->
@@ -262,6 +264,7 @@
         function onClickEditButton(bookId){
             $("#form-title").text("Edit book");
             $("#btn-action").val("Update");
+            bookIdEdit = bookId;
             state = BTN_EDIT_BOOK_PRESSED;
         }
 
