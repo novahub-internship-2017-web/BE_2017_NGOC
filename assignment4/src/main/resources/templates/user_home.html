@@ -22,43 +22,46 @@
         </div>
     </nav>
 
-    <div class="body container" style="margin-top: 100px;">
-        <div style="text-align: center">
-            <a id="btnAll" class="btn btn-primary">All</a>
-            <a id="btnMyBook" class="btn btn-primary">My book</a>
-            <a id="btnEdit" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Edit</a>
-            <a id="btnAdd" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Add</a>
-        </div>
+    <div class="row" style="margin-top: 100px;">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div style="text-align: center">
+                <a id="btnAll" class="btn btn-primary">All</a>
+                <a id="btnMyBook" class="btn btn-primary">My book</a>            
+            </div>
 
+            <div id="search_book">
+                <div class="form-group row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-9">
+                        <input type="text" id="text_search" class="form-control" />
+                    </div>
+                    <div class="col-md-1">
+                        <input type="button" id="button_search" class="btn btn-primary" value="Search"/>
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
+            </div>
 
-        <div id="search_book">
-            <div class="form-group row">
-                <div class="col-md-1"></div>
-                <div class="col-md-9">
-                    <input type="text" id="text_search" class="form-control" />
+            <div id="body">
+                <table id="books_list" style="display: none" class="table table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">id</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Author</th>
+                            <th scope="col">Methods</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div id="div_book_not_found" style="display: none">
+                    <p>Book not found</p>
                 </div>
-                <div class="col-md-1">
-                    <input type="button" id="button_search" class="btn btn-primary" value="Search"/>
-                </div>
-                <div class="col-md-1"></div>
             </div>
         </div>
+        <div class="col-md-2">            
+            <a id="btnAdd" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Add</a> 
 
-        <div id="body">
-            <table id="books_list" style="display: none" class="table">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">id</th>
-                        <th scope="col">Title</th>
-                        <th scope="col">Author</th>
-                        <th scope="col">Created at</th>
-                        <th scope="col">Updated at</th>
-                    </tr>
-                </thead>
-            </table>
-            <div id="div_book_not_found" style="display: none">
-                <p>Book not found</p>
-            </div>
         </div>
     </div>
 
@@ -145,20 +148,21 @@
         }
     </style>
 
+    <!-- search book -->
     <script>
-        const BTN_ADD_BOOK_PRESSED = 3;
-        const BTN_EDIT_BOOK_PRESSED = 4;
+        const BTN_BOOK_ALL_PRESSED = 1;
+        const BTN_MY_BOOK_PRESSED = 2;
+        var userId, urlRequestSearchBook, bookList, state, wordsSearch;
 
-        var dataRequest, state, urlRequest, typeRequest, bookList, wordsSearch;
-        var userId = [[${session.userLogin.id}]];
-        var urlRequestSearchBook = window.location.origin + "/api/book";
+        userId = [[${session.userLogin.id}]];
+        urlRequestSearchBook = window.location.origin + "/api/books/user/" + userId;
 
         $("#btnAll").click(function(){
-           urlRequestSearchBook = window.location.origin + "/api/book";
+           urlRequestSearchBook = window.location.origin + "/api/books/user/" + userId;
         });
 
         $("#btnMyBook").click(function(){
-            urlRequestSearchBook = window.location.origin + "/api/user/" + userId + "/book";
+            urlRequestSearchBook = window.location.origin + "/api/user/" + userId + "/books";
         });
 
         $("#button_search").click(function () {
@@ -171,14 +175,15 @@
             $.ajax({
                 type: "GET",
                 contentType: "application/json",
-                url: urlRequestSearchBook + "?wordsSearch=" + wordsSearch,
+                url: urlRequestSearchBook,
+                headers : {"wordsSearch" : wordsSearch},
                 dataType: 'json',
                 timeout: 10000,
                 success: function (dataReceive) {
                     if(dataReceive.length == 0){
                         showMessageNotFound();
                     } else {
-                        showBooksResult(dataReceive);
+                        showBooksResult(dataReceive.object);
                     }
                 },
                 error: function (e) {
@@ -230,61 +235,71 @@
                 td_a_book_author.innerText = dataReceive[bookIndex].author;
                 tr_a_book.appendChild(td_a_book_author);
 
-                td_a_book_created_at = document.createElement("td");
-                // td_a_book_created_at.className = "td_a_book_created_at";
-                // td_a_book_created_at.id = "td_a_book_created_at_" + bookIndex;
-                td_a_book_created_at.innerText = dataReceive[bookIndex].createdAt;
-                tr_a_book.appendChild(td_a_book_created_at);
+                td_a_book_methods = document.createElement("td");
+                
+                if(dataReceive[bookIndex].userId == userId){
+                    button_edit = document.createElement("a");
+                    button_edit.setAttribute("data-toggle", "modal");
+                    button_edit.setAttribute("data-target", "#exampleModal");
+                    button_edit.className = "btn btn-primary btnEdit";
+                    button_edit.id = "btnEdit_" + userId;
+                    button_edit.innerText = "Edit";
+                    button_edit.setAttribute("onclick", "onClickEditButton(" + dataReceive[bookIndex].id  + ")");
+                    td_a_book_methods.appendChild(button_edit);
+                }
 
-                td_a_book_updated_at = document.createElement("td");
-                // td_a_book_updated_at.className = "td_a_book_updated_at";
-                // td_a_book_updated_at.id = "td_a_book_updated_at_" + bookIndex;
-                td_a_book_updated_at.innerText = dataReceive[bookIndex].updatedAt;
-                tr_a_book.appendChild(td_a_book_updated_at);
+                tr_a_book.appendChild(td_a_book_methods);
             }
         }
+    </script>
 
-        function onClickLinkBook(bookIndex)
-        {
-            $("#titleBookView").text(bookList[bookIndex].title);
-            $("#authorBookView").text(bookList[bookIndex].author);
-            $("#descriptionBookView").text(bookList[bookIndex].description);
-        }
+    <!-- add / edit book-->
+    <script>
+        const BTN_ADD_BOOK_PRESSED = 3;
+        const BTN_EDIT_BOOK_PRESSED = 4;
+        var dataRequest, urlRequestAddOrEditBook, typeRequest, bookIdEdit;        
 
-        $("#btnEdit").click( function (event){
+        function onClickEditButton(bookId){
             $("#form-title").text("Edit book");
             $("#btn-action").val("Update");
-            urlRequest = window.location.origin + "/api/book/1";
             state = BTN_EDIT_BOOK_PRESSED;
-            typeRequest = "PUT";
-        });
+        }
 
         $("#btnAdd").click( function (event) {
            $("#form-title").text("Create a new book");
            $("#btn-action").val("Create");
-           urlRequest = window.location.origin + "/api/book";
            state = BTN_ADD_BOOK_PRESSED;
-           typeRequest = "POST";
         });
 
         // code to submit book-form
         $("#book-form").submit(function(event) {
             event.preventDefault();
 
-            if(state == BTN_ADD_BOOK_PRESSED || state == BTN_EDIT_BOOK_PRESSED){
-                dataRequest = JSON.stringify({
-                    "title" : this.title.value,
-                    "author" : this.author.value,
-                    "description" : this.description.value,
-                    "user_id" : userId
-                });
+            dataRequest = JSON.stringify({
+                "title" : this.title.value,
+                "author" : this.author.value,
+                "description" : this.description.value
+            });
+
+            switch(state){
+                case BTN_ADD_BOOK_PRESSED : {
+                    urlRequestAddOrEditBook = window.location.origin + "/api/book";
+                    typeRequest = "POST";
+                }
+                break;
+
+                case BTN_EDIT_BOOK_PRESSED : {
+                    urlRequestAddOrEditBook = window.location.origin + "/api/book/" + bookIdEdit;
+                    typeRequest = "PUT";
+                }
+                break;
             }
             
             if($("#book-form").valid()){
                 $.ajax({
                     type : typeRequest,
                     contentType: "application/json",
-                    url: urlRequest,
+                    url: urlRequestAddOrEditBook,
                     data: dataRequest,
                     dataType: 'json',
                     timeout: 10000,
@@ -320,13 +335,33 @@
             });
         });
 
-        $("#btnLogout").click(function (event) {
-           event.preventDefault();
-
-           callLogoutAPI();
+        // code to search all books when website is loaded complete   
+        document.addEventListener("DOMContentLoaded", function(){
+            searchBooks("");
         });
+    </script>
+
+    <!-- show book -->
+    <script>
+        function onClickLinkBook(bookIndex)
+        {
+            $("#titleBookView").text(bookList[bookIndex].title);
+            $("#authorBookView").text(bookList[bookIndex].author);
+            $("#descriptionBookView").text(bookList[bookIndex].description);
+        }
+    </script>
+
+    <!-- logout -->
+    <script>
 
         function callLogoutAPI(){
+
+            $("#btnLogout").click(function (event) {
+               event.preventDefault();
+
+               callLogoutAPI();
+            });
+
             $.ajax({
                 type: "GET",
                 contentType: "application/json",
@@ -340,12 +375,8 @@
                     console.log("ERROR : ", e.responseJSON.message);
                 }
             });
-        }
-
-        // code to search all books when website is loaded complete
-        document.addEventListener("DOMContentLoaded", function(){
-            searchBooks("");
-        });
+        }             
     </script>
+
 </body>
 </html>

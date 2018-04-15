@@ -146,6 +146,24 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
+    public MessageResponse getAllBooksWithDisabledBookOfUser(String wordSearch, long userId, HttpServletRequest request) {
+
+        log(request);
+        List<Book> bookList = bookRepository.getAllByEnabledTrueAndUserIdAndEnabledDisable(userId);
+        MessageResponse messageResponse = new MessageResponse();
+
+        if(bookList.size() == 0){
+            messageResponse.setCode(MessageResponseConstant.NO_CONTENT);
+        } else {
+            // TODO: change code
+            messageResponse.setCode(MessageResponseConstant.OK);
+        }
+        messageResponse.setObject(bookList);
+
+        return messageResponse;
+    }
+
+    @Override
     public MessageResponse createBook(Book book, HttpServletRequest request) {
         MessageResponse messageResponse;
 
@@ -158,6 +176,8 @@ public class BookServiceImpl implements BookService{
 
         messageResponse = new MessageResponse();
         messageResponse.setCode(MessageResponseConstant.CREATE_BOOK_SUCCESS);
+        messageResponse.setObject(book);
+        
         return messageResponse;
     }
 

@@ -64,10 +64,12 @@ public class BookController {
         return modelAndView;
     }
 
+    // TODO : Write an API to Get all books + my book wich is disabled
+
     // API for ROLE : ADMIN
     // API get all books like author or title
     @GetMapping(value = "/api/books", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> getAllBooks(@RequestHeader(value = "wordSearch", required = false) String wordSearch,
+    public ResponseEntity<?> getAllBooks(@RequestHeader(value = "wordSearch", required = false, defaultValue = "") String wordSearch,
                                          HttpServletRequest request,
                                          @SessionAttribute("userLogin") @Nullable User userLogin){
         MessageResponse messageResponse;
@@ -80,10 +82,28 @@ public class BookController {
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
 
+    // API for ROLE : ADMIN
+    // Required login
+    // API get all books like author or title + all disabled book of user {userId}
+    @GetMapping(value = "/api/books/user/{userId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> getAllBooksWithDisabledBookOfUser(@RequestHeader(value = "wordSearch", required = false, defaultValue = "") String wordSearch,
+                                                           @PathVariable("userId") long userId,
+                                         HttpServletRequest request,
+                                         @SessionAttribute("userLogin") @Nullable User userLogin){
+        MessageResponse messageResponse;
+
+        if(!checkTrueUserOrAdminPermission(userId, userLogin))
+            messageResponse = new MessageResponse(MessageResponseConstant.ACCESS_DENIED);
+        else
+            messageResponse = bookService.getAllBooksWithDisabledBookOfUser(wordSearch, userId, request);
+
+        return new ResponseEntity<>(messageResponse, HttpStatus.OK);
+    }
+
     // API for ROLE : USER | ADMIN
     // API get all books of user by userId with wordSearch
     @GetMapping(value = "/api/user/{userId}/books", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> getAllBooksOfUser(@RequestHeader(value = "wordSearch", required = false)  String wordSearch,
+    public ResponseEntity<?> getAllBooksOfUser(@RequestHeader(value = "wordSearch", required = false, defaultValue = "")  String wordSearch,
                                                @PathVariable("userId") long userId,
                                                HttpServletRequest request,
                                                @SessionAttribute("userLogin") User userLogin){
@@ -100,7 +120,7 @@ public class BookController {
     // API for ROLE : USER | ADMIN | GUEST
     // API get all books of user by userId with wordSearch, enable status
     @GetMapping(value = "/api/user/{userId}/books/enabled", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> getAllBooksEnabledOfUser(@RequestHeader(value = "wordSearch", required = false)  String wordSearch,
+    public ResponseEntity<?> getAllBooksEnabledOfUser(@RequestHeader(value = "wordSearch", required = false, defaultValue = "")  String wordSearch,
                                                @PathVariable("userId") long userId,
                                                HttpServletRequest request,
                                                @SessionAttribute("userLogin") User userLogin){
@@ -113,7 +133,7 @@ public class BookController {
     // API for ROLE : USER | ADMIN
     // API get all books of user by userId with wordSearch, enable status
     @GetMapping(value = "/api/user/{userId}/books/disabled", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> getAllBooksDisabledOfUser(@RequestHeader(value = "wordSearch", required = false)  String wordSearch,
+    public ResponseEntity<?> getAllBooksDisabledOfUser(@RequestHeader(value = "wordSearch", required = false, defaultValue = "")  String wordSearch,
                                                       @PathVariable("userId") long userId,
                                                       HttpServletRequest request,
                                                       @SessionAttribute("userLogin") User userLogin){

@@ -17,6 +17,8 @@ public interface BookService {
 
     MessageResponse getBook(long bookId, HttpServletRequest request);
 
+    MessageResponse getAllBooksWithDisabledBookOfUser(String wordSeard, long userId, HttpServletRequest request);
+
     MessageResponse createBook(Book book, HttpServletRequest request);
 
     MessageResponse updateBook(long bookId, Book book, HttpServletRequest request);
