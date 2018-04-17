@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>User home</title>
+    <title>Admin Home</title>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -123,12 +123,11 @@
                     <div class="row">
                         <div class="col-lg-1"></div>
                         <div class="col-lg-10">   
-                            <h2>Title : </h2>
-                            <p id="titleBookView"></p>
-                            <h2>Author : </h2>
-                            <p id="authorBookView"></p>
-                            <h2>Description : </h2>
-                            <p id="descriptionBookView"></p>
+                            <!-- <h2>Title : </h2> -->
+                            <h2 id="titleBookView"></h2>
+                            <h4 id="authorBookView" style="font-size : 15px;"></h4>
+
+                            <p id="descriptionBookView" style="margin-top: 10px;"></p>
                             <h2>Comment : </h2>
                             <div id="comments">
                                 <div class="row">
@@ -327,7 +326,7 @@
             td_a_book_methods = document.createElement("td");
             td_a_book_methods.setAttribute("align", "center");
             
-            if(aBookResult.userId === userId){
+            // if(aBookResult.userId === userId){
                 button_edit = document.createElement("a");
                 button_edit.setAttribute("data-toggle", "modal");
                 button_edit.setAttribute("data-target", "#exampleModal");
@@ -337,20 +336,62 @@
                 button_edit.style = "margin-right: 5px;";
                 button_edit.setAttribute("onclick", "onClickEditButton(" + aBookResult.id  + ")");
                 td_a_book_methods.appendChild(button_edit);
-            }
+            // }
 
             button_enable_disable = document.createElement("a");
             button_enable_disable.className = "btn btn-primary btnEnableDisable";
-            button_enable_disable.id = "btnEnableDisable_" + userId;
+            button_enable_disable.id = "btnEnableDisable_" + aBookResult.id;
             if(aBookResult.enabled == true){
                 button_enable_disable.innerText = "Disable";
             } else {
                 button_enable_disable.innerText = "Enable";
             }
-
+            button_enable_disable.setAttribute("onClick", "enableOrDisableBook(" + aBookResult.id + ")");
             td_a_book_methods.appendChild(button_enable_disable);
  
             tr_a_book.appendChild(td_a_book_methods);
+        }
+
+        var urlLockOrUnlockBookRequest;
+
+        function enableOrDisableBook(bookId){
+            for(var bookIndex = 0; bookIndex < bookList.length; bookIndex++){
+                if(bookList[bookIndex].id == bookId){
+                    callUpdateEnableOfBook(bookList[bookIndex], bookIndex);
+                    break;
+                }
+            }
+        }
+
+        function callUpdateEnableOfBook(bookUpdateEnabled, bookIndex){
+            if(bookUpdateEnabled.enabled == true){
+                urlLockOrUnlockBookRequest = window.location.origin + "/api/book/" + bookUpdateEnabled.id + "/lock";
+            } else {
+                urlLockOrUnlockBookRequest = window.location.origin + "/api/book/" + bookUpdateEnabled.id + "/unlock";
+            }
+
+            $.ajax({
+                type : "PUT",
+                contentType: "application/json",
+                url: urlLockOrUnlockBookRequest,
+                data: null,
+                dataType: 'json',
+                timeout: 10000,
+                success: function (dataReceive) {
+                    if(bookList[bookIndex].enabled == true){
+                        bookList[bookIndex].enabled = false;
+                        $("#btnEnableDisable_" + bookUpdateEnabled.id).text("Enable");
+                    } else {
+                        bookList[bookIndex].enabled = true;
+                        $("#btnEnableDisable_" + bookUpdateEnabled.id).text("Disable");
+                    }
+
+                    console.log("change enabled");
+                },
+                error: function (e) {
+                    console.log("ERROR : " + dataReceive);
+                }
+            });
         }
 
         function clearBookForm(){
