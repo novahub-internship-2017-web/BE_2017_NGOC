@@ -258,7 +258,7 @@
 
             td_a_book_title = document.createElement("td");
             a_a_book_title = document.createElement("a");
-            a_a_book_title.id = aBookResult.id;
+            a_a_book_title.id = "title_" + aBookResult.id;
             a_a_book_title.innerText = aBookResult.title;
             a_a_book_title.setAttribute("data-toggle", "modal");
             a_a_book_title.setAttribute("href", "#bookViewModal");
@@ -267,6 +267,7 @@
             tr_a_book.appendChild(td_a_book_title);
 
             td_a_book_author = document.createElement("td");
+            td_a_book_author.id = "author_" + aBookResult.id;
             td_a_book_author.innerText = aBookResult.author;
             tr_a_book.appendChild(td_a_book_author);
 
@@ -364,6 +365,21 @@
                                 bookList.push(dataReceive.object);
                                 showABookResult(dataReceive.object);
                             }
+                            break;
+
+                            case BTN_EDIT_BOOK_PRESSED : {
+                                $("#title_" + dataReceive.object.id).text(dataReceive.object.title);
+                                $("#author_" + dataReceive.object.id).text(dataReceive.object.author);
+
+                                for(var bookIndex = 0; bookIndex < bookList.length; bookIndex++){
+                                    if(bookList[bookIndex].id === dataReceive.object.id){
+                                        bookList[bookIndex].title = dataReceive.object.title;
+                                        bookList[bookIndex].author = dataReceive.object.author;
+                                        bookList[bookIndex].description = dataReceive.object.description;
+                                    }
+                                }
+                            }
+                            break;
                         }
                     },
                     error: function (e) {
