@@ -3,6 +3,7 @@ package com.ngoc.bookmanagement.service;
 import com.ngoc.bookmanagement.constant.MessageResponseConstant;
 import com.ngoc.bookmanagement.model.*;
 import com.ngoc.bookmanagement.repository.CommentRepository;
+import com.ngoc.bookmanagement.repository.UserRepository;
 import com.ngoc.bookmanagement.validation.BookValidation;
 import com.ngoc.bookmanagement.validation.CommentValidation;
 import com.ngoc.bookmanagement.validation.GroupCommentCreate;
@@ -23,6 +24,9 @@ public class CommentServiceImpl implements CommentService {
 
     @Autowired
     private CommentRepository commentRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private BookValidation bookValidation;
@@ -65,6 +69,9 @@ public class CommentServiceImpl implements CommentService {
 
         messageResponse = new MessageResponse();
         List<Comment> commentList = commentRepository.getAllByBookId(bookId);
+        for(Comment comment : commentList){
+            comment.setUser(userRepository.findById(comment.getUserId()).get());
+        }
         messageResponse.setCode(MessageResponseConstant.OK);
         messageResponse.setObject(commentList);
         return messageResponse;
@@ -93,6 +100,9 @@ public class CommentServiceImpl implements CommentService {
         comment.setUserId(userId);
         commentRepository.save(comment);
 
+        // TODO : check @ManyToOne in Comment class
+
+        comment.setUser(userRepository.findById(userId).get());
         messageResponse = new MessageResponse();
         messageResponse.setCode(MessageResponseConstant.OK);
         messageResponse.setObject(comment);

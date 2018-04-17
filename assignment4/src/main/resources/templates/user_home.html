@@ -440,7 +440,7 @@
             a_name = document.createElement("a");
             a_name.className = "name";
             a_name.href = "";
-            a_name.innerText = comment.message;
+            a_name.innerText = comment.user.firstName + " " + comment.user.lastName;
             h6_header_comment_h6.appendChild(a_name);
 
             h4_message = document.createElement("h4");

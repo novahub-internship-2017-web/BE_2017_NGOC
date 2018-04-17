@@ -1,9 +1,6 @@
 package com.ngoc.bookmanagement.controller;
 
-import com.ngoc.bookmanagement.model.Book;
-import com.ngoc.bookmanagement.model.Message;
-import com.ngoc.bookmanagement.model.Role;
-import com.ngoc.bookmanagement.model.User;
+import com.ngoc.bookmanagement.model.*;
 import com.ngoc.bookmanagement.repository.BookRepository;
 import com.ngoc.bookmanagement.repository.CommentRepository;
 import com.ngoc.bookmanagement.repository.UserRepository;
@@ -50,10 +47,12 @@ public class TestController {
         User user = userRepository.findByEmail("user@gmail.com");
         System.out.println(user.getRole().getName());
 
-        User user1 = ((User) request.getSession().getAttribute("userLogin"));
-        System.out.println(userRepository.findById(user1.getId()).get().getRole().getName());
+        //User user1 = ((User) request.getSession().getAttribute("userLogin"));
+        //System.out.println(userRepository.findById(user1.getId()).get().getRole().getName());
 
-        return new ResponseEntity<>(user.getRole(), HttpStatus.OK);
+        long id = 1;
+
+        return new ResponseEntity<>(commentRepository.findById(id).get().getUser(), HttpStatus.OK);
     }
 
 }

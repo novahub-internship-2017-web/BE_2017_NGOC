@@ -1,5 +1,6 @@
 package com.ngoc.bookmanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ngoc.bookmanagement.validation.GroupCommentCreate;
 import com.ngoc.bookmanagement.validation.GroupCommentUpdate;
 
@@ -8,6 +9,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "comment")
@@ -36,6 +38,11 @@ public class Comment implements Serializable {
     @Column(name = "message")
     @NotEmpty(groups = {GroupCommentCreate.class, GroupCommentUpdate.class})
     private String message;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    private User user;
 
     public long getId() {
         return id;
@@ -85,6 +92,14 @@ public class Comment implements Serializable {
         this.message = message;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public String toString() {
         return "Comment{" +
@@ -94,6 +109,7 @@ public class Comment implements Serializable {
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 ", message='" + message + '\'' +
+                ", user=" + user +
                 '}';
     }
 }
