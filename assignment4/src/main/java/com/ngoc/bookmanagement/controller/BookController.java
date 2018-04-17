@@ -69,7 +69,7 @@ public class BookController {
     // API for ROLE : ADMIN
     // API get all books like author or title
     @GetMapping(value = "/api/books", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> getAllBooks(@RequestHeader(value = "wordSearch", required = false, defaultValue = "") String wordSearch,
+    public ResponseEntity<?> getAllBooks(@RequestHeader(value = "wordsSearch", required = false, defaultValue = "") String wordsSearch,
                                          HttpServletRequest request,
                                          @SessionAttribute("userLogin") @Nullable User userLogin){
         MessageResponse messageResponse;
@@ -77,7 +77,7 @@ public class BookController {
         if(!checkAdminPermission(userLogin))
             messageResponse = new MessageResponse(MessageResponseConstant.ACCESS_DENIED);
         else
-            messageResponse = bookService.getAllBooks(wordSearch, request);
+            messageResponse = bookService.getAllBooks(wordsSearch, request);
         
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
@@ -86,24 +86,24 @@ public class BookController {
     // Required login
     // API get all books like author or title + all disabled book of user {userId}
     @GetMapping(value = "/api/books/user/{userId}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> getAllBooksWithDisabledBookOfUser(@RequestHeader(value = "wordSearch", required = false, defaultValue = "") String wordSearch,
+    public ResponseEntity<?> getAllBooksWithDisabledBookOfUser(@RequestHeader(value = "wordsSearch", required = false, defaultValue = "") String wordsSearch,
                                                            @PathVariable("userId") long userId,
-                                         HttpServletRequest request,
-                                         @SessionAttribute("userLogin") @Nullable User userLogin){
+                                                            HttpServletRequest request,
+                                                          @SessionAttribute("userLogin") @Nullable User userLogin){
         MessageResponse messageResponse;
 
         if(!checkTrueUserOrAdminPermission(userId, userLogin))
             messageResponse = new MessageResponse(MessageResponseConstant.ACCESS_DENIED);
         else
-            messageResponse = bookService.getAllBooksWithDisabledBookOfUser(wordSearch, userId, request);
+            messageResponse = bookService.getAllBooksWithDisabledBookOfUser(wordsSearch, userId, request);
 
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
 
     // API for ROLE : USER | ADMIN
-    // API get all books of user by userId with wordSearch
+    // API get all books of user by userId with wordsSearch
     @GetMapping(value = "/api/user/{userId}/books", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> getAllBooksOfUser(@RequestHeader(value = "wordSearch", required = false, defaultValue = "")  String wordSearch,
+    public ResponseEntity<?> getAllBooksOfUser(@RequestHeader(value = "wordsSearch", required = false, defaultValue = "")  String wordsSearch,
                                                @PathVariable("userId") long userId,
                                                HttpServletRequest request,
                                                @SessionAttribute("userLogin") User userLogin){
@@ -112,28 +112,28 @@ public class BookController {
         if(!checkTrueUserOrAdminPermission(userId, userLogin))
             messageResponse = new MessageResponse(MessageResponseConstant.ACCESS_DENIED);
         else 
-            messageResponse = bookService.getAllBooksOfUser(wordSearch, userId, request);
+            messageResponse = bookService.getAllBooksOfUser(wordsSearch, userId, request);
         
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
 
     // API for ROLE : USER | ADMIN | GUEST
-    // API get all books of user by userId with wordSearch, enable status
+    // API get all books of user by userId with wordsSearch, enable status
     @GetMapping(value = "/api/user/{userId}/books/enabled", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> getAllBooksEnabledOfUser(@RequestHeader(value = "wordSearch", required = false, defaultValue = "")  String wordSearch,
+    public ResponseEntity<?> getAllBooksEnabledOfUser(@RequestHeader(value = "wordsSearch", required = false, defaultValue = "")  String wordsSearch,
                                                @PathVariable("userId") long userId,
                                                HttpServletRequest request,
                                                @SessionAttribute("userLogin") User userLogin){
         MessageResponse messageResponse;
-        messageResponse = bookService.getAllBooksOfUserByEnabled(wordSearch, userId, request, true);
+        messageResponse = bookService.getAllBooksOfUserByEnabled(wordsSearch, userId, request, true);
 
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
 
     // API for ROLE : USER | ADMIN
-    // API get all books of user by userId with wordSearch, enable status
+    // API get all books of user by userId with wordsSearch, enable status
     @GetMapping(value = "/api/user/{userId}/books/disabled", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> getAllBooksDisabledOfUser(@RequestHeader(value = "wordSearch", required = false, defaultValue = "")  String wordSearch,
+    public ResponseEntity<?> getAllBooksDisabledOfUser(@RequestHeader(value = "wordsSearch", required = false, defaultValue = "")  String wordsSearch,
                                                       @PathVariable("userId") long userId,
                                                       HttpServletRequest request,
                                                       @SessionAttribute("userLogin") User userLogin){
@@ -141,7 +141,7 @@ public class BookController {
         if(!checkTrueUserOrAdminPermission(userId, userLogin))
             messageResponse = new MessageResponse(MessageResponseConstant.ACCESS_DENIED);
         else
-            messageResponse = bookService.getAllBooksOfUserByEnabled(wordSearch, userId, request, false);
+            messageResponse = bookService.getAllBooksOfUserByEnabled(wordsSearch, userId, request, false);
 
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }

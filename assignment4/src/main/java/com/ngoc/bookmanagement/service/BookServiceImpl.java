@@ -149,7 +149,9 @@ public class BookServiceImpl implements BookService{
     public MessageResponse getAllBooksWithDisabledBookOfUser(String wordSearch, long userId, HttpServletRequest request) {
 
         log(request);
-        List<Book> bookList = bookRepository.getAllByEnabledTrueAndUserIdAndEnabledDisable(userId);
+
+        wordSearch = (wordSearch == null) ? "" : "%" + wordSearch + "%";
+        List<Book> bookList = bookRepository.getAllByEnabledTrueAndUserIdAndEnabledDisable(userId, wordSearch, wordSearch);
         MessageResponse messageResponse = new MessageResponse();
 
         if(bookList.size() == 0){

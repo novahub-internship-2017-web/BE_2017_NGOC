@@ -15,6 +15,8 @@ import javax.validation.*;
 @RestController
 public class CommentController {
 
+    // TODO: add code to validate create comment with book (is disabled)
+
     @Autowired
     private CommentService commentService;
 

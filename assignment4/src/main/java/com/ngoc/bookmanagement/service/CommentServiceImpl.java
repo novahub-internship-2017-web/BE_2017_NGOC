@@ -94,10 +94,8 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.save(comment);
 
         messageResponse = new MessageResponse();
-        //message = new Message();
-        //message.getContent().put("message", "Create new comment successfully");
         messageResponse.setCode(MessageResponseConstant.OK);
-        //messageResponse.setObject(message.getContent());
+        messageResponse.setObject(comment);
         return messageResponse;
     }
 

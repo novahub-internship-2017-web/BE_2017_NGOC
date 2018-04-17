@@ -68,7 +68,7 @@
 
     <!-- Modal bootstrap -->
     <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -112,7 +112,7 @@
     </div> 
 
     <div class="modal" id="bookViewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document" >
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -120,23 +120,55 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <h2>Title : </h2>
-                    <p id="titleBookView"></p>
-                    <h2>Author : </h2>
-                    <p id="authorBookView"></p>
-                    <h2>Description : </h2>
-                    <p id="descriptionBookView"></p>
+                    <div class="row">
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-10">   
+                            <h2>Title : </h2>
+                            <p id="titleBookView"></p>
+                            <h2>Author : </h2>
+                            <p id="authorBookView"></p>
+                            <h2>Description : </h2>
+                            <p id="descriptionBookView"></p>
+                            <h2>Comment : </h2>
+                            <div id="comments">
+                                <div class="row">
+                                    <div class="col-lg-1">ava</div>
+                                    <div class="col-lg-11">
+                                        <input type="text" name="comment" class="form-control" id="comment-input"/>
+                                        <hr/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-1"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div> 
+
+    
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
+
     <style type="text/css">
+        .header-comment-h6{
+            font-size: 15px;
+        }
+        .name{
+            color: #0275d8;
+        }
+        .message{
+            font-size: 16px;
+        }
+        #comment-input{
+            border-radius: 1.25rem;
+        }
+
         .form-group {
             margin-bottom: 0px;
         }
@@ -180,7 +212,7 @@
                 dataType: 'json',
                 timeout: 10000,
                 success: function (dataReceive) {
-                    if(dataReceive.length == 0){
+                    if(dataReceive.object.length === 0){
                         showMessageNotFound();
                     } else {
                         showBooksResult(dataReceive.object);
@@ -228,7 +260,7 @@
             a_a_book_title.innerText = aBookResult.title;
             a_a_book_title.setAttribute("data-toggle", "modal");
             a_a_book_title.setAttribute("href", "#bookViewModal");
-            a_a_book_title.setAttribute("onClick", "onClickLinkBook(this.id)");
+            a_a_book_title.setAttribute("onClick", "onClickLinkBook(" + aBookResult.id + ")");
             td_a_book_title.appendChild(a_a_book_title);
             tr_a_book.appendChild(td_a_book_title);
 
@@ -237,8 +269,9 @@
             tr_a_book.appendChild(td_a_book_author);
 
             td_a_book_methods = document.createElement("td");
+            td_a_book_methods.setAttribute("align", "center");
             
-            if(aBookResult.userId == userId){
+            if(aBookResult.userId === userId){
                 button_edit = document.createElement("a");
                 button_edit.setAttribute("data-toggle", "modal");
                 button_edit.setAttribute("data-target", "#exampleModal");
@@ -251,8 +284,6 @@
 
             tr_a_book.appendChild(td_a_book_methods);
         }
-
-
     </script>
 
     <!-- add / edit book-->
@@ -265,6 +296,16 @@
             $("#form-title").text("Edit book");
             $("#btn-action").val("Update");
             bookIdEdit = bookId;
+
+            for(var bookIndex = 0; bookIndex < bookList.length; bookIndex++){
+                if(bookList[bookIndex].id === bookId){
+                    $("#title").val(bookList[bookIndex].title);
+                    $("#author").val(bookList[bookIndex].author);
+                    $("#description").val(bookList[bookIndex].description);
+                    break;
+                }
+            }         
+
             state = BTN_EDIT_BOOK_PRESSED;
         }
 
@@ -307,7 +348,12 @@
                     dataType: 'json',
                     timeout: 10000,
                     success: function (dataReceive) {
-                        console.log("SUCCESS : " + dataReceive);
+                        switch(state){
+                            case BTN_ADD_BOOK_PRESSED : {
+                                bookList.push(dataReceive.object);
+                                showABookResult(dataReceive.object);
+                            }
+                        }
                     },
                     error: function (e) {
                         console.log("ERROR : " + dataReceive);
@@ -321,18 +367,18 @@
             $("#book-form").validate({
                 rules:{
                     title : {
-                        required: true,
+                        required: true
                     },
                     author: {
-                        required: true,
+                        required: true
                     }
                 },
                 messages :{
                     title : {
-                        required: "Title is not empty",
+                        required: "Title is not empty"
                     },
                     author: {
-                        required: "Author is not empty",
+                        required: "Author is not empty"
                     }
                 }
             });
@@ -346,24 +392,138 @@
 
     <!-- show book -->
     <script>
-        function onClickLinkBook(bookIndex)
+
+        var commentsList;
+
+        function onClickLinkBook(bookId)
         {
+            for(var bookIndex = 0; bookIndex < bookList.length; bookIndex++){
+                if(bookList[bookIndex].id === bookId){
+                    break;
+                }
+            }
+
+            bookIdClicked = bookId;
+
             $("#titleBookView").text(bookList[bookIndex].title);
             $("#authorBookView").text(bookList[bookIndex].author);
             $("#descriptionBookView").text(bookList[bookIndex].description);
+
+            callGetAllComments(bookId);     
+        }
+
+        function addComment(comment){
+            div_comment = document.getElementById("comments"); 
+
+            div_row_add_comment = document.createElement("div");
+            div_row_add_comment.className = "row";
+            div_comment.appendChild(div_row_add_comment);
+
+            div_col_lg_1 = document.createElement("div");
+            div_col_lg_1.className = "col-lg-1";
+            div_col_lg_1.innerText = "ava";
+            div_row_add_comment.appendChild(div_col_lg_1);
+
+            div_col_lg_11 = document.createElement("div");
+            div_col_lg_11.className = "col-lg-11";
+            div_row_add_comment.appendChild(div_col_lg_11);
+
+            div_header_comment = document.createElement("div");
+            div_header_comment.className = "header-comment";
+            div_header_comment.style = "display : inline;";
+            div_col_lg_11.appendChild(div_header_comment);
+
+            h6_header_comment_h6 = document.createElement("h6");
+            h6_header_comment_h6.className = "header-comment-h6";
+            div_header_comment.appendChild(h6_header_comment_h6);
+
+            a_name = document.createElement("a");
+            a_name.className = "name";
+            a_name.href = "";
+            a_name.innerText = comment.message;
+            h6_header_comment_h6.appendChild(a_name);
+
+            h4_message = document.createElement("h4");
+            h4_message.className = "message";
+            h4_message.innerText = comment.message;
+            div_col_lg_11.appendChild(h4_message);
+
+            hr = document.createElement("hr");
+            div_col_lg_11.appendChild(hr);
+
+        }
+
+        function callGetAllComments(bookId){
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json",
+                url: window.location.origin + "/api/book/" + bookId + "/comments",
+                dataType: 'json',
+                timeout: 10000,
+                success: function (dataReceive) {
+                    commentsList = dataReceive.object;
+                    
+                    for(var index = 0; index < commentsList.length; index++){
+                        addComment(commentsList[index]);
+                    }
+
+                    console.log(commentsList);
+                },
+                error: function (e) {
+                    console.log("ERROR : ", e.responseJSON.message);
+                }
+            });
+        }   
+    </script>
+
+    <!-- add comment -->
+    <script>
+        var bookIdClicked;
+
+        $("#comment-input").keyup(function(e){
+        
+            if(e.which == 13)
+            {
+                if($("#comment-input").val().trim().length > 0){
+                    addCommentByBookId(bookIdClicked);
+                }
+            }
+        
+        });
+
+        function addCommentByBookId(bookId){
+            dataAddComment = JSON.stringify({
+                "message" : $("#comment-input").val()
+            });
+
+            $.ajax({
+                type : "POST",
+                contentType: "application/json",
+                url: window.location.origin + "/api/book/" + bookId + "/comment",
+                data: dataAddComment,
+                dataType: 'json',
+                timeout: 10000,
+                success: function (dataReceive) {
+                    addComment(dataReceive.object);
+                },
+                error: function (e) {
+                    console.log("ERROR : " + dataReceive);
+                }
+            });
         }
     </script>
 
     <!-- logout -->
     <script>
 
+        $("#btnLogout").click(function (event) {
+           event.preventDefault();
+
+           callLogoutAPI();
+        });
+
         function callLogoutAPI(){
-
-            $("#btnLogout").click(function (event) {
-               event.preventDefault();
-
-               callLogoutAPI();
-            });
 
             $.ajax({
                 type: "GET",

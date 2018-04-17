@@ -25,12 +25,10 @@ public class Comment implements Serializable {
     @NotNull(groups = {GroupCommentCreate.class})
     private long userId;
 
-    @Temporal(TemporalType.TIME)
     @Column(name = "created_at")
     @NotNull
     private Date createdAt;
 
-    @Temporal(TemporalType.TIME)
     @Column(name = "updated_at")
     @NotNull
     private Date updatedAt;
