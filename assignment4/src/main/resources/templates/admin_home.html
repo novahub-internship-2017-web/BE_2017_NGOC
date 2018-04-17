@@ -1,20 +1,616 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Admin home</title>
+    <title>User home</title>
 </head>
 <body>
-    <h1>Admin home</h1>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="/"><i class="fa fa-home" style="font-size: 26px"></i> Home</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <a id="btnLogout" class="btn btn-primary">Logout</a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="nav navbar-nav mr-auto"></ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="nav-item">
+                    <a class="nav-link" id="btnLogout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <div class="row" style="margin-top: 100px;">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div style="text-align: center">
+                <a id="btnAll" class="btn btn-primary">All</a>
+                <a id="btnMyBook" class="btn btn-primary">My book</a> 
+                <a id="btnAllDisabled" class="btn btn-primary">Disable</a>    
+                <a id="btnAllEnabled" class="btn btn-primary">Enable</a>
+                <a id="btnAdd" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Add</a> 
+            </div>
+
+            <div id="search_book">
+                <div class="form-group row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-9">
+                        <input type="text" id="text_search" class="form-control" />
+                    </div>
+                    <div class="col-md-1">
+                        <input type="button" id="button_search" class="btn btn-primary" value="Search"/>
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
+            </div>
+
+            <div id="body">
+                <table id="books_list" style="display: none; margin-top: 20px;" class="table table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">id</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Author</th>
+                            <th scope="col">Methods</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div id="div_book_not_found" align="center" style="display: none">
+                    <p style="font-size: 30px">Book not found</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">             
+        </div>
+    </div>
+
+    <!-- Modal bootstrap -->
+    <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="book-form">
+                        <div class="form-group">
+                            <h2 style="text-align: center" id="form-title">Book Edit</h2>
+                        </div>      
+                        <div class="alert alert-success" id="alert-success-message" style="display: none;">
+                            <p style="text-align: center; margin-bottom: 0px;">
+                                <strong>Success!</strong> <span id="success-message"></span>.
+                            </p>
+                        </div>
+                        <div class="alert alert-danger" id="alert-error-message" style="display: none;">
+                            <p style="text-align: center; margin-bottom: 0px;">
+                                <strong>Danger!</strong> <span id="error-message"></span>.
+                            </p>
+                        </div>
+                        <div class="from-group">
+                            <label class="col-form-label">Title:</label>
+                            <input type="text" name="title" id="title" class="form-control"/>
+                        </div>
+                        <div class="from-group">
+                            <label class="col-form-label">Author :</label>
+                            <input type="text" name="author" id="author" class="form-control"/>
+                        </div>
+                        <div class="from-group">
+                            <label class="col-form-label">Description : </label>
+                            <textarea class="form-control" name="description" id="description" rows="3"></textarea>
+                        </div>
+                        <div class="form-group" style="margin-top: 15px">
+                            <input type="submit" name="submit" id="btn-action" value="submit" class="btn btn-primary form-control"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div> 
+
+    <div class="modal" id="bookViewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-10">   
+                            <h2>Title : </h2>
+                            <p id="titleBookView"></p>
+                            <h2>Author : </h2>
+                            <p id="authorBookView"></p>
+                            <h2>Description : </h2>
+                            <p id="descriptionBookView"></p>
+                            <h2>Comment : </h2>
+                            <div id="comments">
+                                <div class="row">
+                                    <div class="col-lg-1">ava</div>
+                                    <div class="col-lg-11">
+                                        <input type="text" name="comment" class="form-control" id="comment-input"/>
+                                        <hr/>
+                                    </div>
+                                </div>
+                                <div id="comments-list">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-1"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
+
+    <style type="text/css">
+
+        .header-comment-h6{
+            font-size: 15px;
+        }
+        .name{
+            color: #0275d8;
+        }
+        .message{
+            font-size: 16px;
+        }
+        #comment-input{
+            border-radius: 1.25rem;
+        }
+
+        .form-group {
+            margin-bottom: 0px;
+        }
+
+        label.error {
+            color: red;
+            font-style: italic;
+            font-size: 12px;
+        }
+    </style>
+
+    <!-- search book -->
     <script>
+        const BTN_BOOK_ALL_PRESSED = 1;
+        const BTN_MY_BOOK_PRESSED = 2;
+
+        var userId, urlRequestSearchBook, bookList, state, wordsSearch;
+
+        userId = [[${session.userLogin.id}]];
+        urlRequestSearchBook = window.location.origin + "/api/books";
+
+        $("#btnAll").click(function(){
+           urlRequestSearchBook = window.location.origin + "/api/books";
+
+            if(bookList.length > 0){
+                showBooksResult(bookList);
+            }
+        });
+        
+
+        $("#btnMyBook").click(function(){
+            urlRequestSearchBook = window.location.origin + "/api/user/" + userId + "/books";
+            
+            var booksListTemp = [];
+            
+
+            for(var bookIndex = 0; bookIndex < bookList.length; bookIndex++){
+                if(bookList[bookIndex].userId == userId){
+                    booksListTemp.push(bookList[bookIndex]);
+                }
+            }
+
+            if(booksListTemp.length > 0){
+                showBooksResult(booksListTemp);
+            }
+        });
+
+        $("#btnAllDisabled").click(function(){
+            urlRequestSearchBook = window.location.origin + "/api/books/disabled";
+
+             var booksListTemp = [];
+            
+
+            for(var bookIndex = 0; bookIndex < bookList.length; bookIndex++){
+                if(bookList[bookIndex].enabled == false){
+                    booksListTemp.push(bookList[bookIndex]);
+                }
+            }
+
+            if(booksListTemp.length > 0){
+                showBooksResult(booksListTemp);
+            }
+        });
+
+        $("#btnAllEnabled").click(function(){
+            urlRequestSearchBook = window.location.origin + "/api/books/enabled";
+
+             var booksListTemp = [];
+            
+
+            for(var bookIndex = 0; bookIndex < bookList.length; bookIndex++){
+                if(bookList[bookIndex].enabled == true){
+                    booksListTemp.push(bookList[bookIndex]);
+                }
+            }
+
+            if(booksListTemp.length > 0){
+                showBooksResult(booksListTemp);
+            }
+        });
+
+        $("#button_search").click(function () {
+             wordsSearch = $("#text_search").val();
+
+            searchBooks(wordsSearch);
+        });
+
+        function searchBooks(wordsSearch){
+            $.ajax({
+                type: "GET",
+                contentType: "application/json",
+                url: urlRequestSearchBook,
+                headers : {"wordsSearch" : wordsSearch},
+                dataType: 'json',
+                timeout: 10000,
+                success: function (dataReceive) {
+                    if(dataReceive.object.length === 0){
+                        showMessageNotFound();
+                    } else {
+                        bookList = dataReceive.object;
+                        showBooksResult(bookList);
+                    }
+                },
+                error: function (e) {
+                    console.log("ERROR : ", e);
+                }
+            });
+        }
+
+        function showMessageNotFound(){
+            $("#books_list").hide();
+            $("#div_book_not_found").show();
+        }
+
+        function showBooksResult(books){
+            $("#books_list").show();
+            $("#div_book_not_found").hide();
+
+            $("tbody").remove();
+
+            table_books_list = document.getElementById("books_list");
+            tbody = document.createElement("tbody");
+            table_books_list.appendChild(tbody);
+
+            var bookIndex;
+            for(bookIndex = 0; bookIndex < books.length; bookIndex++){
+                showABookResult(books[bookIndex]);
+            }
+        }
+
+        function showABookResult(aBookResult){
+            tr_a_book = document.createElement("tr");
+            tbody.appendChild(tr_a_book);
+
+            th_a_book_id = document.createElement("th");
+            th_a_book_id.innerText = aBookResult.id;
+            tr_a_book.appendChild(th_a_book_id);
+
+            td_a_book_title = document.createElement("td");
+            a_a_book_title = document.createElement("a");
+            a_a_book_title.id = "title_" + aBookResult.id;
+            a_a_book_title.innerText = aBookResult.title;
+            a_a_book_title.setAttribute("data-toggle", "modal");
+            a_a_book_title.setAttribute("href", "#bookViewModal");
+            a_a_book_title.setAttribute("onClick", "onClickLinkBook(" + aBookResult.id + ")");
+            td_a_book_title.appendChild(a_a_book_title);
+            tr_a_book.appendChild(td_a_book_title);
+
+            td_a_book_author = document.createElement("td");
+            td_a_book_author.id = "author_" + aBookResult.id;
+            td_a_book_author.innerText = aBookResult.author;
+            tr_a_book.appendChild(td_a_book_author);
+
+            td_a_book_methods = document.createElement("td");
+            td_a_book_methods.setAttribute("align", "center");
+            
+            if(aBookResult.userId === userId){
+                button_edit = document.createElement("a");
+                button_edit.setAttribute("data-toggle", "modal");
+                button_edit.setAttribute("data-target", "#exampleModal");
+                button_edit.className = "btn btn-primary btnEdit";
+                button_edit.id = "btnEdit_" + userId;
+                button_edit.innerText = "Edit";
+                button_edit.style = "margin-right: 5px;";
+                button_edit.setAttribute("onclick", "onClickEditButton(" + aBookResult.id  + ")");
+                td_a_book_methods.appendChild(button_edit);
+            }
+
+            button_enable_disable = document.createElement("a");
+            button_enable_disable.className = "btn btn-primary btnEnableDisable";
+            button_enable_disable.id = "btnEnableDisable_" + userId;
+            if(aBookResult.enabled == true){
+                button_enable_disable.innerText = "Disable";
+            } else {
+                button_enable_disable.innerText = "Enable";
+            }
+
+            td_a_book_methods.appendChild(button_enable_disable);
+ 
+            tr_a_book.appendChild(td_a_book_methods);
+        }
+
+        function clearBookForm(){
+            $("#title").val("");
+            $("author").val("");
+            $("description").val("");
+        }
+
+    </script>
+
+    <!-- add / edit book-->
+    <script>
+        const BTN_ADD_BOOK_PRESSED = 3;
+        const BTN_EDIT_BOOK_PRESSED = 4;
+        var dataRequest, urlRequestAddOrEditBook, typeRequest, bookIdEdit;        
+
+        function onClickEditButton(bookId){
+            $("#form-title").text("Edit book");
+            $("#btn-action").val("Update");
+            bookIdEdit = bookId;
+
+            for(var bookIndex = 0; bookIndex < bookList.length; bookIndex++){
+                if(bookList[bookIndex].id === bookId){
+                    $("#title").val(bookList[bookIndex].title);
+                    $("#author").val(bookList[bookIndex].author);
+                    $("#description").val(bookList[bookIndex].description);
+                    break;
+                }
+            }         
+
+            state = BTN_EDIT_BOOK_PRESSED;
+        }
+
+        $("#btnAdd").click( function (event) {
+           $("#form-title").text("Create a new book");
+           $("#btn-action").val("Create");
+           state = BTN_ADD_BOOK_PRESSED;
+
+           clearBookForm();
+        });
+
+        // code to submit book-form
+        $("#book-form").submit(function(event) {
+            event.preventDefault();
+
+            dataRequest = JSON.stringify({
+                "title" : this.title.value,
+                "author" : this.author.value,
+                "description" : this.description.value
+            });
+
+            switch(state){
+                case BTN_ADD_BOOK_PRESSED : {
+                    urlRequestAddOrEditBook = window.location.origin + "/api/book";
+                    typeRequest = "POST";
+                }
+                break;
+
+                case BTN_EDIT_BOOK_PRESSED : {
+                    urlRequestAddOrEditBook = window.location.origin + "/api/book/" + bookIdEdit;
+                    typeRequest = "PUT";
+                }
+                break;
+            }
+            
+            if($("#book-form").valid()){
+                $.ajax({
+                    type : typeRequest,
+                    contentType: "application/json",
+                    url: urlRequestAddOrEditBook,
+                    data: dataRequest,
+                    dataType: 'json',
+                    timeout: 10000,
+                    success: function (dataReceive) {
+                        switch(state){
+                            case BTN_ADD_BOOK_PRESSED : {
+                                bookList.push(dataReceive.object);
+                                showABookResult(dataReceive.object);
+                            }
+                            break;
+
+                            case BTN_EDIT_BOOK_PRESSED : {
+                                $("#title_" + dataReceive.object.id).text(dataReceive.object.title);
+                                $("#author_" + dataReceive.object.id).text(dataReceive.object.author);
+
+                                for(var bookIndex = 0; bookIndex < bookList.length; bookIndex++){
+                                    if(bookList[bookIndex].id === dataReceive.object.id){
+                                        bookList[bookIndex].title = dataReceive.object.title;
+                                        bookList[bookIndex].author = dataReceive.object.author;
+                                        bookList[bookIndex].description = dataReceive.object.description;
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                    },
+                    error: function (e) {
+                        console.log("ERROR : " + dataReceive);
+                    }
+                });
+            }
+        });
+        
+        // validate book-form
+        $(document).ready(function(s) {
+            $("#book-form").validate({
+                rules:{
+                    title : {
+                        required: true
+                    },
+                    author: {
+                        required: true
+                    }
+                },
+                messages :{
+                    title : {
+                        required: "Title is not empty"
+                    },
+                    author: {
+                        required: "Author is not empty"
+                    }
+                }
+            });
+        });
+
+        // code to search all books when website is loaded complete   
+        document.addEventListener("DOMContentLoaded", function(){
+            searchBooks("");
+        });
+    </script>
+
+    <!-- show book -->
+    <script>
+
+        var commentsList;
+
+        function onClickLinkBook(bookId)
+        {
+            for(var bookIndex = 0; bookIndex < bookList.length; bookIndex++){
+                if(bookList[bookIndex].id === bookId){
+                    break;
+                }
+            }
+
+            bookIdClicked = bookId;
+
+            $("#titleBookView").text(bookList[bookIndex].title);
+            $("#authorBookView").text(bookList[bookIndex].author);
+            $("#descriptionBookView").text(bookList[bookIndex].description);
+
+            $("#comments-list").empty();
+            callGetAllComments(bookId);     
+        }
+
+        function addComment(comment){
+            div_comment = document.getElementById("comments-list"); 
+
+            div_row_add_comment = document.createElement("div");
+            div_row_add_comment.className = "row";
+            div_comment.appendChild(div_row_add_comment);
+
+            div_col_lg_1 = document.createElement("div");
+            div_col_lg_1.className = "col-lg-1";
+            div_col_lg_1.innerText = "ava";
+            div_row_add_comment.appendChild(div_col_lg_1);
+
+            div_col_lg_11 = document.createElement("div");
+            div_col_lg_11.className = "col-lg-11";
+            div_row_add_comment.appendChild(div_col_lg_11);
+
+            div_header_comment = document.createElement("div");
+            div_header_comment.className = "header-comment";
+            div_header_comment.style = "display : inline;";
+            div_col_lg_11.appendChild(div_header_comment);
+
+            h6_header_comment_h6 = document.createElement("h6");
+            h6_header_comment_h6.className = "header-comment-h6";
+            div_header_comment.appendChild(h6_header_comment_h6);
+
+            a_name = document.createElement("a");
+            a_name.className = "name";
+            a_name.href = "";
+            a_name.innerText = comment.user.firstName + " " + comment.user.lastName;
+            h6_header_comment_h6.appendChild(a_name);
+
+            h4_message = document.createElement("h4");
+            h4_message.className = "message";
+            h4_message.innerText = comment.message;
+            div_col_lg_11.appendChild(h4_message);
+
+            hr = document.createElement("hr");
+            div_col_lg_11.appendChild(hr);
+
+        }
+
+        function callGetAllComments(bookId){
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json",
+                url: window.location.origin + "/api/book/" + bookId + "/comments",
+                dataType: 'json',
+                timeout: 10000,
+                success: function (dataReceive) {
+                    commentsList = dataReceive.object;
+                    
+                    for(var index = 0; index < commentsList.length; index++){
+                        addComment(commentsList[index]);
+                    }
+
+                    console.log(commentsList);
+                },
+                error: function (e) {
+                    console.log("ERROR : ", e.responseJSON.message);
+                }
+            });
+        }   
+    </script>
+
+    <!-- add comment -->
+    <script>
+        var bookIdClicked;
+
+        $("#comment-input").keyup(function(e){
+        
+            if(e.which == 13)
+            {
+                if($("#comment-input").val().trim().length > 0){
+                    addCommentByBookId(bookIdClicked);
+                }
+            }
+        
+        });
+
+        function addCommentByBookId(bookId){
+            dataAddComment = JSON.stringify({
+                "message" : $("#comment-input").val()
+            });
+
+            $.ajax({
+                type : "POST",
+                contentType: "application/json",
+                url: window.location.origin + "/api/book/" + bookId + "/comment",
+                data: dataAddComment,
+                dataType: 'json',
+                timeout: 10000,
+                success: function (dataReceive) {
+                    addComment(dataReceive.object);
+                    $("#comment-input").val("");
+                },
+                error: function (e) {
+                    console.log("ERROR : " + dataReceive);
+                }
+            });
+        }
+    </script>
+
+    <!-- logout -->
+    <script>
+
         $("#btnLogout").click(function (event) {
            event.preventDefault();
 
@@ -22,6 +618,7 @@
         });
 
         function callLogoutAPI(){
+
             $.ajax({
                 type: "GET",
                 contentType: "application/json",
@@ -29,14 +626,13 @@
                 dataType: 'json',
                 timeout: 10000,
                 success: function (dataReceive) {
-                    console.log("SUCCESS : ", dataReceive);
                     window.location.replace(window.location.origin + "/login");
                 },
                 error: function (e) {
                     console.log("ERROR : ", e.responseJSON.message);
                 }
             });
-        }
+        }             
     </script>
 
 </body>

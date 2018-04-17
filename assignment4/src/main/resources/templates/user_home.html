@@ -27,7 +27,8 @@
         <div class="col-md-8">
             <div style="text-align: center">
                 <a id="btnAll" class="btn btn-primary">All</a>
-                <a id="btnMyBook" class="btn btn-primary">My book</a>            
+                <a id="btnMyBook" class="btn btn-primary">My book</a>     
+                <a id="btnAdd" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Add</a>      
             </div>
 
             <div id="search_book">
@@ -44,7 +45,7 @@
             </div>
 
             <div id="body">
-                <table id="books_list" style="display: none" class="table table-bordered">
+                <table id="books_list" style="display: none; margin-top: 20px;" class="table table-bordered">
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">id</th>
@@ -54,17 +55,14 @@
                         </tr>
                     </thead>
                 </table>
-                <div id="div_book_not_found" style="display: none">
-                    <p>Book not found</p>
+                <div id="div_book_not_found" align="center" style="display: none">
+                    <p style="font-size: 30px">Book not found</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-2">            
-            <a id="btnAdd" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Add</a> 
-
+        <div class="col-md-2">             
         </div>
     </div>
-
 
     <!-- Modal bootstrap -->
     <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -150,7 +148,6 @@
     </div> 
 
     
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -158,6 +155,7 @@
 
 
     <style type="text/css">
+
         .header-comment-h6{
             font-size: 15px;
         }
@@ -193,10 +191,29 @@
 
         $("#btnAll").click(function(){
            urlRequestSearchBook = window.location.origin + "/api/books/user/" + userId;
+
+            if(bookList.length > 0){
+                showBooksResult(bookList);
+            }
         });
+
+        
 
         $("#btnMyBook").click(function(){
             urlRequestSearchBook = window.location.origin + "/api/user/" + userId + "/books";
+            
+            var booksListTemp = [];
+            
+
+            for(var bookIndex = 0; bookIndex < bookList.length; bookIndex++){
+                if(bookList[bookIndex].userId == userId){
+                    booksListTemp.push(bookList[bookIndex]);
+                }
+            }
+
+            if(booksListTemp.length > 0){
+                showBooksResult(booksListTemp);
+            }
         });
 
         $("#button_search").click(function () {
@@ -217,7 +234,8 @@
                     if(dataReceive.object.length === 0){
                         showMessageNotFound();
                     } else {
-                        showBooksResult(dataReceive.object);
+                        bookList = dataReceive.object;
+                        showBooksResult(bookList);
                     }
                 },
                 error: function (e) {
@@ -231,8 +249,7 @@
             $("#div_book_not_found").show();
         }
 
-        function showBooksResult(dataReceive){
-            bookList = dataReceive;
+        function showBooksResult(books){
             $("#books_list").show();
             $("#div_book_not_found").hide();
 
@@ -243,8 +260,8 @@
             table_books_list.appendChild(tbody);
 
             var bookIndex;
-            for(bookIndex = 0; bookIndex < bookList.length; bookIndex++){
-                showABookResult(bookList[bookIndex]);
+            for(bookIndex = 0; bookIndex < books.length; bookIndex++){
+                showABookResult(books[bookIndex]);
             }
         }
 
