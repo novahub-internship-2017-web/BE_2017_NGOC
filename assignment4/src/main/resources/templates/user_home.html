@@ -138,6 +138,8 @@
                                         <hr/>
                                     </div>
                                 </div>
+                                <div id="comments-list">
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-1"></div>
@@ -284,6 +286,13 @@
 
             tr_a_book.appendChild(td_a_book_methods);
         }
+
+        function clearBookForm(){
+            $("#title").val("");
+            $("author").val("");
+            $("description").val("");
+        }
+
     </script>
 
     <!-- add / edit book-->
@@ -313,6 +322,8 @@
            $("#form-title").text("Create a new book");
            $("#btn-action").val("Create");
            state = BTN_ADD_BOOK_PRESSED;
+
+           clearBookForm();
         });
 
         // code to submit book-form
@@ -409,11 +420,12 @@
             $("#authorBookView").text(bookList[bookIndex].author);
             $("#descriptionBookView").text(bookList[bookIndex].description);
 
+            $("#comments-list").empty();
             callGetAllComments(bookId);     
         }
 
         function addComment(comment){
-            div_comment = document.getElementById("comments"); 
+            div_comment = document.getElementById("comments-list"); 
 
             div_row_add_comment = document.createElement("div");
             div_row_add_comment.className = "row";
@@ -506,6 +518,7 @@
                 timeout: 10000,
                 success: function (dataReceive) {
                     addComment(dataReceive.object);
+                    $("#comment-input").val("");
                 },
                 error: function (e) {
                     console.log("ERROR : " + dataReceive);
