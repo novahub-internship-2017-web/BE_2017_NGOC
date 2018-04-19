@@ -4,6 +4,7 @@ import com.ngoc.bookmanagement.model.Comment;
 import com.ngoc.bookmanagement.model.MessageResponse;
 import com.ngoc.bookmanagement.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -32,9 +33,10 @@ public class CommentController {
     // API get all comments of book by bookId
     @GetMapping(value = "/api/book/{bookId}/comments", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getAllCommentOfBook(@PathVariable("bookId") long bookId,
-                                                 HttpServletRequest request){
+                                                 HttpServletRequest request,
+                                                 Pageable pageable){
         // TODO: validate
-        MessageResponse messageResponse = commentService.getAllCommentsByBookId(bookId, request);
+        MessageResponse messageResponse = commentService.getAllCommentsByBookId(bookId, request, pageable);
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
 

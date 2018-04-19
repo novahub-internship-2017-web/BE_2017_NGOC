@@ -1,13 +1,22 @@
 package com.ngoc.bookmanagement.repository;
 
 import com.ngoc.bookmanagement.model.Comment;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
+@Repository
+public interface CommentRepository extends PagingAndSortingRepository<Comment, Long> {
 
-public interface CommentRepository extends CrudRepository<Comment, Long> {
-    List<Comment> getAllByBookId(long bookId);
+    Page<Comment> getAllByBookId(long bookId, Pageable pageable);
+
+    Page<Comment> findAllByBookId(long bookId, Pageable pageable);
+
     Comment getCommentById(long bookId);
+
     boolean existsCommentById(long commentId);
+
     long countById(long commentId);
+
 }

@@ -11,6 +11,8 @@ import com.ngoc.bookmanagement.validation.UserValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,14 +40,14 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public MessageResponse getAllBooks(String wordSearch, HttpServletRequest request) {
+    public MessageResponse getAllBooks(String wordSearch, HttpServletRequest request, Pageable pageable) {
 
         log(request);
         wordSearch = (wordSearch == null) ? "" : "%" + wordSearch + "%";
-        List<Book> bookList = bookRepository.getAllByAuthorLikeOrTitleLike(wordSearch, wordSearch);
+        Page<Book> bookList = bookRepository.getAllByAuthorLikeOrTitleLike(wordSearch, wordSearch, pageable);
 
         MessageResponse messageResponse = new MessageResponse();
-        if(bookList.size() == 0)
+        if(bookList.getContent().size() == 0)
             messageResponse.setCode(MessageResponseConstant.OK);
         else
             messageResponse.setCode(MessageResponseConstant.GET_ALL_BOOKS_SUCCESS);
@@ -56,7 +58,7 @@ public class BookServiceImpl implements BookService{
 
     // get all books of user (both enable and disable)
     @Override
-    public MessageResponse getAllBooksOfUser(String wordSearch, long userId, HttpServletRequest request) {
+    public MessageResponse getAllBooksOfUser(String wordSearch, long userId, HttpServletRequest request, Pageable pageable) {
         log(request);
 
         MessageResponse messageResponse;
@@ -65,10 +67,10 @@ public class BookServiceImpl implements BookService{
             return messageResponse;
 
         wordSearch = (wordSearch == null) ? "" : "%" + wordSearch + "%";
-        List<Book> bookList = bookRepository.getAllByUserIdAndAuthorLikeOrTitleLike(userId, wordSearch, wordSearch);
+        Page<Book> bookList = bookRepository.getAllByUserIdAndAuthorLikeOrTitleLike(userId, wordSearch, wordSearch, pageable);
 
         messageResponse = new MessageResponse();
-        if(bookList.size() == 0)
+        if(bookList.getContent().size() == 0)
             messageResponse.setCode(MessageResponseConstant.OK);
         else
             messageResponse.setCode(MessageResponseConstant.GET_ALL_BOOKS_USER_SUCCESS);
@@ -78,7 +80,7 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public MessageResponse getAllBooksOfUserByEnabled(String wordSearch, long userId, HttpServletRequest request, boolean enabled) {
+    public MessageResponse getAllBooksOfUserByEnabled(String wordSearch, long userId, HttpServletRequest request, boolean enabled, Pageable pageable) {
         log(request);
 
         MessageResponse messageResponse;
@@ -87,10 +89,10 @@ public class BookServiceImpl implements BookService{
             return messageResponse;
 
         wordSearch = (wordSearch == null) ? "" : "%" + wordSearch + "%";
-        List<Book> bookList = bookRepository.getAllByUserIdAndEnabledAndAuthorLikeOrTitleIsLike(userId, wordSearch, wordSearch, enabled);
+        Page<Book> bookList = bookRepository.getAllByUserIdAndEnabledAndAuthorLikeOrTitleIsLike(userId, wordSearch, wordSearch, enabled, pageable);
 
         messageResponse = new MessageResponse();
-        if(bookList.size() == 0)
+        if(bookList.getContent().size() == 0)
             messageResponse.setCode(MessageResponseConstant.NO_CONTENT);
         else {
             if(enabled)
@@ -105,13 +107,13 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public MessageResponse getAllBooksByEnabled(HttpServletRequest request, boolean enabled){
-
+    public MessageResponse getAllBooksByEnabled(HttpServletRequest request, boolean enabled, Pageable pageable){
         log(request);
-        List<Book> bookList = bookRepository.getAllByEnabled(enabled);
+
+        Page<Book> bookList = bookRepository.getAllByEnabled(enabled, pageable);
         MessageResponse messageResponse = new MessageResponse();
 
-        if(bookList.size() == 0){
+        if(bookList.getContent().size() == 0){
             messageResponse.setCode(MessageResponseConstant.NO_CONTENT);
         } else {
             if(enabled)
@@ -146,15 +148,15 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public MessageResponse getAllBooksWithDisabledBookOfUser(String wordSearch, long userId, HttpServletRequest request) {
+    public MessageResponse getAllBooksWithDisabledBookOfUser(String wordSearch, long userId, HttpServletRequest request, Pageable pageable) {
 
         log(request);
 
         wordSearch = (wordSearch == null) ? "" : "%" + wordSearch + "%";
-        List<Book> bookList = bookRepository.getAllByEnabledTrueAndUserIdAndEnabledDisable(userId, wordSearch, wordSearch);
+        Page<Book> bookList = bookRepository.getAllByEnabledTrueAndUserIdAndEnabledDisable(userId, wordSearch, wordSearch, pageable);
         MessageResponse messageResponse = new MessageResponse();
 
-        if(bookList.size() == 0){
+        if(bookList.getContent().size() == 0){
             messageResponse.setCode(MessageResponseConstant.NO_CONTENT);
         } else {
             // TODO: change code

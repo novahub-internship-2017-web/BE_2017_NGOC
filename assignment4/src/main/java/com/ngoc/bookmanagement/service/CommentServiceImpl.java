@@ -11,11 +11,12 @@ import com.ngoc.bookmanagement.validation.GroupCommentUpdate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -58,7 +59,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public MessageResponse getAllCommentsByBookId(long bookId, HttpServletRequest request) {
+    public MessageResponse getAllCommentsByBookId(long bookId, HttpServletRequest request, Pageable pageable) {
         log(request);
 
         MessageResponse messageResponse;
@@ -68,8 +69,8 @@ public class CommentServiceImpl implements CommentService {
             return messageResponse;
 
         messageResponse = new MessageResponse();
-        List<Comment> commentList = commentRepository.getAllByBookId(bookId);
-        for(Comment comment : commentList){
+        Page<Comment> commentList = commentRepository.getAllByBookId(bookId, pageable);
+        for(Comment comment : commentList.getContent()){
             comment.setUser(userRepository.findById(comment.getUserId()).get());
         }
         messageResponse.setCode(MessageResponseConstant.OK);

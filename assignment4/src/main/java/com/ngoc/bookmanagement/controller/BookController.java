@@ -11,6 +11,7 @@ import com.ngoc.bookmanagement.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -71,13 +72,14 @@ public class BookController {
     @GetMapping(value = "/api/books", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getAllBooks(@RequestHeader(value = "wordsSearch", required = false, defaultValue = "") String wordsSearch,
                                          HttpServletRequest request,
-                                         @SessionAttribute("userLogin") @Nullable User userLogin){
+                                         @SessionAttribute("userLogin") @Nullable User userLogin,
+                                         Pageable pageable){
         MessageResponse messageResponse;
 
         if(!checkAdminPermission(userLogin))
             messageResponse = new MessageResponse(MessageResponseConstant.ACCESS_DENIED);
         else
-            messageResponse = bookService.getAllBooks(wordsSearch, request);
+            messageResponse = bookService.getAllBooks(wordsSearch, request, pageable);
         
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
@@ -87,15 +89,16 @@ public class BookController {
     // API get all books like author or title + all disabled book of user {userId}
     @GetMapping(value = "/api/books/user/{userId}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getAllBooksWithDisabledBookOfUser(@RequestHeader(value = "wordsSearch", required = false, defaultValue = "") String wordsSearch,
-                                                           @PathVariable("userId") long userId,
-                                                            HttpServletRequest request,
-                                                          @SessionAttribute("userLogin") @Nullable User userLogin){
+                                                               @PathVariable("userId") long userId,
+                                                               HttpServletRequest request,
+                                                               @SessionAttribute("userLogin") @Nullable User userLogin,
+                                                               Pageable pageable){
         MessageResponse messageResponse;
 
         if(!checkTrueUserOrAdminPermission(userId, userLogin))
             messageResponse = new MessageResponse(MessageResponseConstant.ACCESS_DENIED);
         else
-            messageResponse = bookService.getAllBooksWithDisabledBookOfUser(wordsSearch, userId, request);
+            messageResponse = bookService.getAllBooksWithDisabledBookOfUser(wordsSearch, userId, request, pageable);
 
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
@@ -106,13 +109,14 @@ public class BookController {
     public ResponseEntity<?> getAllBooksOfUser(@RequestHeader(value = "wordsSearch", required = false, defaultValue = "")  String wordsSearch,
                                                @PathVariable("userId") long userId,
                                                HttpServletRequest request,
-                                               @SessionAttribute("userLogin") User userLogin){
+                                               @SessionAttribute("userLogin") User userLogin,
+                                               Pageable pageable){
         MessageResponse messageResponse;
 
         if(!checkTrueUserOrAdminPermission(userId, userLogin))
             messageResponse = new MessageResponse(MessageResponseConstant.ACCESS_DENIED);
         else 
-            messageResponse = bookService.getAllBooksOfUser(wordsSearch, userId, request);
+            messageResponse = bookService.getAllBooksOfUser(wordsSearch, userId, request, pageable);
         
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
@@ -123,9 +127,10 @@ public class BookController {
     public ResponseEntity<?> getAllBooksEnabledOfUser(@RequestHeader(value = "wordsSearch", required = false, defaultValue = "")  String wordsSearch,
                                                @PathVariable("userId") long userId,
                                                HttpServletRequest request,
-                                               @SessionAttribute("userLogin") User userLogin){
+                                               @SessionAttribute("userLogin") User userLogin,
+                                               Pageable pageable){
         MessageResponse messageResponse;
-        messageResponse = bookService.getAllBooksOfUserByEnabled(wordsSearch, userId, request, true);
+        messageResponse = bookService.getAllBooksOfUserByEnabled(wordsSearch, userId, request, true, pageable);
 
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
@@ -136,12 +141,13 @@ public class BookController {
     public ResponseEntity<?> getAllBooksDisabledOfUser(@RequestHeader(value = "wordsSearch", required = false, defaultValue = "")  String wordsSearch,
                                                       @PathVariable("userId") long userId,
                                                       HttpServletRequest request,
-                                                      @SessionAttribute("userLogin") User userLogin){
+                                                      @SessionAttribute("userLogin") User userLogin,
+                                                      Pageable pageable){
         MessageResponse messageResponse;
         if(!checkTrueUserOrAdminPermission(userId, userLogin))
             messageResponse = new MessageResponse(MessageResponseConstant.ACCESS_DENIED);
         else
-            messageResponse = bookService.getAllBooksOfUserByEnabled(wordsSearch, userId, request, false);
+            messageResponse = bookService.getAllBooksOfUserByEnabled(wordsSearch, userId, request, false, pageable);
 
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
@@ -149,22 +155,24 @@ public class BookController {
     // API for ROLE : USER | ADMIN | GUEST
     // API get all books, which is enabled
     @GetMapping(value = "/api/books/enabled", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> getAllBooksEnabled(HttpServletRequest request){
-        MessageResponse messageResponse = bookService.getAllBooksByEnabled(request, true);
+    public ResponseEntity<?> getAllBooksEnabled(HttpServletRequest request,
+                                                Pageable pageable){
+        MessageResponse messageResponse = bookService.getAllBooksByEnabled(request, true, pageable);
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
 
     // API for ROLE : ADMIN
     // API get all books, which is disabled
     @GetMapping(value = "/api/books/disabled", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> getAllBooksDisabled(HttpServletRequest request){
+    public ResponseEntity<?> getAllBooksDisabled(HttpServletRequest request,
+                                                 Pageable pageable){
         MessageResponse messageResponse;
         User userLogin = userService.getUserLoginInSession(request);
 
         if(!checkAdminPermission(userLogin))
             messageResponse = new MessageResponse(MessageResponseConstant.ACCESS_DENIED);
         else
-            messageResponse = bookService.getAllBooksByEnabled(request, false);
+            messageResponse = bookService.getAllBooksByEnabled(request, false, pageable);
 
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }

@@ -1,13 +1,12 @@
 package com.ngoc.bookmanagement.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.io.Serializable;
-
-public class MessageResponse implements Serializable {
+public class MessageResponse{
 
     private int code;
-    
+
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "pageable"})
     private Object object;
 
     public int getCode() {

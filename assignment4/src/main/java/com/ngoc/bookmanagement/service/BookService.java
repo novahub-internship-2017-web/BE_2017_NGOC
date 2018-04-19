@@ -2,22 +2,23 @@ package com.ngoc.bookmanagement.service;
 
 import com.ngoc.bookmanagement.model.Book;
 import com.ngoc.bookmanagement.model.MessageResponse;
+import org.springframework.data.domain.Pageable;
 
 import javax.servlet.http.HttpServletRequest;
 
 public interface BookService {
 
-    MessageResponse getAllBooks(String wordsSearch, HttpServletRequest request);
+    MessageResponse getAllBooks(String wordsSearch, HttpServletRequest request, Pageable pageable);
 
-    MessageResponse getAllBooksOfUser(String wordSearch, long userId, HttpServletRequest request);
+    MessageResponse getAllBooksOfUser(String wordSearch, long userId, HttpServletRequest request, Pageable pageable);
 
-    MessageResponse getAllBooksOfUserByEnabled(String wordSearch, long userId, HttpServletRequest request, boolean enabled);
+    MessageResponse getAllBooksOfUserByEnabled(String wordSearch, long userId, HttpServletRequest request, boolean enabled, Pageable pageable);
 
-    MessageResponse getAllBooksByEnabled(HttpServletRequest request, boolean enabled);
+    MessageResponse getAllBooksByEnabled(HttpServletRequest request, boolean enabled, Pageable pageable);
 
     MessageResponse getBook(long bookId, HttpServletRequest request);
 
-    MessageResponse getAllBooksWithDisabledBookOfUser(String wordSeard, long userId, HttpServletRequest request);
+    MessageResponse getAllBooksWithDisabledBookOfUser(String wordSeard, long userId, HttpServletRequest request, Pageable pageable);
 
     MessageResponse createBook(Book book, HttpServletRequest request);
 
