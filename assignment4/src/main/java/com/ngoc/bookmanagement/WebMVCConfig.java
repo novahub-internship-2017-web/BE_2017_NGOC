@@ -15,4 +15,8 @@ public class WebMVCConfig implements WebMvcConfigurer {
                 .addPathPatterns("/user/**");
     }
 
+    @Override
+  	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    	registry.addResourceHandler("/resources/js/**").addResourceLocations("classpath:/static/js/");
+  	}
 }
