@@ -1,0 +1,22 @@
+.header-comment-h6{
+    font-size: 15px;
+}
+.name{
+    color: #0275d8;
+}
+.message{
+    font-size: 16px;
+}
+#comment-input{
+    border-radius: 1.25rem;
+}
+
+.form-group {
+    margin-bottom: 0px;
+}
+
+label.error {
+    color: red;
+    font-style: italic;
+    font-size: 12px;
+}

@@ -16,7 +16,7 @@
             <ul class="nav navbar-nav mr-auto"></ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="nav-item">
-                    <a class="nav-link" id="btnLogout">Logout</a>
+                    <a class="nav-link" id="btn-logout">Logout</a>
                 </li>
             </ul>
         </div>
@@ -35,17 +35,17 @@
                 <div class="form-group row">
                     <div class="col-md-1"></div>
                     <div class="col-md-9">
-                        <input type="text" id="text_search" class="form-control" />
+                        <input type="text" id="text-search" class="form-control" />
                     </div>
                     <div class="col-md-1">
-                        <input type="button" id="button_search" class="btn btn-primary" value="Search"/>
+                        <input type="button" id="button-search" class="btn btn-primary" value="Search"/>
                     </div>
                     <div class="col-md-1"></div>
                 </div>
             </div>
 
             <div id="body">
-                <table id="books_list" style="display: none; margin-top: 20px;" class="table table-bordered">
+                <table id="books-list" style="display: none; margin-top: 20px;" class="table table-bordered">
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">id</th>
@@ -55,7 +55,7 @@
                         </tr>
                     </thead>
                 </table>
-                <div id="div_book_not_found" align="center" style="display: none">
+                <div id="div-book-not-found" align="center" style="display: none">
                     <p style="font-size: 30px">Book not found</p>
                 </div>
             </div>
@@ -122,11 +122,11 @@
                         <div class="col-lg-1"></div>
                         <div class="col-lg-10">   
                             <h2>Title : </h2>
-                            <p id="titleBookView"></p>
+                            <p id="title-book-view"></p>
                             <h2>Author : </h2>
-                            <p id="authorBookView"></p>
+                            <p id="author-book-view"></p>
                             <h2>Description : </h2>
-                            <p id="descriptionBookView"></p>
+                            <p id="description-book-view"></p>
                             <h2>Comment : </h2>
                             <div id="comments">
                                 <div class="row">
@@ -154,31 +154,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 
-    <style type="text/css">
-
-        .header-comment-h6{
-            font-size: 15px;
-        }
-        .name{
-            color: #0275d8;
-        }
-        .message{
-            font-size: 16px;
-        }
-        #comment-input{
-            border-radius: 1.25rem;
-        }
-
-        .form-group {
-            margin-bottom: 0px;
-        }
-
-        label.error {
-            color: red;
-            font-style: italic;
-            font-size: 12px;
-        }
-    </style>
+    <link href="/resources/css/user_home.css" rel="stylesheet" type="text/css">
 
     <!-- search book -->
     <script>

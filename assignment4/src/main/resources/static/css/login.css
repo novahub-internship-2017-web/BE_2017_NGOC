@@ -1,0 +1,9 @@
+.form-group {
+    margin-bottom: 0px;
+}
+
+label.error {
+    color: red;
+    font-style: italic;
+    font-size: 12px;
+}
