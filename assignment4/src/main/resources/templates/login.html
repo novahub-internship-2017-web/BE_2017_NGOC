@@ -17,10 +17,10 @@
             <ul class="nav navbar-nav mr-auto"></ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="modal" data-target="#exampleModal" id="btnSignUp">Sign up</a>
+                    <a class="nav-link" data-toggle="modal" data-target="#exampleModal" id="btn-sign-up">Sign up</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="modal" data-target="#exampleModal" id="btnSignIn">Sign in</a>
+                    <a class="nav-link" data-toggle="modal" data-target="#exampleModal" id="btn-sign-in">Sign in</a>
                 </li>
             </ul>
         </div>
@@ -61,15 +61,15 @@
                         </div>
                         <div class="form-group" id="group-repassword">
                             <label class="col-form-label">Comfirm password : </label>
-                            <input type="password" name="repassword" id="repassword" class="form-control"/>
+                            <input type="password" name="repassword" id="re-password" class="form-control"/>
                         </div>
-                        <div class="form-group" id="group-firstname">
+                        <div class="form-group" id="group-first-name">
                             <label class="col-form-label" >First name : </label>
-                            <input type="text" name="firstName" id="firstName" class="form-control"/>
+                            <input type="text" name="firstName" id="first-name" class="form-control"/>
                         </div>
-                        <div class="form-group" id="group-lastname">
+                        <div class="form-group" id="group-last-name">
                             <label class="col-form-label">Last name : </label>
-                            <input type="text" name="lastName" id="lastName" class="form-control"/>
+                            <input type="text" name="lastName" id="last-name" class="form-control"/>
                         </div>
                         <div class="form-group" style="margin-top: 15px">
                             <input type="submit" name="submit" id="btn-action" class="btn btn-primary form-control"/>
@@ -97,220 +97,6 @@
         }
     </style>
 
-    <script>
-        const BTN_SIGN_UP_PRESSED = 1;
-        const BTN_SIGN_IN_PRESSED = 2;
-
-        const OK = 0;
-        const EMAIL_IS_EXIST = 11;
-        const EMAIL_OR_PASSWORD_WRONG = 12;
-
-        const ROLE_ADMIN = "ADMIN";
-        const ROLE_USER = "USER";
-
-        var state;
-
-        $("#login-form").click( function(event){
-            $("#alert-error-message").hide();
-            $("#alert-success-message").hide();
-        });
-
-        $("#btnSignUp").click( function(envet){
-            $("#form-title").text("Please Sign Up");
-            $("#repassword").prop("disabled", false);
-            $("#firstName").prop("disabled", false);
-            $("#lastName").prop("disabled", false);
-            $("#group-repassword").show();
-            $("#group-firstname").show();
-            $("#group-lastname").show();
-            $("#btn-action").val("Sign up");
-
-            if(state != BTN_SIGN_UP_PRESSED){
-                clearForm();
-                clearErrorMessages();
-            }
-            state = BTN_SIGN_UP_PRESSED;
-            
-        });
-
-        $("#btnSignIn").click( function(envet){
-            $("#form-title").text("Please Sign In");
-            $("#repassword").prop("disabled", true);
-            $("#firstName").prop("disabled", true);
-            $("#lastName").prop("disabled", true);            
-            $("#group-repassword").hide();
-            $("#group-firstname").hide();
-            $("#group-lastname").hide();
-            $("#btn-action").val("Sign in");
-
-            if(state != BTN_SIGN_IN_PRESSED){
-                clearForm();
-                clearErrorMessages(); 
-            }            
-
-            state = BTN_SIGN_IN_PRESSED;
-            
-        });
-
-        function clearErrorMessages(){
-            $("#alert-success-message").hide();
-            $("#alert-error-message").hide();
-            $(".error").hide();
-            $("#email").css("border-color", "#ced4da");
-            $("#password").css("border-color", "#ced4da");
-            $("#repassword").css("border-color", "#ced4da");
-            $("#firstName").css("border-color", "#ced4da");
-            $("#lastName").css("border-color", "#ced4da");
-        }
-
-        function clearForm(){
-            $(".error").hide();
-            $("#email").val("");
-            $("#email").css("border-color", "#ced4da");
-            $("#password").val("");
-            $("#password").css("border-color", "#ced4da");
-            $("#repassword").val("");
-            $("#repassword").css("border-color", "#ced4da");
-            $("#firstName").val("");
-            $("#firstName").css("border-color", "#ced4da");
-            $("#lastName").val("");
-            $("#lastName").css("border-color", "#ced4da");
-        }
-
-        $("#login-form").submit(function(event) {
-            event.preventDefault();
-            var data;
-
-            if(state == BTN_SIGN_UP_PRESSED){
-                data = JSON.stringify({
-                    "email" : this.email.value,
-                    "password" : this.password.value,
-                    "firstName" : this.firstName.value,
-                    "lastName" : this.lastName.value
-                });
-            }
-
-            if($("#login-form").valid() ) {
-                switch(state){
-                    case BTN_SIGN_UP_PRESSED : 
-                        {
-                            $.ajax({
-                                type: "POST",
-                                contentType: "application/json",
-                                url: window.location.origin + "/api/user",
-                                data: data,
-                                dataType: 'json',
-                                timeout: 10000,
-                                success: function (data) {
-                                    switch(data.code)
-                                    {
-                                        case OK:
-                                            {                                                
-                                                clearForm();    
-                                                $("#exampleModal").modal('hide'); 
-                                                $("#alert-success-message").show();
-                                                $("#alert-error-message").hide();
-                                            }
-                                            break;
-
-                                        case EMAIL_IS_EXIST:
-                                            {
-                                                $("#alert-error-message").show();
-                                                $("#alert-success-message").hide();
-                                                $("#error-message").text("Email is exist");
-                                            }
-                                            break;
-                                    }
-                                                                   
-                                },
-                                error: function (e) {
-                                    // TODO: show message network 
-                                }
-                            });
-                        }
-                        break;
-                    case BTN_SIGN_IN_PRESSED :
-                        {
-                            $.ajax({
-                                type: "GET",
-                                contentType: "application/json",
-                                url: window.location.origin + "/api/user",
-                                headers: {"email" : this.email.value, "password" : this.password.value},
-                                dataType: 'json',
-                                timeout: 10000,
-                                success: function (data) {
-                                    switch(data.code)
-                                    {
-                                        case OK:
-                                            {                                                
-                                                if(data.object.name == ROLE_ADMIN){
-                                                    window.location.replace(window.location.origin + "/admin/home");
-                                                } 
-
-                                                if(data.object.name == ROLE_USER){
-                                                    window.location.replace(window.location.origin + "/user/home");
-                                                }
-                                            }
-                                            break;
-
-                                        case EMAIL_OR_PASSWORD_WRONG:
-                                            {
-                                                $("#alert-error-message").show();
-                                                $("#alert-success-message").hide();
-                                                $("#error-message").text("Email or Password incorrect");
-                                            }
-                                            break;
-                                    }
-                                },
-                                error: function (e) {
-                                    $("#alert-error-message").show();
-                                    $("#alert-success-message").hide();
-                                    $("#error-message").text(e.responseJSON.message.trim());
-                                }
-                            });
-                        }
-                        break;
-                }
-            }
-        });
-
-        // validation
-        $(document).ready(function(s) {
-            $("#login-form").validate({
-                highlight : 
-                    function(element, errorClass) {
-                        $(element).css("border-color", "#d9534f");
-                    },
-                unhighlight : 
-                    function(element, errorClass) {
-                        $(element).css("border-color", "#5cb85c");
-                    },
-                rules:{
-                    email : {
-                        required: true,
-                        email: true
-                    },
-                    password: {
-                        required: true
-                    },
-                    repassword: {
-                        equalTo: "#password"
-                    }
-                },
-                messages :{
-                    email : {
-                        required: "Email is not empty",
-                        email: "Your email address must be in the format of name@domain.com"
-                    },
-                    password: {
-                        required: "Password is not empty"
-                    },
-                    repassword: {
-                        equalTo: "Password does not match the confirm password"
-                    }
-                }
-            });
-        });
-    </script>    
+    <script src="/resources/js/login.js"></script> 
 </body>
 </html>
