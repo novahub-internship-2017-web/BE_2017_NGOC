@@ -131,11 +131,8 @@
                             <h2>Comment : </h2>
                             <div id="comments">
                                 <div class="row">
-                                    <div class="col-lg-1">ava</div>
-                                    <div class="col-lg-11">
-                                        <input type="text" name="comment" class="form-control" id="comment-input"/>
-                                        <hr/>
-                                    </div>
+                                    <input type="text" name="comment" class="form-control" id="comment-input"/>
+                                    <hr/>
                                 </div>
                                 <div id="comments-list">
                                 </div>
@@ -162,7 +159,7 @@
         var urlRequestSearchBook, bookList, stateBookForm, wordsSearch;
 
 
-        urlRequestSearchBook = window.location.origin + "/api/books/user/" + userId + "?page=0&size=3";
+        urlRequestSearchBook = window.location.origin + "/api/books/user/" + userId;
 
         $("#btn-all").click(function(){
            urlRequestSearchBook = window.location.origin + "/api/books/user/" + userId;
@@ -268,23 +265,30 @@
             // </div>
 
             td_a_book_status = document.createElement("td");
-            div_switch = document.createElement("div");
-            div_switch.className = "switch";
-            input_switch_status = document.createElement("input");
-            input_switch_status.id = "status-" + aBookResult.id;
-            input_switch_status.className = "cmn-toggle cmn-toggle-round-flat";
-            input_switch_status.setAttribute("type", "checkbox");
-            if(aBookResult.enabled == true)
-                input_switch_status.setAttribute("checked", "");
-            div_switch.appendChild(input_switch_status);
-            label_for_input_switch_status = document.createElement("label");
-            label_for_input_switch_status.setAttribute("for", "status-" + aBookResult.id);
-            div_switch.appendChild(label_for_input_switch_status);
-            td_a_book_status.appendChild(div_switch);
+            td_a_book_status.setAttribute("align", "center");
+
+            if(aBookResult.userId == userId){
+                div_switch = document.createElement("div");
+                div_switch.className = "switch";
+                input_switch_status = document.createElement("input");
+                input_switch_status.id = "status-" + aBookResult.id;
+                input_switch_status.className = "cmn-toggle cmn-toggle-round-flat";
+                input_switch_status.setAttribute("type", "checkbox");
+                if(aBookResult.enabled == true)
+                    input_switch_status.setAttribute("checked", "");
+
+                input_switch_status.setAttribute("disabled", "");
+
+                div_switch.appendChild(input_switch_status);
+                label_for_input_switch_status = document.createElement("label");
+                label_for_input_switch_status.setAttribute("for", "status-" + aBookResult.id);
+                div_switch.appendChild(label_for_input_switch_status);
+                td_a_book_status.appendChild(div_switch);
+            }
             tr_a_book.appendChild(td_a_book_status);
 
-            td_a_book_methods = document.createElement("td");
-            td_a_book_methods.setAttribute("align", "center");
+            td_a_book_actions = document.createElement("td");
+            td_a_book_actions.setAttribute("align", "center");
             
             if(aBookResult.userId === userId){
                 button_edit = document.createElement("a");
@@ -294,10 +298,10 @@
                 button_edit.id = "btnEdit-" + userId;
                 button_edit.innerText = "Edit";
                 button_edit.setAttribute("onclick", "onClickEditButton(" + aBookResult.id  + ")");
-                td_a_book_methods.appendChild(button_edit);
+                td_a_book_actions.appendChild(button_edit);
             }
 
-            tr_a_book.appendChild(td_a_book_methods);
+            tr_a_book.appendChild(td_a_book_actions);
         }
 
         function clearBookForm(){
