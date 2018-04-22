@@ -51,7 +51,8 @@
                             <th scope="col">id</th>
                             <th scope="col">Title</th>
                             <th scope="col">Author</th>
-                            <th scope="col">Methods</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Actions</th>
                         </tr>
                     </thead>
                 </table>
@@ -152,18 +153,16 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-
-    <link href="/resources/css/user_home.css" rel="stylesheet" type="text/css">
     
-    <script> var userId = [[${session.userLogin.id}]]; </script>
+    <script> 
+        var userId = [[${session.userLogin.id}]];    
 
-    <script >        
         const BTN_BOOK_ALL_PRESSED = 1;
         const BTN_MY_BOOK_PRESSED = 2;
         var urlRequestSearchBook, bookList, stateBookForm, wordsSearch;
 
 
-        urlRequestSearchBook = window.location.origin + "/api/books/user/" + userId;
+        urlRequestSearchBook = window.location.origin + "/api/books/user/" + userId + "?page=0&size=3";
 
         $("#btn-all").click(function(){
            urlRequestSearchBook = window.location.origin + "/api/books/user/" + userId;
@@ -206,10 +205,10 @@
                 dataType: 'json',
                 timeout: 10000,
                 success: function (dataReceive) {
-                    if(dataReceive.object.length === 0){
+                    if(dataReceive.object.content.length === 0){
                         showMessageNotFound();
                     } else {
-                        bookList = dataReceive.object;
+                        bookList = dataReceive.object.content;
                         showBooksResult(bookList);
                     }
                 },
@@ -262,6 +261,27 @@
             td_a_book_author.id = "author-" + aBookResult.id;
             td_a_book_author.innerText = aBookResult.author;
             tr_a_book.appendChild(td_a_book_author);
+            
+            // <div class="switch">
+            //   <input id="cmn-toggle-4" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+            //   <label for="cmn-toggle-4"></label>
+            // </div>
+
+            td_a_book_status = document.createElement("td");
+            div_switch = document.createElement("div");
+            div_switch.className = "switch";
+            input_switch_status = document.createElement("input");
+            input_switch_status.id = "status-" + aBookResult.id;
+            input_switch_status.className = "cmn-toggle cmn-toggle-round-flat";
+            input_switch_status.setAttribute("type", "checkbox");
+            if(aBookResult.enabled == true)
+                input_switch_status.setAttribute("checked", "");
+            div_switch.appendChild(input_switch_status);
+            label_for_input_switch_status = document.createElement("label");
+            label_for_input_switch_status.setAttribute("for", "status-" + aBookResult.id);
+            div_switch.appendChild(label_for_input_switch_status);
+            td_a_book_status.appendChild(div_switch);
+            tr_a_book.appendChild(td_a_book_status);
 
             td_a_book_methods = document.createElement("td");
             td_a_book_methods.setAttribute("align", "center");
@@ -550,6 +570,109 @@
         }      
 
     </script>
+
+    <style>
+        .header-comment-h6{
+            font-size: 15px;
+        }
+        .name{
+            color: #0275d8;
+        }
+        .message{
+            font-size: 16px;
+        }
+        #comment-input{
+            border-radius: 1.25rem;
+        }
+
+        .form-group {
+            margin-bottom: 0px;
+        }
+
+        label.error {
+            color: red;
+            font-style: italic;
+            font-size: 12px;
+        }
+
+
+
+        /*style of switch button*/
+        .cmn-toggle {
+            position: absolute;
+            margin-left: -9999px;
+            visibility: hidden;
+        }
+        .cmn-toggle + label {
+            display: block;
+            position: relative;
+            cursor: pointer;
+            outline: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        input.cmn-toggle-round-flat + label {
+            padding: 2px;
+            width: 60px;
+            height: 25px;
+            background-color: #dddddd;
+            -webkit-border-radius: 50px;
+            -moz-border-radius: 50px;
+            -ms-border-radius: 50px;
+            -o-border-radius: 50px;
+            border-radius: 50px;
+            -webkit-transition: background 0.4s;
+            -moz-transition: background 0.4s;
+            -o-transition: background 0.4s;
+            transition: background 0.4s;
+        }
+        input.cmn-toggle-round-flat + label:before, input.cmn-toggle-round-flat + label:after {
+            display: block;
+            position: absolute;
+            content: "";
+        }
+        input.cmn-toggle-round-flat + label:before {
+            top: 2px;
+            left: 2px;
+            bottom: 2px;
+            right: 2px;
+            background-color: #fff;
+            -webkit-border-radius: 50px;
+            -moz-border-radius: 50px;
+            -ms-border-radius: 50px;
+            -o-border-radius: 50px;
+            border-radius: 50px;
+            -webkit-transition: background 0.4s;
+            -moz-transition: background 0.4s;
+            -o-transition: background 0.4s;
+            transition: background 0.4s;
+        }
+        input.cmn-toggle-round-flat + label:after {
+            top: 4px;
+            left: 4px;
+            bottom: 4px;
+            width: 22px;
+            background-color: #dddddd;
+            -webkit-border-radius: 50px;
+            -moz-border-radius: 50px;
+            -ms-border-radius: 50px;
+            -o-border-radius: 50px;
+            border-radius: 50px;
+            -webkit-transition: margin 0.4s, background 0.4s;
+            -moz-transition: margin 0.4s, background 0.4s;
+            -o-transition: margin 0.4s, background 0.4s;
+            transition: margin 0.4s, background 0.4s;
+        }
+        input.cmn-toggle-round-flat:checked + label {
+            background-color: #8ce196;
+        }
+        input.cmn-toggle-round-flat:checked + label:after {
+            margin-left: 30px;
+            background-color: #8ce196;
+        }
+    </style>
 
 </body>
 </html>

@@ -2,7 +2,9 @@ package com.ngoc.bookmanagement.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-public class MessageResponse{
+import java.io.Serializable;
+
+public class MessageResponse implements Serializable {
 
     private int code;
 

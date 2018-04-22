@@ -1,5 +1,6 @@
 package com.ngoc.bookmanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ngoc.bookmanagement.validation.GroupBookUpdate;
 
@@ -11,10 +12,11 @@ import java.util.Set;
 
 @Entity
 @Table(name = "book")
-public class Book implements Serializable {
+public class Book implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private long id;
 
     @Column(name = "title")
