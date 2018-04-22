@@ -39,9 +39,9 @@ public class TestController {
 
         MessageResponse messageResponse = new MessageResponse();
         messageResponse.setCode(200);
-        messageResponse.setObject(bookRepository.getAllByEnabled(true, pageable));
+        messageResponse.setObject(commentRepository.getAllByBookId(1, pageable).getContent());
 
-        return new ResponseEntity<>(messageResponse, HttpStatus.OK);
+        return new ResponseEntity<>(commentRepository.getAllByBookId(1, pageable).getContent(), HttpStatus.OK);
     }
 
 }

@@ -39,8 +39,8 @@ public class Comment implements Serializable {
     @NotEmpty(groups = {GroupCommentCreate.class, GroupCommentUpdate.class})
     private String message;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private User user;
 

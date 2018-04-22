@@ -434,15 +434,16 @@
         {
             for(var bookIndex = 0; bookIndex < bookList.length; bookIndex++){
                 if(bookList[bookIndex].id === bookId){
+                    $("#title-book-view").text(bookList[bookIndex].title);
+                    $("#author-book-view").text(bookList[bookIndex].author);
+                    $("#description-book-view").text(bookList[bookIndex].description);
                     break;
                 }
             }
 
             bookIdClicked = bookId;
 
-            $("#titleBookView").text(bookList[bookIndex].title);
-            $("#authorBookView").text(bookList[bookIndex].author);
-            $("#descriptionBookView").text(bookList[bookIndex].description);
+            
 
             $("#comments-list").empty();
             callGetAllComments(bookId);     
@@ -498,7 +499,7 @@
                 dataType: 'json',
                 timeout: 10000,
                 success: function (dataReceive) {
-                    commentsList = dataReceive.object;
+                    commentsList = dataReceive.object.content;
                     
                     for(var index = 0; index < commentsList.length; index++){
                         addComment(commentsList[index]);
