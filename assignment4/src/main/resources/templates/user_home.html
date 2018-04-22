@@ -38,7 +38,7 @@
                         <input type="text" id="text-search" class="form-control" />
                     </div>
                     <div class="col-md-1">
-                        <input type="button" id="button-search" class="btn btn-primary" value="Search"/>
+                        <input type="button" id="btn-search" class="btn btn-primary" value="Search"/>
                     </div>
                     <div class="col-md-1"></div>
                 </div>
@@ -146,7 +146,6 @@
             </div>
         </div>
     </div> 
-
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
@@ -155,17 +154,18 @@
 
 
     <link href="/resources/css/user_home.css" rel="stylesheet" type="text/css">
+    
+    <script> var userId = [[${session.userLogin.id}]]; </script>
 
-    <!-- search book -->
-    <script>
+    <script >        
         const BTN_BOOK_ALL_PRESSED = 1;
         const BTN_MY_BOOK_PRESSED = 2;
-        var userId, urlRequestSearchBook, bookList, state, wordsSearch;
+        var urlRequestSearchBook, bookList, stateBookForm, wordsSearch;
 
-        userId = [[${session.userLogin.id}]];
+
         urlRequestSearchBook = window.location.origin + "/api/books/user/" + userId;
 
-        $("#btnAll").click(function(){
+        $("#btn-all").click(function(){
            urlRequestSearchBook = window.location.origin + "/api/books/user/" + userId;
 
             if(bookList.length > 0){
@@ -173,9 +173,8 @@
             }
         });
 
-        
 
-        $("#btnMyBook").click(function(){
+        $("#btn-my-book").click(function(){
             urlRequestSearchBook = window.location.origin + "/api/user/" + userId + "/books";
             
             var booksListTemp = [];
@@ -192,8 +191,8 @@
             }
         });
 
-        $("#button_search").click(function () {
-             wordsSearch = $("#text_search").val();
+        $("#button-search").click(function () {
+             wordsSearch = $("#text-search").val();
 
             searchBooks(wordsSearch);
         });
@@ -221,17 +220,17 @@
         }
 
         function showMessageNotFound(){
-            $("#books_list").hide();
-            $("#div_book_not_found").show();
+            $("#books-list").hide();
+            $("#div-book-not-found").show();
         }
 
         function showBooksResult(books){
-            $("#books_list").show();
-            $("#div_book_not_found").hide();
+            $("#books-list").show();
+            $("#div-book-not-found").hide();
 
             $("tbody").remove();
 
-            table_books_list = document.getElementById("books_list");
+            table_books_list = document.getElementById("books-list");
             tbody = document.createElement("tbody");
             table_books_list.appendChild(tbody);
 
@@ -251,7 +250,7 @@
 
             td_a_book_title = document.createElement("td");
             a_a_book_title = document.createElement("a");
-            a_a_book_title.id = "title_" + aBookResult.id;
+            a_a_book_title.id = "title-" + aBookResult.id;
             a_a_book_title.innerText = aBookResult.title;
             a_a_book_title.setAttribute("data-toggle", "modal");
             a_a_book_title.setAttribute("href", "#bookViewModal");
@@ -260,7 +259,7 @@
             tr_a_book.appendChild(td_a_book_title);
 
             td_a_book_author = document.createElement("td");
-            td_a_book_author.id = "author_" + aBookResult.id;
+            td_a_book_author.id = "author-" + aBookResult.id;
             td_a_book_author.innerText = aBookResult.author;
             tr_a_book.appendChild(td_a_book_author);
 
@@ -272,7 +271,7 @@
                 button_edit.setAttribute("data-toggle", "modal");
                 button_edit.setAttribute("data-target", "#exampleModal");
                 button_edit.className = "btn btn-primary btnEdit";
-                button_edit.id = "btnEdit_" + userId;
+                button_edit.id = "btnEdit-" + userId;
                 button_edit.innerText = "Edit";
                 button_edit.setAttribute("onclick", "onClickEditButton(" + aBookResult.id  + ")");
                 td_a_book_methods.appendChild(button_edit);
@@ -283,14 +282,10 @@
 
         function clearBookForm(){
             $("#title").val("");
-            $("author").val("");
-            $("description").val("");
+            $("#author").val("");
+            $("#description").val("");
         }
 
-    </script>
-
-    <!-- add / edit book-->
-    <script>
         const BTN_ADD_BOOK_PRESSED = 3;
         const BTN_EDIT_BOOK_PRESSED = 4;
         var dataRequest, urlRequestAddOrEditBook, typeRequest, bookIdEdit;        
@@ -312,7 +307,7 @@
             state = BTN_EDIT_BOOK_PRESSED;
         }
 
-        $("#btnAdd").click( function (event) {
+        $("#btn-add").click( function (event) {
            $("#form-title").text("Create a new book");
            $("#btn-action").val("Create");
            state = BTN_ADD_BOOK_PRESSED;
@@ -361,8 +356,8 @@
                             break;
 
                             case BTN_EDIT_BOOK_PRESSED : {
-                                $("#title_" + dataReceive.object.id).text(dataReceive.object.title);
-                                $("#author_" + dataReceive.object.id).text(dataReceive.object.author);
+                                $("#title-" + dataReceive.object.id).text(dataReceive.object.title);
+                                $("#author-" + dataReceive.object.id).text(dataReceive.object.author);
 
                                 for(var bookIndex = 0; bookIndex < bookList.length; bookIndex++){
                                     if(bookList[bookIndex].id === dataReceive.object.id){
@@ -381,7 +376,7 @@
                 });
             }
         });
-        
+
         // validate book-form
         $(document).ready(function(s) {
             $("#book-form").validate({
@@ -408,10 +403,6 @@
         document.addEventListener("DOMContentLoaded", function(){
             searchBooks("");
         });
-    </script>
-
-    <!-- show book -->
-    <script>
 
         var commentsList;
 
@@ -496,21 +487,18 @@
                 }
             });
         }   
-    </script>
 
-    <!-- add comment -->
-    <script>
         var bookIdClicked;
 
         $("#comment-input").keyup(function(e){
-        
+
             if(e.which == 13)
             {
                 if($("#comment-input").val().trim().length > 0){
                     addCommentByBookId(bookIdClicked);
                 }
             }
-        
+
         });
 
         function addCommentByBookId(bookId){
@@ -536,10 +524,9 @@
         }
     </script>
 
-    <!-- logout -->
-    <script>
 
-        $("#btnLogout").click(function (event) {
+    <script>
+        $("#btn-logout").click(function (event) {
            event.preventDefault();
 
            callLogoutAPI();
@@ -560,7 +547,8 @@
                     console.log("ERROR : ", e.responseJSON.message);
                 }
             });
-        }             
+        }      
+
     </script>
 
 </body>
