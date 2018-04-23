@@ -16,20 +16,29 @@
             <ul class="nav navbar-nav mr-auto"></ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="nav-item">
+                    <a class="nav-link" id="myWish">Test</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" id="btn-logout">Logout</a>
                 </li>
             </ul>
         </div>
     </nav>
 
-    <div class="row" style="margin-top: 100px;">
+    <div class="row fixed-top" style="margin-top: 65px;">
+        <div class="alert alert-success col-md-12" id="success-alert" align="center" style="display: none;"> 
+            <strong>Success! </strong>
+            <p style="display: inline;" id="message-success"></p>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 150px;">
+        
         <div class="col-md-2"></div>
         <div class="col-md-8">
             <div style="text-align: center">
                 <a id="btn-all" class="btn btn-primary">All</a>
                 <a id="btn-my-book" class="btn btn-primary">My book</a> 
-                <a id="btn-all-disabled" class="btn btn-primary">Disable</a>    
-                <a id="btn-all-enabled" class="btn btn-primary">Enable</a>
                 <a id="btn-add" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Add</a> 
             </div>
 
@@ -47,6 +56,28 @@
             </div>
 
             <div id="body">
+                <div>
+                    <select id="size-books-response"class="custom-select" style="width: 70px;" onchange="onChangeSelect()">
+                      <option value="3" selected>3</option>
+                      <option value="6">6</option>
+                      <option value="9">9</option>
+                      <option value="12">12</option>
+                    </select>
+
+                    <select id="sort-books-response"class="custom-select" style="width: 150px;" onchange="onChangeSelect()">
+                      <option value="id" selected>id</option>
+                      <option value="title">title</option>
+                      <option value="author">author</option>
+                      <option value="description">description</option>
+                      <option value="enabled">enabled</option>
+                    </select>
+
+                    <select id="asc-desc-books-response"class="custom-select" style="width: 90px;" onchange="onChangeSelect()">
+                      <option value="asc" selected>asc</option>
+                      <option value="desc">desc</option>
+                    </select>
+                </div>
+
                 <table id="books-list" style="display: none; margin-top: 20px;" class="table table-bordered">
                     <thead class="thead-dark">
                         <tr>
@@ -58,6 +89,7 @@
                         </tr>
                     </thead>
                 </table>
+                <div align="center" style="font-style: italic; color: blue;"> <a id="load-more-books">Load more</a> </div>
                 <div id="div-book-not-found" align="center" style="display: none">
                     <p style="font-size: 30px">Book not found</p>
                 </div>
@@ -154,6 +186,29 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 
+    <<script>
+
+        function showAlert() {
+            $("#success-alert").fadeTo(1000, 500).slideUp(500, function(){
+                $("#success-alert").slideUp(500);
+            });   
+        }
+
+        var hasSortOrSizeChanged = true;
+
+        function onChangeSelect(){
+            hasSortOrSizeChanged = true;
+            pageOfPagingate = 0;
+        }
+
+        $("#load-more-books").click( function() {
+            searchBooks();
+        });
+    </script>
+
+
+
+
     <style type="text/css">
 
         .header-comment-h6{
@@ -187,6 +242,8 @@
 
         var userId, urlRequestSearchBook, bookList, state, wordsSearch;
 
+        var pageOfPagingate = 0;
+
         userId = [[${session.userLogin.id}]];
         urlRequestSearchBook = window.location.origin + "/api/books";
 
@@ -214,62 +271,45 @@
             if(booksListTemp.length > 0){
                 showBooksResult(booksListTemp);
             }
-        });
-
-        $("#btn-all-disabled").click(function(){
-            urlRequestSearchBook = window.location.origin + "/api/books/disabled";
-
-             var booksListTemp = [];
-            
-
-            for(var bookIndex = 0; bookIndex < bookList.length; bookIndex++){
-                if(bookList[bookIndex].enabled == false){
-                    booksListTemp.push(bookList[bookIndex]);
-                }
-            }
-
-            if(booksListTemp.length > 0){
-                showBooksResult(booksListTemp);
-            }
-        });
-
-        $("#btn-all-enabled").click(function(){
-            urlRequestSearchBook = window.location.origin + "/api/books/enabled";
-
-             var booksListTemp = [];
-            
-
-            for(var bookIndex = 0; bookIndex < bookList.length; bookIndex++){
-                if(bookList[bookIndex].enabled == true){
-                    booksListTemp.push(bookList[bookIndex]);
-                }
-            }
-
-            if(booksListTemp.length > 0){
-                showBooksResult(booksListTemp);
-            }
-        });
+        });        
 
         $("#btn-search").click(function () {
-             wordsSearch = $("#text-search").val();
-
-            searchBooks(wordsSearch);
+            hasSortOrSizeChanged = true;
+            pageOfPagingate = 0;
+            searchBooks();
         });
 
-        function searchBooks(wordsSearch){
+        function searchBooks(){
+            wordsSearch = $("#text-search").val();
+
             $.ajax({
                 type: "GET",
                 contentType: "application/json",
-                url: urlRequestSearchBook,
+                url: urlRequestSearchBook + "?page=" + pageOfPagingate + "&size=" + $("#size-books-response").val() + "&sort=" + $("#sort-books-response").val() + "," + $("#asc-desc-books-response").val(),
                 headers : {"wordsSearch" : wordsSearch},
                 dataType: 'json',
                 timeout: 10000,
                 success: function (dataReceive) {
-                    if(dataReceive.object.content.length === 0){
-                        showMessageNotFound();
+                    if(hasSortOrSizeChanged == true){
+                        hasSortOrSizeChanged = false;
+                        if(dataReceive.object.content.length === 0){
+                            showMessageNotFound();
+                        } else {
+                            bookList = dataReceive.object.content;
+                            showBooksResult(bookList);
+                        }
                     } else {
-                        bookList = dataReceive.object.content;
-                        showBooksResult(bookList);
+                        for(var index = 0; index < dataReceive.object.content.length; index++){
+                            bookList.push(dataReceive.object.content[index]);
+                            showABookResult(dataReceive.object.content[index]);
+                        }
+                    }
+
+                    if(dataReceive.object.last == false){
+                        pageOfPagingate = pageOfPagingate + 1;
+                        $("#load-more-books").show();
+                    } else {
+                        $("#load-more-books").hide();
                     }
                 },
                 error: function (e) {
@@ -376,6 +416,8 @@
                 urlLockOrUnlockBookRequest = window.location.origin + "/api/book/" + bookUpdateEnabled.id + "/unlock";
             }
 
+            $("#status-book-" + bookList[bookIndex].id).prop('disabled', true);
+
             $.ajax({
                 type : "PUT",
                 contentType: "application/json",
@@ -386,15 +428,21 @@
                 success: function (dataReceive) {
                     if(bookList[bookIndex].enabled == true){
                         bookList[bookIndex].enabled = false;
+                        $("#message-success").text("Disable book successfully.");
                     } else {
                         bookList[bookIndex].enabled = true;
+                        $("#message-success").text("Enable book successfully.");
                     }
                     $("#status-book-" + bookList[bookIndex].id).prop('checked', bookList[bookIndex].enabled);
+                    showAlert();
+
+                    $("#status-book-" + bookList[bookIndex].id).prop('disabled', false);
 
                     console.log("change enabled");
                 },
                 error: function (e) {
                     console.log("ERROR : " + dataReceive);
+                    $("#status-book-" + bookList[bookIndex].id).prop('disabled', false);
                 }
             });
         }
@@ -475,6 +523,9 @@
                             case BTN_ADD_BOOK_PRESSED : {
                                 bookList.push(dataReceive.object);
                                 showABookResult(dataReceive.object);
+                                $("#message-success").text("Add new book successfully");
+                                $("#exampleModal").modal('hide');
+                                showAlert();
                             }
                             break;
 
@@ -489,6 +540,10 @@
                                         bookList[bookIndex].description = dataReceive.object.description;
                                     }
                                 }
+
+                                $("#message-success").text("Edit book successfully");
+                                $("#exampleModal").modal('hide');
+                                showAlert();
                             }
                             break;
                         }
@@ -524,7 +579,7 @@
 
         // code to search all books when website is loaded complete   
         document.addEventListener("DOMContentLoaded", function(){
-            searchBooks("");
+            searchBooks();
         });
     </script>
 
@@ -576,11 +631,21 @@
             h6_header_comment_h6.className = "header-comment-h6";
             div_header_comment.appendChild(h6_header_comment_h6);
 
+            div_name_time = document.createElement("div");
+
             a_name = document.createElement("a");
             a_name.className = "name";
-            a_name.href = "";
+            a_name.style="color: #007bff; font-size: 18px";
             a_name.innerText = comment.user.firstName + " " + comment.user.lastName;
-            h6_header_comment_h6.appendChild(a_name);
+            div_name_time.appendChild(a_name)
+
+            a_time = document.createElement("a");
+            a_time.className = "time"
+            a_time.style="margin-left: 15px;";
+            a_time.innerText = timeDifferenceWithNow(new Date(comment.updatedAt));
+            div_name_time.appendChild(a_time);
+
+            h6_header_comment_h6.appendChild(div_name_time);
 
             h4_message = document.createElement("h4");
             h4_message.className = "message";
@@ -601,7 +666,7 @@
                 dataType: 'json',
                 timeout: 10000,
                 success: function (dataReceive) {
-                    commentsList = dataReceive.object;
+                    commentsList = dataReceive.object.content;
                     
                     for(var index = 0; index < commentsList.length; index++){
                         addComment(commentsList[index]);
@@ -614,6 +679,46 @@
                 }
             });
         }   
+    </script>
+
+    <!-- different time-->
+    <<script>
+        function timeDifferenceWithNow(previous) {
+    
+            var msPerMinute = 60 * 1000;
+            var msPerHour = msPerMinute * 60;
+            var msPerDay = msPerHour * 24;
+            var msPerMonth = msPerDay * 30;
+            var msPerYear = msPerDay * 365;
+            
+            var elapsed = (new Date()) - previous;
+            
+            if (elapsed < msPerMinute) {
+                 return Math.round(elapsed/1000) + ' seconds ago';   
+            }
+            
+            else if (elapsed < msPerHour) {
+                 return Math.round(elapsed/msPerMinute) + ' minutes ago';   
+            }
+            
+            else if (elapsed < msPerDay ) {
+                 return Math.round(elapsed/msPerHour ) + ' hours ago';   
+            }
+
+            else if (elapsed < msPerMonth) {
+                 return 'approximately ' + Math.round(elapsed/msPerDay) + ' days ago';   
+            }
+            
+            else if (elapsed < msPerYear) {
+                 return 'approximately ' + Math.round(elapsed/msPerMonth) + ' months ago';   
+            }
+            
+            else {
+                 return 'approximately ' + Math.round(elapsed/msPerYear ) + ' years ago';   
+            }
+        }
+
+
     </script>
 
     <!-- add comment -->
