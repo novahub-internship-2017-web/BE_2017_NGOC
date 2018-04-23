@@ -56,9 +56,9 @@ public class UserController {
     @PutMapping(value = "/api/user/{userId}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> updateUserProfile(@PathVariable("userId") long userId,
                                                @RequestBody User userParam,
-                                               HttpServletRequest request,
-                                               @SessionAttribute("userLogin") User userLogin){
+                                               HttpServletRequest request){
         MessageResponse messageResponse;
+        User userLogin = userService.getUserLoginInSession(request);
 
         if(!checkTrueUserOrAdminPermission(userId, userLogin)){
             messageResponse = new MessageResponse();
@@ -73,9 +73,9 @@ public class UserController {
 
     @PutMapping(value = "/api/user/{userId}/lock", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> lockUser(@PathVariable("userId") long userId,
-                                      HttpServletRequest request,
-                                      @SessionAttribute("userLogin") User userLogin){
+                                      HttpServletRequest request){
         MessageResponse messageResponse;
+        User userLogin = userService.getUserLoginInSession(request);
 
         if(!checkAdminPermission(userLogin)){
             messageResponse = new MessageResponse();
@@ -89,9 +89,9 @@ public class UserController {
 
     @PutMapping(value = "/api/user/{userId}/unlock", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> unlockUser(@PathVariable("userId") long userId,
-                                        HttpServletRequest request,
-                                        @SessionAttribute("userLogin") User userLogin){
+                                        HttpServletRequest request){
         MessageResponse messageResponse;
+        User userLogin = userService.getUserLoginInSession(request);
 
         if(!checkAdminPermission(userLogin)){
             messageResponse = new MessageResponse();
@@ -102,12 +102,22 @@ public class UserController {
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
 
+    private boolean checkLogin(User userLogin){
+        return (userLogin != null);
+    }
+
     private boolean checkAdminPermission(User userLogin){
+
+        if(!checkLogin(userLogin))
+            return false;
 
         return  userLogin.getRole().getName().equals(RoleConstant.ROLE_ADMIN);
     }
 
     private boolean checkTrueUserOrAdminPermission(long userId, User userLogin){
+
+        if(!checkLogin(userLogin))
+            return false;
 
         if(userLogin.getRole().getName().equals(RoleConstant.ROLE_ADMIN))
             return true;

@@ -1,4 +1,4 @@
-9<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -7,38 +7,66 @@
 </head>
 <body>
 
-    
-    <div class="container">
-        <form id="user_edit" class="form-horizontal">
-            <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-6">
-                    <h2 style="text-align: center">Edit User</h2>
-                    <hr/>
+    <a id="btn-edit-user" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Edit</a>  
+
+    <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="user-profile-form">
+                        <div class="form-group">
+                            <h2 style="text-align: center" id="form-title">User Edit</h2>
+                        </div>      
+                        <div class="alert alert-success" id="alert-success-message" style="display: none;">
+                            <p style="text-align: center; margin-bottom: 0px;">
+                                <strong>Success!</strong> <span id="success-message"></span>.
+                            </p>
+                        </div>
+                        <div class="alert alert-danger" id="alert-error-message" style="display: none;">
+                            <p style="text-align: center; margin-bottom: 0px;">
+                                <strong>Danger!</strong> <span id="error-message"></span>.
+                            </p>
+                        </div>
+                        <div class="from-group">
+                            <label class="col-form-label">Email:</label>
+                            <input type="text" name="email" id="email" class="form-control"/>
+                        </div>
+                        <div class="from-group">
+                            <label class="col-form-label">First name :</label>
+                            <input type="text" name="firstName" id="firstName" class="form-control"/>
+                        </div>
+                        <div class="from-group">
+                            <label class="col-form-label">Last name :</label>
+                            <input type="text" name="lastName" id="lastName" class="form-control"/>
+                        </div>
+                        <div class="form-check" style="margin-top: 10px;">
+                            <label class="form-check-label">
+                                <input type="checkbox" name="choiceChangePassword" id="checkbox-choice-change-password" value="false" class="form-check-input"> Change password
+                            </label>
+                        </div>
+                        <div id="changing-password-form" style="display: none;">
+                            <div class="form-group" style="margin-bottom: 0px;">
+                                <label class="col-form-label">Password : </label>
+                                <input type="password" name="password" id="password" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Confirm password : </label>
+                                <input type="password" name="repassword" id="repassword" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top: 15px">
+                            <input type="submit" name="submit" id="btn-action" value="submit" class="btn btn-primary form-control"/>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-6"></div>
-            </div>
-        </form>
-    </div>
-    <form id="user_profile_form" style="display: none;">
-        <label>email : </label>
-        <input type="text" name="email" id="email"/> <br/>
-        <label>firstname : </label>
-        <input type="text" name="firstName" id="firstName"/> <br/>
-        <label>lastName : </label>
-        <input type="text" name="lastName" id="lastName"/> <br/>
-        <input type="checkbox" name="choice_change_password" id="checkbox_choice_change_password" value="false"/>change password <br/>
-        <div id="changing_password_form" style="display: none;">
-            <label>password : </label>
-            <input type="password" name="password" id="password"/> <br/>
-            <label>confirm password</label>
-            <input type="password" name="repassword" id="repassword"/> <br/>
         </div>
-        <input type="submit" name="submit" value="update"/>
-    </form>
+    </div> 
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -48,21 +76,25 @@
 
     <script>
         var url = window.location.href;
-        var userId = url.substring(url.lastIndexOf('/') + 1);
+        var userId = 2;
 
-        $('#checkbox_choice_change_password').change(function () {
-            if ($("#checkbox_choice_change_password").is(":checked")) {
-                $('#changing_password_form').show();
+        $('#checkbox-choice-change-password').change(function () {
+            if ($("#checkbox-choice-change-password").is(":checked")) {
+                $('#changing-password-form').show();
             } else {
-                $('#changing_password_form').hide();
+                $('#changing-password-form').hide();
             }
         });
 
-        $('#user_profile_form').submit(function(event) {
+        $('#user-profile-form').submit(function(event) {
             event.preventDefault();
 
             callUserPostApi();
         });
+
+        $('#btn-edit-user').click( function() {
+            callUserGetApi();
+        })
 
         function callUserGetApi() {
             $.ajax({
@@ -72,10 +104,10 @@
                 dataType: 'json',
                 timeout: 10000,
                 success: function (dataReceive) {
-                    console.log("SUCCESS : ", dataReceive);
-                    $("#email").val(dataReceive.email);
-                    $("#firstName").val(dataReceive.firstName);
-                    $("#lastName").val(dataReceive.lastName);
+                    console.log("SUCCESS : ", dataReceive.object);
+                    $("#email").val(dataReceive.object.email);
+                    $("#firstName").val(dataReceive.object.firstName);
+                    $("#lastName").val(dataReceive.object.lastName);
 
                     $("#user_profile_form").show();
                 },
@@ -89,7 +121,7 @@
 
             var data;
 
-            if ($("#checkbox_choice_change_password").is(":checked")){
+            if ($("#checkbox-choice-change-password").is(":checked")){
                 data = JSON.stringify({
                     "email" : this.email.value,
                     "firstName" : this.firstName.value,
@@ -104,7 +136,7 @@
                 });
             }
 
-            if($("#user_profile_form").valid()) {
+            if($("#user-profile-form").valid()) {
                 $.ajax({
                     type: "PUT",
                     contentType: "application/json",
@@ -126,8 +158,42 @@
             }
         }
 
-        document.addEventListener("DOMContentLoaded", function(){
-            callUserGetApi();
+        // validation
+        $(document).ready(function(s) {
+            $("#user-profile-form").validate({
+                highlight : 
+                    function(element, errorClass) {
+                        $(element).css("border-color", "#d9534f");
+                    },
+                unhighlight : 
+                    function(element, errorClass) {
+                        $(element).css("border-color", "#5cb85c");
+                    },
+                rules:{
+                    email : {
+                        required: true,
+                        email: true
+                    },
+                    password: {
+                        required: true
+                    },
+                    repassword: {
+                        equalTo: "#password"
+                    }
+                },
+                messages :{
+                    email : {
+                        required: "Email is not empty",
+                        email: "Your email address must be in the format of name@domain.com"
+                    },
+                    password: {
+                        required: "Password is not empty"
+                    },
+                    repassword: {
+                        equalTo: "Password does not match the confirm password"
+                    }
+                }
+            });
         });
     </script>
 

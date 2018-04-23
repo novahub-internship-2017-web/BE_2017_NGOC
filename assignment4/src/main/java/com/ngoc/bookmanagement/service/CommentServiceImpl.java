@@ -70,9 +70,9 @@ public class CommentServiceImpl implements CommentService {
 
         messageResponse = new MessageResponse();
         Page<Comment> commentList = commentRepository.getAllByBookId(bookId, pageable);
-//        for(Comment comment : commentList.getContent()){
-//            comment.setUser(userRepository.findById(comment.getUserId()).get());
-//        }
+        for(Comment comment : commentList.getContent()){
+            comment.setUser(userRepository.findById(comment.getUserId()).get());
+        }
         messageResponse.setCode(MessageResponseConstant.OK);
         messageResponse.setObject(commentList);
         return messageResponse;

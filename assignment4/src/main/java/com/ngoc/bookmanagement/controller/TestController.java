@@ -4,6 +4,7 @@ import com.ngoc.bookmanagement.model.MessageResponse;
 import com.ngoc.bookmanagement.repository.BookRepository;
 import com.ngoc.bookmanagement.repository.CommentRepository;
 import com.ngoc.bookmanagement.repository.UserRepository;
+import com.ngoc.bookmanagement.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,9 @@ public class TestController {
     private CommentRepository commentRepository;
 
     @Autowired
+    private CommentService commentService;
+
+    @Autowired
     private BookRepository bookRepository;
 
     @Autowired
@@ -30,7 +34,7 @@ public class TestController {
     @RequestMapping("/test")
     public ModelAndView testGet(){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("test");
+        modelAndView.setViewName("user_profile");
         return modelAndView;
     }
 
@@ -39,9 +43,9 @@ public class TestController {
 
         MessageResponse messageResponse = new MessageResponse();
         messageResponse.setCode(200);
-        messageResponse.setObject(commentRepository.getAllByBookId(1, pageable).getContent());
+        messageResponse.setObject(commentService.getAllCommentsByBookId(1, request, pageable));
 
-        return new ResponseEntity<>(commentRepository.getAllByBookId(1, pageable).getContent(), HttpStatus.OK);
+        return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
 
 }
