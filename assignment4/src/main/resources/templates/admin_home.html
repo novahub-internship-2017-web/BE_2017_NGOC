@@ -37,7 +37,7 @@
                 <div class="form-group row">
                     <div class="col-md-1"></div>
                     <div class="col-md-9">
-                        <input type="text" id="text_search" class="form-control" />
+                        <input type="text" id="text-search" class="form-control" />
                     </div>
                     <div class="col-md-1">
                         <input type="button" id="btn-search" class="btn btn-primary" value="Search"/>
@@ -328,15 +328,16 @@
             div_switch = document.createElement("div");
             div_switch.className = "switch";
             input_switch_status = document.createElement("input");
-            input_switch_status.id = "status-" + aBookResult.id;
+            input_switch_status.id = "status-book-" + aBookResult.id;
             input_switch_status.className = "cmn-toggle cmn-toggle-round-flat";
             input_switch_status.setAttribute("type", "checkbox");
+            input_switch_status.setAttribute("onclick", "enableOrDisableBook(" + aBookResult.id + ")");
             if(aBookResult.enabled == true)
                 input_switch_status.setAttribute("checked", "");
 
             div_switch.appendChild(input_switch_status);
             label_for_input_switch_status = document.createElement("label");
-            label_for_input_switch_status.setAttribute("for", "status-" + aBookResult.id);
+            label_for_input_switch_status.setAttribute("for", "status-book-" + aBookResult.id);
             div_switch.appendChild(label_for_input_switch_status);
             td_a_book_status.appendChild(div_switch);
             tr_a_book.appendChild(td_a_book_status);
@@ -348,7 +349,7 @@
             button_edit.setAttribute("data-toggle", "modal");
             button_edit.setAttribute("data-target", "#exampleModal");
             button_edit.className = "btn btn-primary btn-edit";
-            button_edit.id = "btn-edit_" + userId;
+            button_edit.id = "btn-edit-" + userId;
             button_edit.innerText = "Edit";
             button_edit.style = "margin-right: 5px;";
             button_edit.setAttribute("onclick", "onClickEditButton(" + aBookResult.id  + ")");
@@ -385,11 +386,10 @@
                 success: function (dataReceive) {
                     if(bookList[bookIndex].enabled == true){
                         bookList[bookIndex].enabled = false;
-                        $("#btn-enable-disable-" + bookUpdateEnabled.id).text("Enable");
                     } else {
                         bookList[bookIndex].enabled = true;
-                        $("#btn-enable-disable-" + bookUpdateEnabled.id).text("Disable");
                     }
+                    $("#status-book-" + bookList[bookIndex].id).prop('checked', bookList[bookIndex].enabled);
 
                     console.log("change enabled");
                 },
