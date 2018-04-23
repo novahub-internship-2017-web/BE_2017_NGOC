@@ -34,7 +34,7 @@ public class TestController {
     @RequestMapping("/test")
     public ModelAndView testGet(){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("user_profile");
+        modelAndView.setViewName("test");
         return modelAndView;
     }
 
