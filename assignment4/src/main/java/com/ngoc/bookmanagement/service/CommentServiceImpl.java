@@ -59,7 +59,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public MessageResponse getAllCommentsByBookId(long bookId, HttpServletRequest request, Pageable pageable) {
+    public MessageResponse getAllCommentsByBookId(long bookId,
+                                                  HttpServletRequest request,
+                                                  Pageable pageable) {
         log(request);
 
         MessageResponse messageResponse;

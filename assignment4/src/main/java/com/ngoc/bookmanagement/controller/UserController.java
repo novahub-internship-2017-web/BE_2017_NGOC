@@ -7,12 +7,13 @@ import com.ngoc.bookmanagement.model.User;
 import com.ngoc.bookmanagement.service.UserService;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Pageable;
+
 
 @RestController
 public class UserController {
@@ -32,6 +33,24 @@ public class UserController {
                                      @RequestHeader("password") String password,
                                      HttpServletRequest request){
         MessageResponse messageResponse = userService.getUser(email, password, request);
+        return new ResponseEntity<>(messageResponse, HttpStatus.OK);
+    }
+
+    // API get all users
+    @GetMapping(value = "/api/users", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> getUsers(@RequestHeader(value = "wordsSearch", defaultValue = "") String wordsSearch,
+                                      HttpServletRequest request,
+                                      Pageable pageable){
+        MessageResponse messageResponse;
+        User userLogin = userService.getUserLoginInSession(request);
+
+        if(!checkAdminPermission(userLogin)) {
+            messageResponse = new MessageResponse();
+            messageResponse.setCode(MessageResponseConstant.ACCESS_DENIED);
+        } else {
+            messageResponse = userService.getAllUsersByRole(RoleConstant.ROLE_USER, wordsSearch, request, pageable);
+        }
+
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
 

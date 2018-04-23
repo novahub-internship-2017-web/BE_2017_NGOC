@@ -12,6 +12,9 @@ import com.ngoc.bookmanagement.validation.UserValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,6 +48,7 @@ public class UserServiceImpl implements UserService {
         log(request);
 
         // TODO: refactor code
+        // TODO: user isn't access
         MessageResponse messageResponse;
         //Message message;
         messageResponse = userValidation.validateUser(new User(email, password), GroupUserLogin.class);
@@ -52,7 +56,7 @@ public class UserServiceImpl implements UserService {
             return messageResponse;
 
         String encryptingPassword = passwordEncryption.encryptPassword(password);
-        User userLogin = userRepository.findByEmailAndPassword(email, encryptingPassword);
+        User userLogin = userRepository.findByEmailAndPasswordAndEnabled(email, encryptingPassword, true);
 
         if (userLogin == null){
             //message = new Message();
@@ -132,9 +136,6 @@ public class UserServiceImpl implements UserService {
         log(request);
 
         MessageResponse messageResponse;
-        //Message message;
-
-
         messageResponse = userValidation.checkUserIsExist(userId);
         if(messageResponse != null)
             return messageResponse;
@@ -146,14 +147,13 @@ public class UserServiceImpl implements UserService {
         oldUser.setFirstName(user.getFirstName());
         oldUser.setLastName(user.getLastName());
         userRepository.save(oldUser);
-        request.getSession().setAttribute("userLogin", oldUser);
 
-        //message = new Message();
-        //message.getContent().put("message", "Update user successfully");
+        User userLogin = getUserLoginInSession(request);
+        if(userId == userLogin.getId())
+            request.getSession().setAttribute("userLogin", oldUser);
 
         messageResponse = new MessageResponse();
         messageResponse.setCode(MessageResponseConstant.OK);
-        //messageResponse.setObject(message.getContent());
         return messageResponse;
     }
 
@@ -181,6 +181,22 @@ public class UserServiceImpl implements UserService {
         messageResponse = new MessageResponse();
         messageResponse.setCode(MessageResponseConstant.OK);
         //messageResponse.setObject(message.getContent());
+        return messageResponse;
+    }
+
+    @Override
+    public MessageResponse getAllUsersByRole(String roleName, String wordsSearch, HttpServletRequest request, Pageable pageable) {
+        log(request);
+
+        wordsSearch = "%" + wordsSearch + "%";
+        MessageResponse messageResponse;
+        Page<User> userPage = userRepository.findAllByRoleAndFirstNameOrLastNameOrEmail(roleName,
+                wordsSearch, wordsSearch, wordsSearch , pageable);
+
+        messageResponse = new MessageResponse();
+        messageResponse.setCode(MessageResponseConstant.OK);
+        messageResponse.setObject(userPage);
+
         return messageResponse;
     }
 
