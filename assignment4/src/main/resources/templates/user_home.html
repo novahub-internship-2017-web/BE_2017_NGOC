@@ -505,7 +505,9 @@
                         switch(state){
                             case BTN_ADD_BOOK_PRESSED : {
                                 bookList.push(dataReceive.object);
-                                showABookResult(dataReceive.object);
+                                $("#message-success").text("Add new book successfully");
+                                $("#exampleModal").modal('hide');
+                                showAlert();
                             }
                             break;
 
