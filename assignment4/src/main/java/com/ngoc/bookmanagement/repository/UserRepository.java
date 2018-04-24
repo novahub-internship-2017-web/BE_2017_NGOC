@@ -28,6 +28,6 @@ public interface UserRepository extends PagingAndSortingRepository<User, Long> {
     User findByEmail(String email);
 
 
-    User findByEmailAndPasswordAndEnabled(String email, String password, boolean enabled);
+    User findByEmailAndPassword(String email, String password);
 
 }

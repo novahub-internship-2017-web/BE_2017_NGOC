@@ -56,15 +56,18 @@ public class UserServiceImpl implements UserService {
             return messageResponse;
 
         String encryptingPassword = passwordEncryption.encryptPassword(password);
-        User userLogin = userRepository.findByEmailAndPasswordAndEnabled(email, encryptingPassword, true);
+        User userLogin = userRepository.findByEmailAndPassword(email, encryptingPassword);
 
         if (userLogin == null){
-            //message = new Message();
-            //message.getContent().put("message", "Email is not exist");
 
             messageResponse = new MessageResponse();
             messageResponse.setCode(MessageResponseConstant.EMAIL_OR_PASSWORD_WRONG);
-            //messageResponse.setObject(message.getContent());
+            return messageResponse;
+        }
+
+        if (!userLogin.getEnabled()){
+            messageResponse = new MessageResponse();
+            messageResponse.setCode(MessageResponseConstant.USER_IS_BLOCKED);
             return messageResponse;
         }
 

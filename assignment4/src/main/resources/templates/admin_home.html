@@ -37,9 +37,9 @@
         <div class="col-md-2"></div>
         <div class="col-md-8">
             <div style="text-align: center">
-                <a id="btn-all" class="btn btn-primary">All</a>
-                <a id="btn-my-book" class="btn btn-primary">My book</a> 
-                <a id="btn-add" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Add</a> 
+                <a id="btn-all" class="btn btn-primary" style="color: white;">All</a>
+                <a id="btn-my-book" class="btn btn-primary" style="color: white;">My book</a> 
+                <a id="btn-add" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="color: white;">Add</a> 
             </div>
 
             <div id="search-book">
@@ -56,7 +56,8 @@
             </div>
 
             <div id="body">
-                <div>
+                <div style="margin-top: 10px;" align="center">
+                    <p style="display: inline;">Size : </p>
                     <select id="size-books-response"class="custom-select" style="width: 70px;" onchange="onChangeSelect()">
                       <option value="3" selected>3</option>
                       <option value="6">6</option>
@@ -64,6 +65,7 @@
                       <option value="12">12</option>
                     </select>
 
+                    <p style="display: inline; margin-left: 10px;">Order by : </p>
                     <select id="sort-books-response"class="custom-select" style="width: 150px;" onchange="onChangeSelect()">
                       <option value="id" selected>id</option>
                       <option value="title">title</option>
@@ -89,7 +91,7 @@
                         </tr>
                     </thead>
                 </table>
-                <div align="center" style="font-style: italic; color: blue;"> <a id="load-more-books">Load more</a> </div>
+                <div align="center"> <a id="load-more-books" class="btn btn-success" style="display: none; color: white;">Load more</a> </div>
                 <div id="div-book-not-found" align="center" style="display: none">
                     <p style="font-size: 30px">Book not found</p>
                 </div>
@@ -186,7 +188,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 
-    <<script>
+    <script>
 
         function showAlert() {
             $("#success-alert").fadeTo(1000, 500).slideUp(500, function(){
@@ -391,7 +393,7 @@
             button_edit.className = "btn btn-primary btn-edit";
             button_edit.id = "btn-edit-" + userId;
             button_edit.innerText = "Edit";
-            button_edit.style = "margin-right: 5px;";
+            button_edit.style = "margin-right: 5px; color: white;";
             button_edit.setAttribute("onclick", "onClickEditButton(" + aBookResult.id  + ")");
             td_a_book_methods.appendChild(button_edit);
  
@@ -682,7 +684,7 @@
     </script>
 
     <!-- different time-->
-    <<script>
+    <script>
         function timeDifferenceWithNow(previous) {
     
             var msPerMinute = 60 * 1000;

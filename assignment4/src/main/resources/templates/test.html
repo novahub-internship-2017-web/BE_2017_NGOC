@@ -22,7 +22,14 @@
         </div>
     </nav>
 
-    <div class="row" style="margin-top: 100px;">
+    <div class="row fixed-top" style="margin-top: 65px;">
+        <div class="alert alert-success col-md-12" id="success-alert" align="center" style="display: none;"> 
+            <strong>Success! </strong>
+            <p style="display: inline;" id="message-success"></p>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 150px;">
         <div class="col-md-2"></div>
         <div class="col-md-8">
             <div id="search-book">
@@ -51,6 +58,7 @@
                         </tr>
                     </thead>
                 </table>
+                <div align="center"> <a id="load-more-books" class="btn btn-success" style="display: none; color: white;">Load more</a> </div>
                 <div id="div-user-not-found" align="center" style="display: none">
                     <p style="font-size: 30px">User not found</p>
                 </div>
@@ -152,6 +160,13 @@
     <script>     
       var userId = 1;          
       var urlRequestSearchUser = window.location.origin + "/api/users";
+      var usersList;
+
+      function showAlert() {
+        $("#success-alert").fadeTo(1000, 500).slideUp(500, function(){
+            $("#success-alert").slideUp(500);
+        });   
+      }
 
       $("#btn-search").click(function () {
            wordsSearch = $("#text-search").val();
@@ -171,8 +186,8 @@
                 if(dataReceive.object.content.length === 0){
                     showMessageNotFound();
                 } else {
-                    bookList = dataReceive.object.content;
-                    showBooksResult(bookList);
+                    usersList = dataReceive.object.content;
+                    showBooksResult(usersList);
                 }
             },
             error: function (e) {
@@ -239,6 +254,7 @@
         input_switch_status.id = "status-user-" + anUserResult.id;
         input_switch_status.className = "cmn-toggle cmn-toggle-round-flat";
         input_switch_status.setAttribute("type", "checkbox");
+        input_switch_status.setAttribute("onClick", "onClickButtonSwitchStatus(" + anUserResult.id + ")");
         if(anUserResult.enabled == true)
             input_switch_status.setAttribute("checked", "");
 
@@ -258,12 +274,58 @@
         button_edit.className = "btn btn-primary btn-edit";
         button_edit.id = "btn-edit-" + userId;
         button_edit.innerText = "Edit";
-        button_edit.style = "margin-right: 5px;";
+        button_edit.style = "margin-right: 5px; color: white;";
         button_edit.setAttribute("onclick", "onClickEditUserButton(" + anUserResult.id  + ")");
         td_an_user_methods.appendChild(button_edit);
 
         tr_an_user.appendChild(td_an_user_methods);
       }    
+
+      function onClickButtonSwitchStatus(anUserResultId){
+        for(var userIndex = 0; userIndex < usersList.length; userIndex++){
+          if(usersList[userIndex].id == anUserResultId){
+            callPutChangeStatusUser(anUserResultId, userIndex);
+            break;
+          }
+        }
+        
+      }
+
+      function callPutChangeStatusUser(anUserResultId, userIndex){
+        urlRequestChangeStatusUser = window.location.origin + "/api/user/" + anUserResultId;
+
+        if(usersList[userIndex].enabled == true)
+          urlRequestChangeStatusUser = urlRequestChangeStatusUser + "/lock";
+        else 
+          urlRequestChangeStatusUser = urlRequestChangeStatusUser + "/unlock";
+
+        $("#status-user-" + anUserResultId).prop("disabled", true);
+
+        $.ajax({
+          type : "PUT",
+          contentType: "application/json",
+          url: urlRequestChangeStatusUser,
+          dataType: 'json',
+          timeout: 10000,
+          success: function (dataReceive){
+              if(usersList[userIndex].enabled == true){
+                $('#message-success').text("Lock user successfully.");
+                usersList[userIndex].enabled = false;
+              } else {
+                $('#message-success').text("Unlock user successfully.");
+                usersList[userIndex].enabled = true;
+              }
+
+            $("#status-user-" + usersList[userIndex].id).prop("checked", usersList[userIndex].enabled);
+            showAlert();
+            $("#status-user-" + usersList[userIndex].id).prop("disabled", false);
+          },
+          error: function(e){
+            console.log("ERROR : ", e);
+            $("#status-user-" + anUserResultId).prop("disabled", false);
+          }
+        });
+      }
 
       var userIdPost;
 
@@ -329,7 +391,18 @@
                 dataType: 'json',
                 timeout: 10000,
                 success: function (dataReceive) {
-                    console.log("SUCCESS : ", dataReceive);
+                    for(var userIndex = 0; userIndex < usersList.length; userIndex++){
+                      if(usersList[userIndex].id == userIdPost){
+                        usersList[userIndex].firstName = $("#firstName").val();
+                        usersList[userIndex].lastName = $("#lastName").val();
+                        $("#first-name-" + userIdPost).text(usersList[userIndex].firstName);
+                        $("#last-name-" + userIdPost).text(usersList[userIndex].lastName);
+                        $('#message-success').text("Edit user successfully.");
+                        showAlert();
+                        $("#userEditFromModal").modal('hide');
+                      }
+                    }
+
                     $("#message").text("Update user successfully");
                 },
                 error: function (e) {
