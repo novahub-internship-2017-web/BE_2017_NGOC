@@ -46,14 +46,37 @@ INSERT INTO book (title, author, description, created_at, updated_at, image, ena
 	"Takashi Yanase", 
 	"Anpanman (アンパンマン) is a Japanese picture book series written by Takashi Yanase, running from 1973 until the author's death in 2013. The series has been adapted into an anime entitled Soreike! Anpanman (それいけ!アンパンマン, Let's Go! Anpanman), which is one of the most popular anime series among young children in Japan. The series follows the adventures of Anpanman, a superhero with an anpan (a bean-jam filled pastry) for a head, who protects the world from an evil anthropomorphic germ named Baikinman.", 
 	now(), now(), "image", true, 2);
-INSERT INTO book (title, author, description, created_at, updated_at, image, enabled, user_id) VALUE ("title1_2", "chi pheo", "description1", now(), now(), "image1", true, 2);
-INSERT INTO book (title, author, description, created_at, updated_at, image, enabled, user_id) VALUE ("title2_2", "ngo tat to", "description2", now(), now(), "image2", false , 2);
+INSERT INTO book (title, author, description, created_at, updated_at, image, enabled, user_id) VALUE ("Chibi Maruko-chan", 
+	"ちびまる子ちゃん", 
+	"The first story under the title \"Chibi Maruko-chan\" was published in the August 1986 edition of the shōjo manga magazine Ribon. Other semi-autobiographical stories by the author had appeared in Ribon and Ribon Original in 1984 and 1985, and were included in the first \"Chibi Maruko-chan\" tankōbon in 1987. The author first began writing and submitting strips in her final year of senior high school, although Shueisha (the publisher of Ribon and Ribon Original) did not decide to run them until over a year later. The author's intent was to write \"essays in manga form\";[1] many stories are inspired by incidents from her own life, and some characters are based on her family and friends. The nostalgic, honest and thoughtful tone of the strip led to its becoming popular among a wider audience.", 
+	now(), now(), "image1", true, 2);
+INSERT INTO book (title, author, description, created_at, updated_at, image, enabled, user_id) VALUE ("Dragon Ball", 
+	"Akira Toriyama", 
+	"Dragon Ball (Japanese: ドラゴンボール Hepburn: Doragon Bōru) is a Japanese media franchise created by Akira Toriyama in 1984. The initial manga, written and illustrated by Toriyama, was serialized in Weekly Shōnen Jump from 1984 to 1995, with the 519 individual chapters collected into 42 tankōbon volumes by its publisher Shueisha. Dragon Ball was initially inspired by the classical Chinese novel Journey to the West. The series follows the adventures of the protagonist, Son Goku, from his childhood through adulthood as he trains in martial arts and explores the world in search of the seven orbs known as the Dragon Balls, which summon a wish-granting dragon when gathered. Along his journey, Goku makes several friends and battles a wide variety of villains, many of whom also seek the Dragon Balls.", 
+	now(), now(), "image2", false , 2);
 
-INSERT INTO book (title, author, description, created_at, updated_at, image, enabled, user_id) VALUE ("title_3", "chi dau 3", "description", now(), now(), "image", true, 3);
-INSERT INTO book (title, author, description, created_at, updated_at, image, enabled, user_id) VALUE ("title1_3", "chi pheo 3", "description1", now(), now(), "image1", false, 3);
-INSERT INTO book (title, author, description, created_at, updated_at, image, enabled, user_id) VALUE ("title2_3", "ngo tat to 3", "description2", now(), now(), "image2", true, 3);
+INSERT INTO book (title, author, description, created_at, updated_at, image, enabled, user_id) VALUE ("One Piece", 
+	"Eiichiro Oda", 
+	"One Piece (Japanese: ワンピース Hepburn: Wan Pīsu) is a Japanese manga series written and illustrated by Eiichiro Oda. It has been serialized in Shueisha's Weekly Shōnen Jump magazine since July 22, 1997, and has been collected in 88 tankōbon volumes. The story follows the adventures of Monkey D. Luffy, a boy whose body gained the properties of rubber after unintentionally eating a Devil Fruit. With his crew of pirates, named the Straw Hat Pirates, Luffy explores the Grand Line in search of the world's ultimate treasure known as \"One Piece\" in order to become the next Pirate King.", 
+	now(), now(), "image", true, 3);
+INSERT INTO book (title, author, description, created_at, updated_at, image, enabled, user_id) VALUE ("Attack on Titan", 
+	"Hajime Isayama", 
+	"Attack on Titan (Japanese: 進撃の巨人 Hepburn: Shingeki no Kyojin, lit. \"Advancing Giant\") is a Japanese manga series written and illustrated by Hajime Isayama. The series began in Kodansha's Bessatsu Shōnen Magazine on September 9, 2009, and has been collected into 24 tankōbon volumes as of December 2017. It is set in a world where humanity lives in cities surrounded by enormous walls; a defense against the Titans, gigantic humanoids that eat humans seemingly without reason. The story initially centers on Eren Yeager and his childhood friends Mikasa Ackerman and Armin Arlert, who join the military to fight the Titans after their hometown is invaded and Eren's mother is eaten and Eren swears to avenge her. However, as the story progresses and the truths about the Titans are slowly revealed to the reader, the narrative shifts to encompass Historia Reiss, squad leader Levi, Eren's father Grisha, and other supporting characters.", 
+	now(), now(), "image1", false, 3);
+INSERT INTO book (title, author, description, created_at, updated_at, image, enabled, user_id) VALUE ("Naruto", 
+	"Masashi Kishimoto", 
+	"Naruto (ナルト) is a Japanese manga series written and illustrated by Masashi Kishimoto. It tells the story of Naruto Uzumaki, an adolescent ninja who searches for recognition from his peers and the village and also dreams of becoming the Hokage, the leader of his village. The story is in two parts, the first set in Naruto's pre-teen years, and the second in his teens. The series is based on two one-shot manga by Kishimoto: Karakuri (1995), which earned Kishimoto an honorable mention in Shueisha's monthly Hop Step Award the following year, and Naruto (1997).", 
+	now(), now(), "image2", true, 3);
 
 # comments
 INSERT INTO comment (book_id, user_id, created_at, updated_at, message) VALUE (1 , 1, now(), now(), "sach hay");
 INSERT INTO comment (book_id, user_id, created_at, updated_at, message) VALUE (1 , 2, now(), now(), "sach hay tot ghe");
 INSERT INTO comment (book_id, user_id, created_at, updated_at, message) VALUE (1 , 1, now(), now(), "sach hay day");
+
+INSERT INTO comment (book_id, user_id, created_at, updated_at, message) VALUE (2 , 1, now(), now(), "It's nice, but I wish the pages were thicker for writing on the front and back.");
+INSERT INTO comment (book_id, user_id, created_at, updated_at, message) VALUE (2 , 2, now(), now(), "Excellent book your review");
+INSERT INTO comment (book_id, user_id, created_at, updated_at, message) VALUE (2 , 1, now(), now(), "Thats good!");
+
+INSERT INTO comment (book_id, user_id, created_at, updated_at, message) VALUE (3 , 1, now(), now(), "The book is a good resource for learning");
+INSERT INTO comment (book_id, user_id, created_at, updated_at, message) VALUE (3 , 2, now(), now(), "sach hay tot ghe");
+INSERT INTO comment (book_id, user_id, created_at, updated_at, message) VALUE (3 , 1, now(), now(), "sach hay day");
