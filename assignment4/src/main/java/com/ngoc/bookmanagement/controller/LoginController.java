@@ -27,6 +27,13 @@ public class LoginController {
         return modelAndView;
     }
 
+    @GetMapping(value = "/admin/test")
+    public ModelAndView adminUsersManagement(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("admin_users_management");
+        return modelAndView;
+    }
+
     @GetMapping(value = "/user/home")
     public ModelAndView userHome(){
         ModelAndView modelAndView = new ModelAndView();

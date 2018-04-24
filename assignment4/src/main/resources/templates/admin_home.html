@@ -16,7 +16,10 @@
             <ul class="nav navbar-nav mr-auto"></ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="nav-item">
-                    <a class="nav-link" id="myWish">Test</a>
+                    <a class="nav-link" href="/admin/home" id="btn-books">Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/test" id="btn-users">Users</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="btn-logout">Logout</a>
@@ -351,7 +354,7 @@
 
             td_a_book_title = document.createElement("td");
             a_a_book_title = document.createElement("a");
-            a_a_book_title.id = "title_" + aBookResult.id;
+            a_a_book_title.id = "title-" + aBookResult.id;
             a_a_book_title.innerText = aBookResult.title;
             a_a_book_title.setAttribute("data-toggle", "modal");
             a_a_book_title.setAttribute("href", "#book-view-modal");
@@ -360,7 +363,7 @@
             tr_a_book.appendChild(td_a_book_title);
 
             td_a_book_author = document.createElement("td");
-            td_a_book_author.id = "author_" + aBookResult.id;
+            td_a_book_author.id = "author-" + aBookResult.id;
             td_a_book_author.innerText = aBookResult.author;
             tr_a_book.appendChild(td_a_book_author);
 
@@ -532,8 +535,8 @@
                             break;
 
                             case BTN_EDIT_BOOK_PRESSED : {
-                                $("#title_" + dataReceive.object.id).text(dataReceive.object.title);
-                                $("#author_" + dataReceive.object.id).text(dataReceive.object.author);
+                                $("#title-" + dataReceive.object.id).text(dataReceive.object.title);
+                                $("#autho-" + dataReceive.object.id).text(dataReceive.object.author);
 
                                 for(var bookIndex = 0; bookIndex < bookList.length; bookIndex++){
                                     if(bookList[bookIndex].id === dataReceive.object.id){
