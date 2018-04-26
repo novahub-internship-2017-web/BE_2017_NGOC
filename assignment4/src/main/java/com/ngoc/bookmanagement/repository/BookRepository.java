@@ -10,7 +10,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BookRepository extends PagingAndSortingRepository<Book, Long> {
-    Page<Book> getAllByEnabled(boolean enabled, Pageable pageable);
+
+    @Query("FROM Book book WHERE book.enabled = :enabled AND (book.author LIKE :author OR book.title LIKE :title)")
+    Page<Book> getAllByEnabledAndAuthorLikeOrTitleLike(@Param("author") String author,
+                                                       @Param("title") String title,
+                                                       @Param("enabled") boolean enabled, 
+                                                       Pageable pageable);
 
     Page<Book> getAllByUserId(long userId, Pageable pageable);
 

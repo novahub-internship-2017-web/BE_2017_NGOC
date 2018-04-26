@@ -107,10 +107,10 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public MessageResponse getAllBooksByEnabled(HttpServletRequest request, boolean enabled, Pageable pageable){
+    public MessageResponse getAllBooksByEnabled(String wordsSearch, HttpServletRequest request, boolean enabled, Pageable pageable){
         log(request);
 
-        Page<Book> bookList = bookRepository.getAllByEnabled(enabled, pageable);
+        Page<Book> bookList = bookRepository.getAllByEnabledAndAuthorLikeOrTitleLike(wordsSearch, wordsSearch, enabled, pageable);
         MessageResponse messageResponse = new MessageResponse();
 
         if(bookList.getContent().size() == 0){
