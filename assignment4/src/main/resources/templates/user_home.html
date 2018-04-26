@@ -642,7 +642,7 @@
             $.ajax({
                 type: "GET",
                 contentType: "application/json",
-                url: window.location.origin + "/api/book/" + bookId + "/comments",
+                url: window.location.origin + "/api/book/" + bookId + "/comments" + "?sort=updatedAt,desc",
                 dataType: 'json',
                 timeout: 10000,
                 success: function (dataReceive) {
