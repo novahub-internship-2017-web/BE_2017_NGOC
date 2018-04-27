@@ -149,12 +149,16 @@
                         </div>
                         <div id="changing-password-form" style="display: none;">
                             <div class="form-group" style="margin-bottom: 0px;">
-                                <label class="col-form-label">Password : </label>
+                                <label class="col-form-label">Current Password : </label>
                                 <input type="password" name="password" id="password" class="form-control" />
                             </div>
                             <div class="form-group">
+                                <label class="col-form-label">New password : </label>
+                                <input type="password" name="newPassword" id="newPassword" class="form-control" />
+                            </div>
+                            <div class="form-group">
                                 <label class="col-form-label">Confirm password : </label>
-                                <input type="password" name="repassword" id="repassword" class="form-control" />
+                                <input type="password" name="reNewpassword" id="reNewpassword" class="form-control" />
                             </div>
                         </div>
                         <div class="form-group" style="margin-top: 15px">
@@ -298,9 +302,6 @@
         });
     </script>
 
-
-
-
     <style type="text/css">
 
         .header-comment-h6{
@@ -331,6 +332,9 @@
     <script>
         const BTN_BOOK_ALL_PRESSED = 1;
         const BTN_MY_BOOK_PRESSED = 2;
+
+        const OK = 0;
+        const USER_PASSWORD_IS_NOT_TRUE = 26;
 
         var userId, urlRequestSearchBook, bookList, state, wordsSearch;
 
@@ -565,14 +569,13 @@
 
             if ($("#checkbox-choice-change-password").is(":checked")){
                 data = JSON.stringify({
-                    "email" : this.email.value,
                     "firstName" : this.firstName.value,
                     "lastName" : this.lastName.value,
-                    "password" : this.password.value
+                    "password" : this.password.value,
+                    "newPassword" : this.newPassword.value
                 });
             } else {
                 data = JSON.stringify({
-                    "email": this.email.value,
                     "firstName": this.firstName.value,
                     "lastName": this.lastName.value
                 });
@@ -587,14 +590,16 @@
                     dataType: 'json',
                     timeout: 10000,
                     success: function (dataReceive) {
-                        console.log("SUCCESS : ", dataReceive);
-                        $("#message").text("Update user successfully");
-                        $("#message-success").text("Edit user successfully");
-                        $("#userEditFromModal").modal('hide');
-                        showAlert();
+                        if(dataReceive.code == OK){                            
+                            $("#message").text("Update user successfully");
+                            $("#userEditFromModal").modal('hide');
+                            showAlert();
+                        } else {
+                            $("#error-message").text("Current password is not true");
+                            $("#alert-error-message").show();
+                        }
                     },
                     error: function (e) {
-                        console.log("ERROR : ", e.responseJSON.message);
                         $("#message").text(e.responseJSON.message);
                     }
 

@@ -28,6 +28,9 @@ public class User implements Serializable {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
+    @Transient
+    private String newPassword;
+
     @Column(name = "first_name")
     private String firstName;
 
@@ -124,6 +127,14 @@ public class User implements Serializable {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getNewPassword(){
+        return this.newPassword;
+    }
+
+    public void setNewPassword(String newPassword){
+        this.newPassword = newPassword;
     }
 
     @Transactional

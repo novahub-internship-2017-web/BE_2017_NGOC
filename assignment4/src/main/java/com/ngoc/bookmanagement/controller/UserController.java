@@ -5,6 +5,7 @@ import com.ngoc.bookmanagement.constant.RoleConstant;
 import com.ngoc.bookmanagement.model.MessageResponse;
 import com.ngoc.bookmanagement.model.User;
 import com.ngoc.bookmanagement.service.UserService;
+import com.ngoc.bookmanagement.service.PasswordEncryption;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +21,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private PasswordEncryption passwordEncryption;
 
     @GetMapping("/user/{id}")
     public String userGet(){
@@ -82,9 +86,15 @@ public class UserController {
         if(!checkTrueUserOrAdminPermission(userId, userLogin)){
             messageResponse = new MessageResponse();
             messageResponse.setCode(MessageResponseConstant.ACCESS_DENIED);
+        } else {
+            if(!userLogin.getPassword().equals(passwordEncryption.encryptPassword(userParam.getPassword()))){
+                messageResponse = new MessageResponse();
+                messageResponse.setCode(MessageResponseConstant.USER_PASSWORD_IS_NOT_TRUE);
+            } else {
+                userParam.setPassword(userParam.getNewPassword());
+                messageResponse = userService.updateUserById(userId, userParam, request);
+            }
         }
-        else
-            messageResponse = userService.updateUserById(userId, userParam, request);
 
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
