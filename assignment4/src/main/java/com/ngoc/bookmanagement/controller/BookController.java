@@ -155,9 +155,11 @@ public class BookController {
     // API for ROLE : USER | ADMIN | GUEST
     // API get all books, which is enabled
     @GetMapping(value = "/api/books/enabled", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> getAllBooksEnabled(HttpServletRequest request,
+    public ResponseEntity<?> getAllBooksEnabled(@RequestHeader(value = "wordsSearch", required = false, defaultValue = "")  String wordsSearch,
+                                                HttpServletRequest request,
                                                 Pageable pageable){
-        MessageResponse messageResponse = bookService.getAllBooksByEnabled(request, true, pageable);
+        wordsSearch = "%" + wordsSearch + "%";
+        MessageResponse messageResponse = bookService.getAllBooksByEnabled(wordsSearch, request, true, pageable);
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
 
@@ -172,7 +174,8 @@ public class BookController {
         if(!checkAdminPermission(userLogin))
             messageResponse = new MessageResponse(MessageResponseConstant.ACCESS_DENIED);
         else
-            messageResponse = bookService.getAllBooksByEnabled(request, false, pageable);
+            // TODO: add code to handle when havong wordsSearch occur
+            messageResponse = bookService.getAllBooksByEnabled("", request, false, pageable);
 
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }

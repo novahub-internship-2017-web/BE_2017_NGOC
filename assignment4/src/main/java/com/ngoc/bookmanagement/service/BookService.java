@@ -14,7 +14,7 @@ public interface BookService {
 
     MessageResponse getAllBooksOfUserByEnabled(String wordSearch, long userId, HttpServletRequest request, boolean enabled, Pageable pageable);
 
-    MessageResponse getAllBooksByEnabled(HttpServletRequest request, boolean enabled, Pageable pageable);
+    MessageResponse getAllBooksByEnabled(String wordsSearch, HttpServletRequest request, boolean enabled, Pageable pageable);
 
     MessageResponse getBook(long bookId, HttpServletRequest request);
 

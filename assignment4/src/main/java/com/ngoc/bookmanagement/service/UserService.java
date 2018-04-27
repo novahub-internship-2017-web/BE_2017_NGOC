@@ -22,5 +22,4 @@ public interface UserService {
     MessageResponse getAllUsersByRole(String roleName, String wordsSearch, HttpServletRequest request, Pageable pageable);
 
     User getUserLoginInSession(HttpServletRequest request);
-
 }

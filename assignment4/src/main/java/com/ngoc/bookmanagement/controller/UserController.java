@@ -4,6 +4,7 @@ import com.ngoc.bookmanagement.constant.MessageResponseConstant;
 import com.ngoc.bookmanagement.constant.RoleConstant;
 import com.ngoc.bookmanagement.model.MessageResponse;
 import com.ngoc.bookmanagement.model.User;
+import com.ngoc.bookmanagement.service.PasswordEncryption;
 import com.ngoc.bookmanagement.service.UserService;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private PasswordEncryption passwordEncryption;
 
     @GetMapping("/user/{id}")
     public String userGet(){
@@ -78,6 +82,14 @@ public class UserController {
                                                HttpServletRequest request){
         MessageResponse messageResponse;
         User userLogin = userService.getUserLoginInSession(request);
+
+        if(!userLogin.getPassword().equals(passwordEncryption.encryptPassword(userParam.getNewPassword()))){
+            messageResponse = new MessageResponse();
+            messageResponse.setCode(MessageResponseConstant.USER_PASSWORD_IS_NOT_TRUE);
+            return new ResponseEntity<>(messageResponse, HttpStatus.OK);
+        } else {
+            userLogin.setPassword(passwordEncryption.encryptPassword(userParam.getNewPassword()));
+        }
 
         if(!checkTrueUserOrAdminPermission(userId, userLogin)){
             messageResponse = new MessageResponse();
