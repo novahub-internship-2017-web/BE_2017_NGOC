@@ -70,16 +70,51 @@
                 <table id="books-list" style="display: none; margin-top: 20px;" class="table table-bordered">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col">id</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Author</th>
+                            <th scope="col" id="col-id">id
+                                <div class="arrow-group">
+                                    <div class="arrow-up" id="arrow-up-col-id"></div>
+                                    <div class="arrow-down" id="arrow-down-col-id"></div>
+                                </div>
+                            </th>
+                            <th scope="col" id="col-title">Title
+                                <div class="arrow-group">
+                                    <div class="arrow-up" id="arrow-up-col-title"></div>
+                                    <div class="arrow-down" id="arrow-down-col-title"></div>
+                                </div>
+                            </div></th>
+                            <th scope="col" id="col-author">Author
+                                <div class="arrow-group">
+                                    <div class="arrow-up" id="arrow-up-col-author"></div>
+                                    <div class="arrow-down" id="arrow-down-col-author"></div>
+                                </div>
+                            </th>
                         </tr>
                     </thead>
                 </table>
-                <div align="center"> <a id="load-more-books" class="btn btn-success" style="display: none; color: white;">Load more</a> </div>
+                <!-- <div align="center"> <a id="load-more-books" class="btn btn-success" style="display: none; color: white;">Load more</a> </div> -->
                 <div id="div-book-not-found" align="center" style="display: none">
                     <p style="font-size: 30px">Book not found</p>
                 </div>
+
+                <nav id="pagination-group"  aria-label="....">
+                    <ul class="pagination">
+                        <li class="page-item" id="pagination-previous">
+                            <a class="page-link" href="#" tabindex="-1">Previous</a>
+                        </li>
+                        <li class="page-item" id="pagination-left">
+                            <a class="page-link" href="#" id="pagination-left-number">1</a>
+                        </li>
+                        <li class="page-item" id="pagination-middle">
+                            <a class="page-link" href="#" id="pagination-middle-number">2</a>
+                        </li>
+                        <li class="page-item" id="pagination-right">
+                            <a class="page-link" href="#" id="pagination-right-number">3</a>
+                        </li>
+                        <li class="page-item" id="pagination-next">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
 
                 <!-- <nav aria-label="Page navigation example">
                   <ul class="pagination">
@@ -196,6 +231,124 @@
             font-size: 12px;
         }
     </style>
+
+    <style type="text/css">
+        .arrow-group{
+            float: right;
+            display: inherit;
+            margin-top: 8px;
+        }
+
+        .arrow-up {
+            width: 0; 
+            height: 0; 
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;          
+            border-bottom: 5px solid white;
+            margin-top: -2px;
+        }
+
+        .arrow-down {
+            width: 0; 
+            height: 0; 
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid white;
+            margin-top: 4px;
+        }
+    </style>
+
+    <script type="text/javascript">
+        const DEFAULT = 0 
+        const ARROW_UP = 1;
+        const ARROW_DOWN = 2;
+
+        arrowColId = DEFAULT;
+        arrowColTitle = DEFAULT;
+        arrowColAuthor = DEFAULT;
+
+        $("#col-id").click(function(){
+            console.log("col-id");
+            arrowColTitle = DEFAULT;
+            arrowColAuthor = DEFAULT;
+            arrowColId = chooseStateArrow(arrowColId);
+            sortBooksResponse = "id";
+            resetArrow();
+            searchBooks($("#text-search").val());
+        });
+
+        $("#col-title").click(function(){
+            console.log("col-title");
+            arrowColId = DEFAULT;
+            arrowColAuthor = DEFAULT;
+            arrowColTitle = chooseStateArrow(arrowColTitle);  
+            sortBooksResponse = "title";  
+            resetArrow();
+            searchBooks($("#text-search").val());
+        });
+
+        $("#col-author").click(function(){
+            console.log("col-author");
+            arrowColId = DEFAULT;
+            arrowColTitle = DEFAULT;
+            arrowColAuthor = chooseStateArrow(arrowColAuthor);
+            sortBooksResponse = "author";
+            resetArrow();
+            searchBooks($("#text-search").val());
+        });
+
+        function chooseStateArrow(state){
+            if(state === DEFAULT){
+                ascDescBooksResponse = "asc";
+                return ARROW_UP;
+            }
+
+            if(state == ARROW_UP){
+                ascDescBooksResponse = "desc";
+                return ARROW_DOWN;
+            }
+
+            if(state == ARROW_DOWN){
+                ascDescBooksResponse = "asc";
+                return ARROW_UP;
+            }
+        }
+
+        function resetArrow(column){
+
+            if(arrowColId === DEFAULT || arrowColId === ARROW_UP)
+                $("#arrow-up-col-id").show();
+            else
+                $("#arrow-up-col-id").hide();
+
+            if(arrowColId === DEFAULT || arrowColId === ARROW_DOWN)
+                $("#arrow-down-col-id").show();
+            else
+                $("#arrow-down-col-id").hide();
+
+
+            if(arrowColTitle === DEFAULT || arrowColTitle === ARROW_UP)
+                $("#arrow-up-col-title").show();
+            else
+                $("#arrow-up-col-title").hide();
+
+            if(arrowColTitle === DEFAULT || arrowColTitle === ARROW_DOWN)
+                $("#arrow-down-col-title").show();
+            else
+                $("#arrow-down-col-title").hide();
+
+
+            if(arrowColAuthor === DEFAULT || arrowColAuthor === ARROW_UP)
+                $("#arrow-up-col-author").show();
+            else
+                $("#arrow-up-col-author").hide();
+
+            if(arrowColAuthor === DEFAULT || arrowColAuthor === ARROW_DOWN)
+                $("#arrow-down-col-author").show();
+            else
+                $("#arrow-down-col-author").hide();
+        }
+    </script>
 
     <script>
         const BTN_SIGN_UP_PRESSED = 1;
@@ -441,11 +594,13 @@
         function onChangeSelect(){
             hasSortOrSizeChanged = true;
             pageOfPagingate = 0;
+            searchBooks($("#text-search").val());
         }
 
-        $("#load-more-books").click( function() {
-            searchBooks();
-        });
+        // $("#load-more-books").click( function() {
+        //     pageOfPagingate = pageOfPagingate + 1;
+        //     searchBooks($("#text-search").val());
+        // });
 
         var pageOfPagingate = 0;
         
@@ -462,41 +617,182 @@
             searchBooks(wordsSearch);
         });
 
+        blockButtonPrevious = false;
+        blockButtonNext = false;
+
+        sortBooksResponse = "id";
+        ascDescBooksResponse = "asc";
+
         function searchBooks(wordsSearch){
             $.ajax({
                 type: "GET",
                 contentType: "application/json",
-                url: urlRequestSearchBook + "?page=" + pageOfPagingate + "&size=" + $("#size-books-response").val() + "&sort=" + $("#sort-books-response").val() + "," + $("#asc-desc-books-response").val(),
+                url: urlRequestSearchBook + "?page=" + pageOfPagingate + "&size=" + $("#size-books-response").val() + "&sort=" + sortBooksResponse + "," + ascDescBooksResponse,
                 headers : {"wordsSearch" : wordsSearch},
                 dataType: 'json',
                 timeout: 10000,
                 success: function (dataReceive) {
-                    if(hasSortOrSizeChanged == true){
-                        hasSortOrSizeChanged = false;
+                    // if(hasSortOrSizeChanged == true){
+                    //     hasSortOrSizeChanged = false;
                         if(dataReceive.object.content.length === 0){
                             showMessageNotFound();
                         } else {
                             bookList = dataReceive.object.content;
                             showBooksResult(bookList);
                         }
-                    } else {
-                        for(var index = 0; index < dataReceive.object.content.length; index++){
-                            bookList.push(dataReceive.object.content[index]);
-                            showABookResult(dataReceive.object.content[index]);
+                    // } else {
+                    //     for(var index = 0; index < dataReceive.object.content.length; index++){
+                    //         bookList.push(dataReceive.object.content[index]);
+                    //         showABookResult(dataReceive.object.content[index]);
+                    //     }
+                    // }
+
+                    currentPage = dataReceive.object.number;
+
+                    resetPaginationBar();
+
+                    if(dataReceive.object.totalPages == 0)
+                        $("#pagination-group").hide();
+                    else 
+                        $("#pagination-group").show();
+
+                    if(dataReceive.object.totalPages == 1){
+                        $("#pagination-left").hide();
+                        $("#pagination-right").hide();
+                        $("#pagination-middle-number").text("1");
+                        $("#pagination-middle").addClass("active");
+                    }
+
+                    if(dataReceive.object.totalPages == 2){
+                        if(dataReceive.object.first === true){
+                            $("#pagination-left-number").text("1");
+                            $("#pagination-left").addClass("active");
+                            $("#pagination-middle-number").text("2");
+                            $("#pagination-right").hide();
+                        }
+
+                        if(dataReceive.object.last === true){
+                            $("#pagination-left").hide();
+                            $("#pagination-middle-number").text("1");
+                            $("#pagination-right-number").text("2");
+                            $("#pagination-right").addClass("active");
                         }
                     }
 
-                    if(dataReceive.object.last == false){
-                        pageOfPagingate = pageOfPagingate + 1;
+                    if(dataReceive.object.totalPages == 3){
+                        if(dataReceive.object.first === true){
+                            $("#pagination-left").addClass("active");
+                            $("#pagination-left-number").text("1");
+                            $("#pagination-middle-number").text("2");
+                            $("#pagination-right-number").text("3");
+                        }
+
+                        if(dataReceive.object.last === true){
+                            $("#pagination-left-number").text("1");
+                            $("#pagination-middle-number").text("2");
+                            $("#pagination-right").addClass("active");
+                            $("#pagination-right-number").text("3");
+                        }
+
+                        if(!(dataReceive.object.first === true || dataReceive.object.last === true)){
+                            $("#pagination-left-number").text("1");
+                            $("#pagination-middle").addClass("active");
+                            $("#pagination-middle-number").text("2");                            
+                            $("#pagination-right-number").text("3");
+                        }
+                    }
+
+                    if(dataReceive.object.totalPages > 3){
+                        if(dataReceive.object.first === true){
+                            $("#pagination-left").addClass("active");
+                            $("#pagination-left-number").text("1");
+                            $("#pagination-middle-number").text("2");
+                            $("#pagination-right-number").text("3");
+                        }
+
+                        if(dataReceive.object.last === true){
+                            $("#pagination-left-number").text(dataReceive.object.totalPages - 2);
+                            $("#pagination-middle-number").text(dataReceive.object.totalPages - 1);
+                            $("#pagination-right").addClass("active");
+                            $("#pagination-right-number").text(dataReceive.object.totalPages);
+                        }
+
+                        if(!(dataReceive.object.first === true || dataReceive.object.last === true)){
+                            $("#pagination-left-number").text(dataReceive.object.number);
+                            $("#pagination-middle").addClass("active");
+                            $("#pagination-middle-number").text(dataReceive.object.number + 1);                            
+                            $("#pagination-right-number").text(dataReceive.object.number + 2);
+                        }
+                    }
+
+
+
+                    if(dataReceive.object.first === true){
+                        $("#pagination-previous").addClass("disabled");
+                        blockButtonPrevious = true;
+                    }
+
+                    if(dataReceive.object.last === true){
+                        $("#pagination-next").addClass("disabled");
+                        blockButtonNext = true;
+                    }
+
+                    if(dataReceive.object.last === false){
+                        //pageOfPagingate = dataReceive.object.number;
                         $("#load-more-books").show();
+
                     } else {
                         $("#load-more-books").hide();
                     }
+
+                    pageOfPagingate = dataReceive.object.number;
                 },
                 error: function (e) {
                     console.log("ERROR : ", e);
                 }
             });
+        }
+
+        $("#pagination-previous").click( function(){
+            if(blockButtonPrevious == true) return;
+            pageOfPagingate = pageOfPagingate - 1;
+            searchBooks($("#text-search").val());
+        });
+
+        $("#pagination-next").click( function(){
+            if(blockButtonNext == true) return;
+            pageOfPagingate = pageOfPagingate + 1;
+            searchBooks($("#text-search").val());
+        });
+
+        $("#pagination-left").click( function(){
+            pageOfPagingate = $("#pagination-left-number").text() - 1;
+            searchBooks($("#text-search").val());
+        });
+
+        $("#pagination-middle").click( function(){
+            pageOfPagingate = $("#pagination-middle-number").text() - 1;
+            searchBooks($("#text-search").val());
+        });
+
+        $("#pagination-right").click( function(){
+            pageOfPagingate = $("#pagination-right-number").text() - 1;
+            searchBooks($("#text-search").val());
+        });
+
+        function resetPaginationBar(){
+            blockButtonPrevious = false;
+            blockButtonNext = false;
+            $("#pagination-previous").show();
+            $("#pagination-previous").removeClass("disabled");
+            $("#pagination-left").show();
+            $("#pagination-left").removeClass("active");
+            $("#pagination-middle").show();
+            $("#pagination-middle").removeClass("active");
+            $("#pagination-right").show();
+            $("#pagination-right").removeClass("active");
+            $("#pagination-next").show();
+            $("#pagination-next").removeClass("disabled");
         }
 
         function showMessageNotFound(){

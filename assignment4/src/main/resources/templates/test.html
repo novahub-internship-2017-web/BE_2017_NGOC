@@ -17,20 +17,20 @@
             <tr>
                 <th scope="col" id="col-id">id
                     <div class="arrow-group">
-                        <div class="arrow-up"></div>
-                        <div class="arrow-down"></div>
+                        <div class="arrow-up" id="arrow-up-col-id"></div>
+                        <div class="arrow-down" id="arrow-down-col-id"></div>
                     </div>
                 </th>
                 <th scope="col" id="col-title">Title
                     <div class="arrow-group">
-                        <div class="arrow-up"></div>
-                        <div class="arrow-down"></div>
+                        <div class="arrow-up" id="arrow-up-col-title"></div>
+                        <div class="arrow-down" id="arrow-down-col-title"></div>
                     </div>
                 </div></th>
                 <th scope="col" id="col-author">Author
                     <div class="arrow-group">
-                        <div class="arrow-up"></div>
-                        <div class="arrow-down"></div>
+                        <div class="arrow-up" id="arrow-up-col-author"></div>
+                        <div class="arrow-down" id="arrow-down-col-author"></div>
                     </div>
                 </th>
             </tr>
@@ -91,17 +91,83 @@
     </style>
 
     <script type="text/javascript">
+        const DEFAULT = 0 
+        const ARROW_UP = 1;
+        const ARROW_DOWN = 2;
+
+        arrowColId = DEFAULT;
+        arrowColTitle = DEFAULT;
+        arrowColAuthor = DEFAULT;
+
         $("#col-id").click(function(){
             console.log("col-id");
+            arrowColTitle = DEFAULT;
+            arrowColAuthor = DEFAULT;
+            arrowColId = chooseStateArrow(arrowColId);
+            resetArrow();
         });
 
         $("#col-title").click(function(){
             console.log("col-title");
+            arrowColId = DEFAULT;
+            arrowColAuthor = DEFAULT;
+            arrowColTitle = chooseStateArrow(arrowColTitle);    
+            resetArrow();
         });
 
         $("#col-author").click(function(){
             console.log("col-author");
+            arrowColId = DEFAULT;
+            arrowColTitle = DEFAULT;
+            arrowColAuthor = chooseStateArrow(arrowColAuthor);
+            resetArrow();
         });
+
+        function chooseStateArrow(state){
+            if(state === DEFAULT)
+                return ARROW_UP;
+
+            if(state == ARROW_UP)
+                return ARROW_DOWN;
+
+            if(state == ARROW_DOWN)
+                return ARROW_UP;
+        }
+
+        function resetArrow(column){
+
+            if(arrowColId === DEFAULT || arrowColId === ARROW_UP)
+                $("#arrow-up-col-id").show();
+            else
+                $("#arrow-up-col-id").hide();
+
+            if(arrowColId === DEFAULT || arrowColId === ARROW_DOWN)
+                $("#arrow-down-col-id").show();
+            else
+                $("#arrow-down-col-id").hide();
+
+
+            if(arrowColTitle === DEFAULT || arrowColTitle === ARROW_UP)
+                $("#arrow-up-col-title").show();
+            else
+                $("#arrow-up-col-title").hide();
+
+            if(arrowColTitle === DEFAULT || arrowColTitle === ARROW_DOWN)
+                $("#arrow-down-col-title").show();
+            else
+                $("#arrow-down-col-title").hide();
+
+
+            if(arrowColAuthor === DEFAULT || arrowColAuthor === ARROW_UP)
+                $("#arrow-up-col-author").show();
+            else
+                $("#arrow-up-col-author").hide();
+
+            if(arrowColAuthor === DEFAULT || arrowColAuthor === ARROW_DOWN)
+                $("#arrow-down-col-author").show();
+            else
+                $("#arrow-down-col-author").hide();
+        }
     </script>
 </body>
 </html>
