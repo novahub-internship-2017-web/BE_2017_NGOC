@@ -84,6 +84,12 @@ public class UserController {
         MessageResponse messageResponse;
         User userLogin = userService.getUserLoginInSession(request);
 
+        if(!checkTrueUserOrAdminPermission(userId, userLogin)){
+            messageResponse = new MessageResponse();
+            messageResponse.setCode(MessageResponseConstant.ACCESS_DENIED);
+            return new ResponseEntity<>(messageResponse, HttpStatus.OK);
+        } 
+        
         if(!userLogin.getPassword().equals(passwordEncryption.encryptPassword(userParam.getNewPassword()))){
             messageResponse = new MessageResponse();
             messageResponse.setCode(MessageResponseConstant.USER_PASSWORD_IS_NOT_TRUE);
@@ -92,18 +98,32 @@ public class UserController {
             userLogin.setPassword(passwordEncryption.encryptPassword(userParam.getNewPassword()));
         }
 
-        if(!checkTrueUserOrAdminPermission(userId, userLogin)){
+        if(!userLogin.getPassword().equals(passwordEncryption.encryptPassword(userParam.getPassword()))){
+            messageResponse = new MessageResponse();
+            messageResponse.setCode(MessageResponseConstant.USER_PASSWORD_IS_NOT_TRUE);
+        } else {
+            userParam.setPassword(userParam.getNewPassword());
+            messageResponse = userService.updateUserById(userId, userParam, request);
+        }
+
+        return new ResponseEntity<>(messageResponse, HttpStatus.OK);
+    }
+
+    // API update User
+    @PutMapping(value = "/admin/api/user/{userId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> updateUserProfileByAdmin(@PathVariable("userId") long userId,
+                                               @RequestBody User userParam,
+                                               HttpServletRequest request){
+        MessageResponse messageResponse;
+        User userLogin = userService.getUserLoginInSession(request);
+        
+        if(!checkAdminPermission(userLogin)){
             messageResponse = new MessageResponse();
             messageResponse.setCode(MessageResponseConstant.ACCESS_DENIED);
-        } else {
-            if(!userLogin.getPassword().equals(passwordEncryption.encryptPassword(userParam.getPassword()))){
-                messageResponse = new MessageResponse();
-                messageResponse.setCode(MessageResponseConstant.USER_PASSWORD_IS_NOT_TRUE);
-            } else {
-                userParam.setPassword(userParam.getNewPassword());
-                messageResponse = userService.updateUserById(userId, userParam, request);
-            }
-        }
+            return new ResponseEntity<>(messageResponse, HttpStatus.OK);
+        }  
+
+        messageResponse = userService.updateUserById(userId, userParam, request);
 
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }

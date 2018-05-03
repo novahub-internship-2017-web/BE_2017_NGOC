@@ -52,46 +52,75 @@
             </div>
 
             <div id="body">
-                <div style="margin-top: 10px;" align="center">
+                <div style="margin-top: 10px;" align="left">
                     <p style="display: inline;">Size : </p>
                     <select id="size-users-response"class="custom-select" style="width: 70px;" onchange="onChangeSelect()">
-                      <option value="3" selected>3</option>
-                      <option value="6">6</option>
-                      <option value="9">9</option>
-                      <option value="12">12</option>
-                    </select>
-
-                    <p style="display: inline; margin-left: 10px;">Order by : </p>
-                    <select id="sort-users-response"class="custom-select" style="width: 150px;" onchange="onChangeSelect()">
-                      <option value="id" selected>id</option>
-                      <option value="email">email</option>
-                      <option value="firstName">first name</option>
-                      <option value="lastName">last name</option>
-                      <option value="enabled">enabled</option>
-                    </select>
-
-                    <select id="asc-desc-users-response"class="custom-select" style="width: 90px;" onchange="onChangeSelect()">
-                      <option value="asc" selected>asc</option>
-                      <option value="desc">desc</option>
+                      <option value="10" selected>10</option>
+                      <option value="20">20</option>
+                      <option value="50">50</option>
                     </select>
                 </div>
 
                 <table id="users-list" style="display: none; margin-top: 20px;" class="table table-bordered">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col">Id</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">First name</th>
-                            <th scope="col">Last name</th>
-                            <th scope="col">Status</th>
+                            <th scope="col" id="col-id">Id
+                                <div class="arrow-group">
+                                    <div class="arrow-up" id="arrow-up-col-id"></div>
+                                    <div class="arrow-down" id="arrow-down-col-id"></div>
+                                </div>
+                            </th>
+                            <th scope="col" id="col-email">Email
+                                <div class="arrow-group">
+                                    <div class="arrow-up" id="arrow-up-col-email"></div>
+                                    <div class="arrow-down" id="arrow-down-col-email"></div>
+                                </div>
+                            </th>
+                            <th scope="col" id="col-first-name">First name
+                                <div class="arrow-group">
+                                    <div class="arrow-up" id="arrow-up-col-first-name"></div>
+                                    <div class="arrow-down" id="arrow-down-col-first-name"></div>
+                                </div>
+                            </th>
+                            <th scope="col" id="col-last-name">Last name
+                                <div class="arrow-group">
+                                    <div class="arrow-up" id="arrow-up-col-last-name"></div>
+                                    <div class="arrow-down" id="arrow-down-col-last-name"></div>
+                                </div>
+                            </th>
+                            <th scope="col" id="col-status">Status
+                                <div class="arrow-group">
+                                    <div class="arrow-up" id="arrow-up-col-status"></div>
+                                    <div class="arrow-down" id="arrow-down-col-status"></div>
+                                </div>
+                            </th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
                 </table>
-                <div align="center"> <a id="load-more-books" class="btn btn-success" style="display: none; color: white;">Load more</a> </div>
                 <div id="div-user-not-found" align="center" style="display: none">
                     <p style="font-size: 30px">User not found</p>
                 </div>
+
+                <nav id="pagination-group"  aria-label="....">
+                    <ul class="pagination">
+                        <li class="page-item" id="pagination-previous">
+                            <a class="page-link" href="#" tabindex="-1">Previous</a>
+                        </li>
+                        <li class="page-item" id="pagination-left">
+                            <a class="page-link" href="#" id="pagination-left-number">1</a>
+                        </li>
+                        <li class="page-item" id="pagination-middle">
+                            <a class="page-link" href="#" id="pagination-middle-number">2</a>
+                        </li>
+                        <li class="page-item" id="pagination-right">
+                            <a class="page-link" href="#" id="pagination-right-number">3</a>
+                        </li>
+                        <li class="page-item" id="pagination-next">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
         <div class="col-md-2">             
@@ -186,17 +215,186 @@
         }
     </style>
 
-    <<script>
+    <style type="text/css">
+        .arrow-group{
+            float: right;
+            display: inherit;
+            margin-top: 8px;
+        }
+
+        .arrow-up {
+            width: 0; 
+            height: 0; 
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;          
+            border-bottom: 5px solid white;
+            margin-top: -2px;
+        }
+
+        .arrow-down {
+            width: 0; 
+            height: 0; 
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid white;
+            margin-top: 4px;
+        }
+    </style>
+
+    <script type="text/javascript">
+        const DEFAULT = 0 
+        const ARROW_UP = 1;
+        const ARROW_DOWN = 2;
+
+        arrowColId = DEFAULT;
+        arrowColEmail = DEFAULT;
+        arrowColFirstName = DEFAULT;
+        arrowColLastName = DEFAULT;
+        arrowColStatus = DEFAULT;
+
+        $("#col-id").click(function(){
+            console.log("col-id");
+            arrowColEmail = DEFAULT;
+            arrowColFirstName = DEFAULT;
+            arrowColLastName = DEFAULT;
+            arrowColStatus = DEFAULT;
+            arrowColId = chooseStateArrow(arrowColId);
+            sortBooksResponse = "id";
+            resetArrow();
+            searchUsers($("#text-search").val());
+        });
+
+        $("#col-email").click(function(){
+            console.log("col-email");
+            arrowColId = DEFAULT;
+            arrowColFirstName = DEFAULT;
+            arrowColLastName = DEFAULT;
+            arrowColStatus = DEFAULT;
+            arrowColEmail = chooseStateArrow(arrowColEmail);  
+            sortBooksResponse = "email";  
+            resetArrow();
+            searchUsers($("#text-search").val());
+        });
+
+        $("#col-first-name").click(function(){
+            console.log("col-first-name");
+            arrowColId = DEFAULT;
+            arrowColEmail = DEFAULT;
+            arrowColLastName = DEFAULT;
+            arrowColStatus = DEFAULT;
+            arrowColFirstName = chooseStateArrow(arrowColFirstName);
+            sortBooksResponse = "firstName";
+            resetArrow();
+            searchUsers($("#text-search").val());
+        });
+
+        $("#col-last-name").click(function(){
+            console.log("col-last-name");
+            arrowColId = DEFAULT;
+            arrowColEmail = DEFAULT;
+            arrowColFirstName = DEFAULT;
+            arrowColStatus = DEFAULT;
+            arrowColLastName = chooseStateArrow(arrowColLastName);
+            sortBooksResponse = "lastName";
+            resetArrow();
+            searchUsers($("#text-search").val());
+        });
+
+        $("#col-status").click(function(){
+            console.log("col-status");
+            arrowColId = DEFAULT;
+            arrowColEmail = DEFAULT;
+            arrowColFirstName = DEFAULT;
+            arrowColLastName= DEFAULT;
+            arrowColStatus = chooseStateArrow(arrowColStatus);
+            sortBooksResponse = "enabled";
+            resetArrow();
+            searchUsers($("#text-search").val());
+        });
+
+        function chooseStateArrow(state){
+            if(state === DEFAULT){
+                ascDescBooksResponse = "asc";
+                return ARROW_UP;
+            }
+
+            if(state == ARROW_UP){
+                ascDescBooksResponse = "desc";
+                return ARROW_DOWN;
+            }
+
+            if(state == ARROW_DOWN){
+                ascDescBooksResponse = "asc";
+                return ARROW_UP;
+            }
+        }
+
+        function resetArrow(column){
+
+            if(arrowColId === DEFAULT || arrowColId === ARROW_UP)
+                $("#arrow-up-col-id").show();
+            else
+                $("#arrow-up-col-id").hide();
+
+            if(arrowColId === DEFAULT || arrowColId === ARROW_DOWN)
+                $("#arrow-down-col-id").show();
+            else
+                $("#arrow-down-col-id").hide();
+
+
+            if(arrowColEmail === DEFAULT || arrowColEmail === ARROW_UP)
+                $("#arrow-up-col-email").show();
+            else
+                $("#arrow-up-col-email").hide();
+
+            if(arrowColEmail === DEFAULT || arrowColEmail === ARROW_DOWN)
+                $("#arrow-down-col-email").show();
+            else
+                $("#arrow-down-col-email").hide();
+
+
+            if(arrowColFirstName === DEFAULT || arrowColFirstName === ARROW_UP)
+                $("#arrow-up-col-first-name").show();
+            else
+                $("#arrow-up-col-first-name").hide();
+
+            if(arrowColFirstName === DEFAULT || arrowColFirstName === ARROW_DOWN)
+                $("#arrow-down-col-first-name").show();
+            else
+                $("#arrow-down-col-first-name").hide();
+
+
+            if(arrowColLastName === DEFAULT || arrowColLastName === ARROW_UP)
+                $("#arrow-up-col-last-name").show();
+            else
+                $("#arrow-up-col-last-name").hide();
+
+            if(arrowColLastName === DEFAULT || arrowColLastName === ARROW_DOWN)
+                $("#arrow-down-col-last-name").show();
+            else
+                $("#arrow-down-col-last-name").hide();
+
+
+            if(arrowColStatus === DEFAULT || arrowColStatus === ARROW_UP)
+                $("#arrow-up-col-status").show();
+            else
+                $("#arrow-up-col-status").hide();
+
+            if(arrowColStatus === DEFAULT || arrowColStatus === ARROW_DOWN)
+                $("#arrow-down-col-status").show();
+            else
+                $("#arrow-down-col-status").hide();
+        }
+    </script>
+
+    <script>
         var hasSortOrSizeChanged = true;
 
         function onChangeSelect(){
             hasSortOrSizeChanged = true;
             pageOfPagingate = 0;
+            searchUsers($("#text-search").val());
         }
-
-        $("#load-more-books").click( function() {
-            searchBooks();
-        });
     </script>
 
     <!-- search book -->
@@ -220,42 +418,187 @@
           searchUsers(wordsSearch);
       });
 
+        blockButtonPrevious = false;
+        blockButtonNext = false;
+
+        sortBooksResponse = "id";
+        ascDescBooksResponse = "asc";
+
       function searchUsers(wordsSearch){
         $.ajax({
             type: "GET",
             contentType: "application/json",
-            url: urlRequestSearchUser + "?page=" + pageOfPagingate + "&size=" + $("#size-users-response").val() + "&sort=" + $("#sort-users-response").val() + "," + $("#asc-desc-users-response").val(),
+            url: urlRequestSearchUser + "?page=" + pageOfPagingate + "&size=" + $("#size-users-response").val() + "&sort=" + sortBooksResponse + "," + ascDescBooksResponse,
             headers : {"wordsSearch" : wordsSearch},
             dataType: 'json',
             timeout: 10000,
             success: function (dataReceive) {
-                if(hasSortOrSizeChanged == true){
+                // if(hasSortOrSizeChanged == true){
+                        // hasSortOrSizeChanged = false;
                     if(dataReceive.object.content.length === 0){
                         showMessageNotFound();
                     } else {
                         usersList = dataReceive.object.content;
                         showBooksResult(usersList);
                     }
-                } else {
-                    for(var userIndex = 0; userIndex < dataReceive.object.content.length; userIndex++){
-                        usersList.push(dataReceive.object.content[userIndex]);
-                        showAnUserResult(dataReceive.object.content[userIndex]);
-                    }
-                }   
+                // } else {
+                //     for(var userIndex = 0; userIndex < dataReceive.object.content.length; userIndex++){
+                //         usersList.push(dataReceive.object.content[userIndex]);
+                //         showAnUserResult(dataReceive.object.content[userIndex]);
+                //     }
+                // }   
                 
-                if(dataReceive.object.last == false){
-                    pageOfPagingate = pageOfPagingate + 1;
-                    $("#load-more-books").show();
-                } else {
-                    $("#load-more-books").hide();
-                }
+                resetPaginationBar();
+
+                    if(dataReceive.object.totalPages == 0)
+                        $("#pagination-group").hide();
+                    else 
+                        $("#pagination-group").show();
+
+                    if(dataReceive.object.totalPages == 1){
+                        $("#pagination-left").hide();
+                        $("#pagination-right").hide();
+                        $("#pagination-middle-number").text("1");
+                        $("#pagination-middle").addClass("active");
+                    }
+
+                    if(dataReceive.object.totalPages == 2){
+                        if(dataReceive.object.first === true){
+                            $("#pagination-left-number").text("1");
+                            $("#pagination-left").addClass("active");
+                            $("#pagination-middle-number").text("2");
+                            $("#pagination-right").hide();
+                        }
+
+                        if(dataReceive.object.last === true){
+                            $("#pagination-left").hide();
+                            $("#pagination-middle-number").text("1");
+                            $("#pagination-right-number").text("2");
+                            $("#pagination-right").addClass("active");
+                        }
+                    }
+
+                    if(dataReceive.object.totalPages == 3){
+                        if(dataReceive.object.first === true){
+                            $("#pagination-left").addClass("active");
+                            $("#pagination-left-number").text("1");
+                            $("#pagination-middle-number").text("2");
+                            $("#pagination-right-number").text("3");
+                        }
+
+                        if(dataReceive.object.last === true){
+                            $("#pagination-left-number").text("1");
+                            $("#pagination-middle-number").text("2");
+                            $("#pagination-right").addClass("active");
+                            $("#pagination-right-number").text("3");
+                        }
+
+                        if(!(dataReceive.object.first === true || dataReceive.object.last === true)){
+                            $("#pagination-left-number").text("1");
+                            $("#pagination-middle").addClass("active");
+                            $("#pagination-middle-number").text("2");                            
+                            $("#pagination-right-number").text("3");
+                        }
+                    }
+
+                    if(dataReceive.object.totalPages > 3){
+                        if(dataReceive.object.first === true){
+                            $("#pagination-left").addClass("active");
+                            $("#pagination-left-number").text("1");
+                            $("#pagination-middle-number").text("2");
+                            $("#pagination-right-number").text("3");
+                        }
+
+                        if(dataReceive.object.last === true){
+                            $("#pagination-left-number").text(dataReceive.object.totalPages - 2);
+                            $("#pagination-middle-number").text(dataReceive.object.totalPages - 1);
+                            $("#pagination-right").addClass("active");
+                            $("#pagination-right-number").text(dataReceive.object.totalPages);
+                        }
+
+                        if(!(dataReceive.object.first === true || dataReceive.object.last === true)){
+                            $("#pagination-left-number").text(dataReceive.object.number);
+                            $("#pagination-middle").addClass("active");
+                            $("#pagination-middle-number").text(dataReceive.object.number + 1);                            
+                            $("#pagination-right-number").text(dataReceive.object.number + 2);
+                        }
+                    }
+
+                    if(dataReceive.object.first === true){
+                        $("#pagination-previous").addClass("disabled");
+                        blockButtonPrevious = true;
+                    }
+
+                    if(dataReceive.object.last === true){
+                        $("#pagination-next").addClass("disabled");
+                        blockButtonNext = true;
+                    }
+
+                    if(dataReceive.object.last === false){
+                        //pageOfPagingate = dataReceive.object.number;
+                        $("#load-more-books").show();
+
+                    } else {
+                        $("#load-more-books").hide();
+                    }
+
+                    pageOfPagingate = dataReceive.object.number;
+
+                // if(dataReceive.object.last == false){
+                //     pageOfPagingate = pageOfPagingate + 1;
+                //     $("#load-more-books").show();
+                // } else {
+                //     $("#load-more-books").hide();
+                // }
 
             },
             error: function (e) {
                 console.log("ERROR : ", e);
             }
         });
-      }     
+      }  
+
+      $("#pagination-previous").click( function(){
+            if(blockButtonPrevious == true) return;
+            pageOfPagingate = pageOfPagingate - 1;
+            searchUsers($("#text-search").val());
+        });
+
+        $("#pagination-next").click( function(){
+            if(blockButtonNext == true) return;
+            pageOfPagingate = pageOfPagingate + 1;
+            searchUsers($("#text-search").val());
+        });
+
+        $("#pagination-left").click( function(){
+            pageOfPagingate = $("#pagination-left-number").text() - 1;
+            searchUsers($("#text-search").val());
+        });
+
+        $("#pagination-middle").click( function(){
+            pageOfPagingate = $("#pagination-middle-number").text() - 1;
+            searchUsers($("#text-search").val());
+        });
+
+        $("#pagination-right").click( function(){
+            pageOfPagingate = $("#pagination-right-number").text() - 1;
+            searchUsers($("#text-search").val());
+        });
+
+        function resetPaginationBar(){
+            blockButtonPrevious = false;
+            blockButtonNext = false;
+            $("#pagination-previous").show();
+            $("#pagination-previous").removeClass("disabled");
+            $("#pagination-left").show();
+            $("#pagination-left").removeClass("active");
+            $("#pagination-middle").show();
+            $("#pagination-middle").removeClass("active");
+            $("#pagination-right").show();
+            $("#pagination-right").removeClass("active");
+            $("#pagination-next").show();
+            $("#pagination-next").removeClass("disabled");
+        }   
 
       function showMessageNotFound(){
         $("#users-list").hide();
@@ -447,7 +790,7 @@
             $.ajax({
                 type: "PUT",
                 contentType: "application/json",
-                url: window.location.origin + "/api/user/" + userIdPost,
+                url: window.location.origin + "/admin/api/user/" + userIdPost,
                 data: dataEditUser,
                 dataType: 'json',
                 timeout: 10000,

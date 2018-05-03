@@ -43,27 +43,12 @@
             </div>
 
             <div id="body">
-                <div style="margin-top: 10px;" align="center">
+                <div style="margin-top: 10px;" align="left">
                     <p style="display: inline;">Size : </p>
                     <select id="size-books-response"class="custom-select" style="width: 70px;" onchange="onChangeSelect()">
-                      <option value="3" selected>3</option>
-                      <option value="6">6</option>
-                      <option value="9">9</option>
-                      <option value="12">12</option>
-                    </select>
-
-                    <p style="display: inline; margin-left: 10px;">Order by : </p>
-                    <select id="sort-books-response"class="custom-select" style="width: 150px;" onchange="onChangeSelect()">
-                      <option value="id" selected>id</option>
-                      <option value="title">title</option>
-                      <option value="author">author</option>
-                      <option value="description">description</option>
-                      <option value="enabled">enabled</option>
-                    </select>
-
-                    <select id="asc-desc-books-response"class="custom-select" style="width: 90px;" onchange="onChangeSelect()">
-                      <option value="asc" selected>asc</option>
-                      <option value="desc">desc</option>
+                      <option value="10" selected>10</option>
+                      <option value="20">20</option>
+                      <option value="50">50</option>
                     </select>
                 </div>
 
@@ -647,7 +632,6 @@
                     //     }
                     // }
 
-                    currentPage = dataReceive.object.number;
 
                     resetPaginationBar();
 

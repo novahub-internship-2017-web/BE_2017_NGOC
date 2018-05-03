@@ -19,14 +19,44 @@ CREATE TABLE IF NOT EXISTS comment(id INT NOT NULL AUTO_INCREMENT, book_id INT N
 INSERT INTO role (name) VALUE ("ADMIN");
 INSERT INTO role (name) VALUE ("USER");
 INSERT INTO role (name) VALUE ("USER");
+INSERT INTO role (name) VALUE ("USER");
+INSERT INTO role (name) VALUE ("USER");
+INSERT INTO role (name) VALUE ("USER");
+INSERT INTO role (name) VALUE ("USER");
+INSERT INTO role (name) VALUE ("USER");
+INSERT INTO role (name) VALUE ("USER");
+INSERT INTO role (name) VALUE ("USER");
+INSERT INTO role (name) VALUE ("USER");
+INSERT INTO role (name) VALUE ("USER");
+INSERT INTO role (name) VALUE ("USER");
 
 # users
 # password : password
 INSERT INTO user (email, password, first_name, last_name, enabled, avatar, role_id) VALUE ("admin@gmail.com", "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "admin", "account", true, null, 1);
 # password : password
 INSERT INTO user (email, password, first_name, last_name, enabled, avatar, role_id) VALUE ("ngoc@gmail.com", "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "ngoc", "quang", true, null, 2);
-# password : username
+# password : password
 INSERT INTO user (email, password, first_name, last_name, enabled, avatar, role_id) VALUE ("hai@gmail.com", "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "thanh", "hai", true, null, 3);
+# password : password
+INSERT INTO user (email, password, first_name, last_name, enabled, avatar, role_id) VALUE ("huong@gmail.com", "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "huong", "quan", true, null, 4);
+# password : password
+INSERT INTO user (email, password, first_name, last_name, enabled, avatar, role_id) VALUE ("hung@gmail.com", "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "hung", "duc", true, null, 5);
+# password : password
+INSERT INTO user (email, password, first_name, last_name, enabled, avatar, role_id) VALUE ("hieu@gmail.com", "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "hieu", "minh", true, null, 6);
+# password : password
+INSERT INTO user (email, password, first_name, last_name, enabled, avatar, role_id) VALUE ("thanh@gmail.com", "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "thanh", "vien", true, null, 7);
+# password : password
+INSERT INTO user (email, password, first_name, last_name, enabled, avatar, role_id) VALUE ("hoang@gmail.com", "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "hoang", "nguyen", true, null, 8);
+# password : password
+INSERT INTO user (email, password, first_name, last_name, enabled, avatar, role_id) VALUE ("tien@gmail.com", "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "tien", "dinh", true, null, 9);
+# password : password
+INSERT INTO user (email, password, first_name, last_name, enabled, avatar, role_id) VALUE ("toan@gmail.com", "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "toan", "tran", true, null, 10);
+# password : password
+INSERT INTO user (email, password, first_name, last_name, enabled, avatar, role_id) VALUE ("hung1@gmail.com", "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "hung", "van", true, null, 11);
+# password : password
+INSERT INTO user (email, password, first_name, last_name, enabled, avatar, role_id) VALUE ("ny@gmail.com", "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "Ny", "dieu", true, null, 12);
+# password : password
+INSERT INTO user (email, password, first_name, last_name, enabled, avatar, role_id) VALUE ("bao@gmail.com", "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "bao", "le", true, null, 13);
 
 # books
 INSERT INTO book (title, author, description, created_at, updated_at, image, enabled, user_id) VALUE ("Harry Potter", 
