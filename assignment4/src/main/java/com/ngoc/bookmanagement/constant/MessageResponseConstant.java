@@ -31,6 +31,7 @@ public class MessageResponseConstant {
     public static final int EMAIL_IS_EXIST = 11;
     public static final int EMAIL_OR_PASSWORD_WRONG = 12;
     public static final int USER_IS_BLOCKED = 25;
+    public static final int USER_PASSWORD_IS_NOT_TRUE = 26;
 
     public static final int ACCESS_DENIED = 403;
 

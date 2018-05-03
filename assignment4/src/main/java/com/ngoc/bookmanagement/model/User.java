@@ -129,6 +129,14 @@ public class User implements Serializable {
         this.role = role;
     }
 
+    public String getNewPassword(){
+        return this.newPassword;
+    }
+
+    public void setNewPassword(String newPassword){
+        this.newPassword = newPassword;
+    }
+
     @Transactional
     public List<Book> getBookList() {
         return bookList;

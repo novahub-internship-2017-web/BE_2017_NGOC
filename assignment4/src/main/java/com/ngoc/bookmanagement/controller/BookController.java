@@ -166,16 +166,18 @@ public class BookController {
     // API for ROLE : ADMIN
     // API get all books, which is disabled
     @GetMapping(value = "/api/books/disabled", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> getAllBooksDisabled(HttpServletRequest request,
+    public ResponseEntity<?> getAllBooksDisabled(@RequestHeader(value = "wordsSearch", required = false, defaultValue = "")  String wordsSearch,
+                                                 HttpServletRequest request,
                                                  Pageable pageable){
         MessageResponse messageResponse;
         User userLogin = userService.getUserLoginInSession(request);
 
         if(!checkAdminPermission(userLogin))
             messageResponse = new MessageResponse(MessageResponseConstant.ACCESS_DENIED);
-        else
-            // TODO: add code to handle when havong wordsSearch occur
-            messageResponse = bookService.getAllBooksByEnabled("", request, false, pageable);
+        else{
+            wordsSearch = "%" + wordsSearch + "%";
+            messageResponse = bookService.getAllBooksByEnabled(wordsSearch, request, false, pageable);
+        }
 
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }

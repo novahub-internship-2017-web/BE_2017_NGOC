@@ -516,3 +516,4 @@ INSERT INTO comment (book_id, user_id, created_at, updated_at, message) VALUE (3
 INSERT INTO comment (book_id, user_id, created_at, updated_at, message) VALUE (3 , 2, now(), now(), "sach hay tot ghe");
 INSERT INTO comment (book_id, user_id, created_at, updated_at, message) VALUE (3 , 1, now(), now(), "sach hay day");
 INSERT INTO comment (book_id, user_id, created_at, updated_at, message) VALUE (3 , 1, now(), now(), "sach hay day");
+INSERT INTO comment (book_id, user_id, created_at, updated_at, message) VALUE (3 , 1, now(), now(), "sach hay day chu nhi");
