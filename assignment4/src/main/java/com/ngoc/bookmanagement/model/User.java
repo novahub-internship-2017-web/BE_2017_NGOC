@@ -146,14 +146,6 @@ public class User implements Serializable {
         this.bookList = bookList;
     }
 
-    public String getNewPassword(){
-        return this.newPassword;
-    }
-
-    public void setNewPassword(String newPassword){
-        this.newPassword = newPassword;
-    }
-
     public User() {
     }
 
