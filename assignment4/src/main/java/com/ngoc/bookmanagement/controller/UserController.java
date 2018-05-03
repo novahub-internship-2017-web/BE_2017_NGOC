@@ -96,9 +96,6 @@ public class UserController {
             return new ResponseEntity<>(messageResponse, HttpStatus.OK);
         } 
 
-        userLogin.setPassword(passwordEncryption.encryptPassword(userParam.getNewPassword()));
-        request.getSession().setAttribute("userLogin", userLogin);
-
         userParam.setPassword(userParam.getNewPassword());
         messageResponse = userService.updateUserById(userId, userParam, request);
 

@@ -449,27 +449,14 @@
         $("#btn-all").click(function(){
            urlRequestSearchBook = window.location.origin + "/api/books/user/" + userId;
 
-            if(bookList.length > 0){
-                showBooksResult(bookList);
-            }
+            searchBooks($("#text-search").val());
         });
 
 
         $("#btn-my-book").click(function(){
             urlRequestSearchBook = window.location.origin + "/api/user/" + userId + "/books";
             
-            var booksListTemp = [];
-            
-
-            for(var bookIndex = 0; bookIndex < bookList.length; bookIndex++){
-                if(bookList[bookIndex].userId == userId){
-                    booksListTemp.push(bookList[bookIndex]);
-                }
-            }
-
-            if(booksListTemp.length > 0){
-                showBooksResult(booksListTemp);
-            }
+            searchBooks($("#text-search").val());
         });
 
         $("#btn-search").click(function () {
@@ -1056,7 +1043,17 @@
             callUserPostApi();
         });
 
+        function cleanFormEditUser(){
+            $("#password").val("");
+            $("#newPassword").val("");
+            $("#reNewPassword").val("");
+            $('#changing-password-form').hide();
+            $("#alert-error-message-user").hide();
+            $("#checkbox-choice-change-password").prop('checked', false);
+        }
+
         $('#btn-edit-user').click( function() {
+            cleanFormEditUser();
             callUserGetApi();
         })
 

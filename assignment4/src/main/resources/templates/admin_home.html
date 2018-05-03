@@ -427,7 +427,17 @@
 
     <script>
 
+        function cleanFormEditUser(){
+            $("#password").val("");
+            $("#newPassword").val("");
+            $("#reNewPassword").val("");
+            $('#changing-password-form').hide();
+            $("#alert-error-message-user").hide();
+            $("#checkbox-choice-change-password").prop('checked', false);
+        }
+
         $('#btn-edit-user').click( function() {
+            cleanFormEditUser();
             callUserGetApi();
         })
 
@@ -512,27 +522,14 @@
         $("#btn-all").click(function(){
            urlRequestSearchBook = window.location.origin + "/api/books";
 
-            if(bookList.length > 0){
-                showBooksResult(bookList);
-            }
+            searchBooks();
         });
         
 
         $("#btn-my-book").click(function(){
             urlRequestSearchBook = window.location.origin + "/api/user/" + userId + "/books";
             
-            var booksListTemp = [];
-            
-
-            for(var bookIndex = 0; bookIndex < bookList.length; bookIndex++){
-                if(bookList[bookIndex].userId == userId){
-                    booksListTemp.push(bookList[bookIndex]);
-                }
-            }
-
-            if(booksListTemp.length > 0){
-                showBooksResult(booksListTemp);
-            }
+            searchBooks();
         });        
 
         $("#btn-search").click(function () {
@@ -1157,8 +1154,11 @@
                     password: {
                         required: true
                     },
-                    repassword: {
-                        equalTo: "#password"
+                    newPassword: {
+                        required: true
+                    },
+                    reNewPassword: {
+                        equalTo: "#newPassword"
                     }
                 },
                 messages :{
@@ -1169,8 +1169,11 @@
                     password: {
                         required: "Password is not empty"
                     },
-                    repassword: {
-                        equalTo: "Password does not match the confirm password"
+                    newPassword: {
+                        required: "New password is not empty"
+                    },
+                    reNewPassword: {
+                        equalTo: "New password does not match the confirm password"
                     }
                 }
             });
