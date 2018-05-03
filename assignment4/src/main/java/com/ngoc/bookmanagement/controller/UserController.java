@@ -88,23 +88,19 @@ public class UserController {
             messageResponse = new MessageResponse();
             messageResponse.setCode(MessageResponseConstant.ACCESS_DENIED);
             return new ResponseEntity<>(messageResponse, HttpStatus.OK);
-        } 
-        
-        if(!userLogin.getPassword().equals(passwordEncryption.encryptPassword(userParam.getNewPassword()))){
-            messageResponse = new MessageResponse();
-            messageResponse.setCode(MessageResponseConstant.USER_PASSWORD_IS_NOT_TRUE);
-            return new ResponseEntity<>(messageResponse, HttpStatus.OK);
-        } else {
-            userLogin.setPassword(passwordEncryption.encryptPassword(userParam.getNewPassword()));
-        }
+        }                 
 
         if(!userLogin.getPassword().equals(passwordEncryption.encryptPassword(userParam.getPassword()))){
             messageResponse = new MessageResponse();
             messageResponse.setCode(MessageResponseConstant.USER_PASSWORD_IS_NOT_TRUE);
-        } else {
-            userParam.setPassword(userParam.getNewPassword());
-            messageResponse = userService.updateUserById(userId, userParam, request);
-        }
+            return new ResponseEntity<>(messageResponse, HttpStatus.OK);
+        } 
+
+        userLogin.setPassword(passwordEncryption.encryptPassword(userParam.getNewPassword()));
+        request.getSession().setAttribute("userLogin", userLogin);
+
+        userParam.setPassword(userParam.getNewPassword());
+        messageResponse = userService.updateUserById(userId, userParam, request);
 
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }

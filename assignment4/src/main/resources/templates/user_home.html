@@ -139,14 +139,14 @@
                         <div class="form-group">
                             <h2 style="text-align: center" id="form-title">Book Edit</h2>
                         </div>      
-                        <div class="alert alert-success" id="alert-success-message" style="display: none;">
+                        <div class="alert alert-success" id="alert-success-message-book" style="display: none;">
                             <p style="text-align: center; margin-bottom: 0px;">
-                                <strong>Success!</strong> <span id="success-message"></span>.
+                                <strong>Success!</strong> <span id="success-message-book"></span>.
                             </p>
                         </div>
-                        <div class="alert alert-danger" id="alert-error-message" style="display: none;">
+                        <div class="alert alert-danger" id="alert-error-message-book" style="display: none;">
                             <p style="text-align: center; margin-bottom: 0px;">
-                                <strong>Danger!</strong> <span id="error-message"></span>.
+                                <strong>Danger!</strong> <span id="error-message-book"></span>.
                             </p>
                         </div>
                         <div class="from-group">
@@ -219,14 +219,14 @@
                         <div class="form-group">
                             <h2 style="text-align: center" id="form-title">User Edit</h2>
                         </div>      
-                        <div class="alert alert-success" id="alert-success-message" style="display: none;">
+                        <div class="alert alert-success" id="alert-success-message-user" style="display: none;">
                             <p style="text-align: center; margin-bottom: 0px;">
-                                <strong>Success!</strong> <span id="success-message"></span>.
+                                <strong>Success!</strong> <span id="success-message-user"></span>.
                             </p>
                         </div>
-                        <div class="alert alert-danger" id="alert-error-message" style="display: none;">
+                        <div class="alert alert-danger" id="alert-error-message-user" style="display: none;">
                             <p style="text-align: center; margin-bottom: 0px;">
-                                <strong>Danger!</strong> <span id="error-message"></span>.
+                                <strong>Danger!</strong> <span id="error-message-user"></span>.
                             </p>
                         </div>
                         <div class="from-group">
@@ -248,12 +248,16 @@
                         </div>
                         <div id="changing-password-form" style="display: none;">
                             <div class="form-group" style="margin-bottom: 0px;">
-                                <label class="col-form-label">Password : </label>
+                                <label class="col-form-label">Current Password : </label>
                                 <input type="password" name="password" id="password" class="form-control" />
                             </div>
                             <div class="form-group">
+                                <label class="col-form-label">New password : </label>
+                                <input type="password" name="newPassword" id="newPassword" class="form-control" />
+                            </div>
+                            <div class="form-group">
                                 <label class="col-form-label">Confirm password : </label>
-                                <input type="password" name="repassword" id="repassword" class="form-control" />
+                                <input type="password" name="reNewPassword" id="reNewPassword" class="form-control" />
                             </div>
                         </div>
                         <div class="form-group" style="margin-top: 15px">
@@ -1077,20 +1081,22 @@
             });
         }
 
+        const OK = 0;
+        const USER_PASSWORD_IS_NOT_TRUE = 26;
+
         function callUserPostApi(){
 
             var data;
 
             if ($("#checkbox-choice-change-password").is(":checked")){
                 data = JSON.stringify({
-                    "email" : this.email.value,
                     "firstName" : this.firstName.value,
                     "lastName" : this.lastName.value,
-                    "password" : this.password.value
+                    "password" : this.password.value,
+                    "newPassword" : this.newPassword.value
                 });
             } else {
                 data = JSON.stringify({
-                    "email": this.email.value,
                     "firstName": this.firstName.value,
                     "lastName": this.lastName.value
                 });
@@ -1105,11 +1111,15 @@
                     dataType: 'json',
                     timeout: 10000,
                     success: function (dataReceive) {
-                        console.log("SUCCESS : ", dataReceive);
-                        $("#message").text("Update user successfully");
-                        $("#message-success").text("Edit user successfully");
-                        $("#userEditFromModal").modal('hide');
-                        showAlert();
+                        if(dataReceive.code == OK){                            
+                            $("#message").text("Update user successfully");
+                            $("#userEditFromModal").modal('hide');
+                            showAlert();
+                        } else {
+                            console.log("loi");
+                            $("#error-message-user").text("Current password is not true");
+                            $("#alert-error-message-user").show();
+                        }
                     },
                     error: function (e) {
                         console.log("ERROR : ", e.responseJSON.message);

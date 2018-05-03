@@ -145,14 +145,14 @@
                         <div class="form-group">
                             <h2 style="text-align: center" id="form-title">User Edit</h2>
                         </div>      
-                        <div class="alert alert-success" id="alert-success-message" style="display: none;">
+                        <div class="alert alert-success" id="alert-success-message-user" style="display: none;">
                             <p style="text-align: center; margin-bottom: 0px;">
-                                <strong>Success!</strong> <span id="success-message"></span>.
+                                <strong>Success!</strong> <span id="success-message-user"></span>.
                             </p>
                         </div>
-                        <div class="alert alert-danger" id="alert-error-message" style="display: none;">
+                        <div class="alert alert-danger" id="alert-error-message-user" style="display: none;">
                             <p style="text-align: center; margin-bottom: 0px;">
-                                <strong>Danger!</strong> <span id="error-message"></span>.
+                                <strong>Danger!</strong> <span id="error-message-user"></span>.
                             </p>
                         </div>
                         <div class="from-group">
@@ -209,14 +209,14 @@
                         <div class="form-group">
                             <h2 style="text-align: center" id="form-title">Book Edit</h2>
                         </div>      
-                        <div class="alert alert-success" id="alert-success-message" style="display: none;">
+                        <div class="alert alert-success" id="alert-success-message-book" style="display: none;">
                             <p style="text-align: center; margin-bottom: 0px;">
-                                <strong>Success!</strong> <span id="success-message"></span>.
+                                <strong>Success!</strong> <span id="success-message-book"></span>.
                             </p>
                         </div>
-                        <div class="alert alert-danger" id="alert-error-message" style="display: none;">
+                        <div class="alert alert-danger" id="alert-error-message-book" style="display: none;">
                             <p style="text-align: center; margin-bottom: 0px;">
-                                <strong>Danger!</strong> <span id="error-message"></span>.
+                                <strong>Danger!</strong> <span id="error-message-book"></span>.
                             </p>
                         </div>
                         <div class="from-group">
@@ -898,8 +898,8 @@
                             $("#userEditFromModal").modal('hide');
                             showAlert();
                         } else {
-                            $("#error-message").text("Current password is not true");
-                            $("#alert-error-message").show();
+                            $("#error-message-user").text("Current password is not true");
+                            $("#alert-error-message-user").show();
                         }
                     },
                     error: function (e) {
