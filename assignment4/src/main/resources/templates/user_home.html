@@ -35,10 +35,10 @@
     <div class="row" style="margin-top: 150px;">
         <div class="col-md-2"></div>
         <div class="col-md-8">
-            <div style="text-align: center">
-                <a id="btn-all" class="btn btn-primary">All</a>
-                <a id="btn-my-book" class="btn btn-primary">My book</a>     
-                <a id="btn-add" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Add</a>
+            <div style="text-align: center; margin-bottom: 10px;">
+                <a id="btn-all" style="display: inline; border-bottom: 2px solid red; cursor: pointer;">All</a>
+                <p id="btn-my-book" style="display: inline; cursor: pointer;">My book</p> 
+                
             </div>
 
             <div id="search_book">
@@ -127,7 +127,8 @@
                 </nav>
             </div>
         </div>
-        <div class="col-md-2">             
+        <div class="col-md-2">       
+            <a id="btn-add" class="btn btn-primary float-left" data-toggle="modal" data-target="#exampleModal" style="color: white; position: fixed; ">Add</a>       
         </div>
     </div>
 
@@ -143,7 +144,7 @@
                 <div class="modal-body">
                     <form id="book-form">
                         <div class="form-group">
-                            <h2 style="text-align: center" id="form-title">Book Edit</h2>
+                            <h2 style="text-align: center" id="form-title-book">Book Edit</h2>
                         </div>      
                         <div class="alert alert-success" id="alert-success-message-book" style="display: none;">
                             <p style="text-align: center; margin-bottom: 0px;">
@@ -475,16 +476,23 @@
 
         urlRequestSearchBook = window.location.origin + "/api/books/user/" + userId;
 
+        function resetUnderLine(){
+            $("#btn-all").css('border-bottom', 'none');
+            $("#btn-my-book").css('border-bottom', 'none');
+        }
+
         $("#btn-all").click(function(){
            urlRequestSearchBook = window.location.origin + "/api/books/user/" + userId;
-
+           resetUnderLine();
+           $("#btn-all").css('border-bottom', '2px solid red');
             searchBooks($("#text-search").val());
         });
 
 
         $("#btn-my-book").click(function(){
             urlRequestSearchBook = window.location.origin + "/api/user/" + userId + "/books";
-            
+            resetUnderLine();
+            $("#btn-my-book").css('border-bottom', '2px solid red');
             searchBooks($("#text-search").val());
         });
 
@@ -828,7 +836,7 @@
         var dataRequest, urlRequestAddOrEditBook, typeRequest, bookIdEdit;        
 
         function onClickEditButton(bookId){
-            $("#form-title").text("Edit book");
+            $("#form-title-book").text("Edit book");
             $("#btn-action").val("Update");
             bookIdEdit = bookId;
 
@@ -845,7 +853,7 @@
         }
 
         $("#btn-add").click( function (event) {
-           $("#form-title").text("Create a new book");
+           $("#form-title-book").text("Create a new book");
            $("#btn-action").val("Create");
            state = BTN_ADD_BOOK_PRESSED;
 
