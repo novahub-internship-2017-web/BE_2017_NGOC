@@ -109,6 +109,9 @@
 
                 <nav id="pagination-group"  aria-label="....">
                     <ul class="pagination">
+                        <li class="page-item" id="pagination-first">
+                            <a class="page-link" href="#">First</a>
+                        </li>
                         <li class="page-item" id="pagination-previous">
                             <a class="page-link" href="#" tabindex="-1">Previous</a>
                         </li>
@@ -123,7 +126,10 @@
                         </li>
                         <li class="page-item" id="pagination-next">
                             <a class="page-link" href="#">Next</a>
-                        </li>
+                        </li>      
+                        <li class="page-item" id="pagination-last">
+                            <a class="page-link" href="#">Last</a>
+                        </li> 
                     </ul>
                 </nav>
             </div>
@@ -589,6 +595,9 @@
 
         blockButtonPrevious = false;
         blockButtonNext = false;
+        
+        blockButtonFirst = false;
+        blockButtonLast = false;
 
         sortBooksResponse = "id";
         ascDescBooksResponse = "asc";
@@ -618,6 +627,8 @@
                     //         showABookResult(dataReceive.object.content[index]);
                     //     }
                     // }
+
+                    totalPages = dataReceive.object.totalPages;
 
                     resetPaginationBar();
 
@@ -697,20 +708,16 @@
 
                     if(dataReceive.object.first === true){
                         $("#pagination-previous").addClass("disabled");
+                        $("#pagination-first").addClass("disabled");
                         blockButtonPrevious = true;
+                        blockButtonFirst = true;
                     }
 
                     if(dataReceive.object.last === true){
                         $("#pagination-next").addClass("disabled");
+                        $("#pagination-last").addClass("disabled");
                         blockButtonNext = true;
-                    }
-
-                    if(dataReceive.object.last === false){
-                        //pageOfPagingate = dataReceive.object.number;
-                        $("#load-more-books").show();
-
-                    } else {
-                        $("#load-more-books").hide();
+                        blockButtonLast = true;
                     }
 
                     pageOfPagingate = dataReceive.object.number;
@@ -721,6 +728,12 @@
             });
         }
 
+        $("#pagination-first").click( function(){
+            if(blockButtonFirst == true) return;
+            pageOfPagingate = 0;
+            searchBooks($("#text-search").val());
+        });
+
         $("#pagination-previous").click( function(){
             if(blockButtonPrevious == true) return;
             pageOfPagingate = pageOfPagingate - 1;
@@ -730,6 +743,12 @@
         $("#pagination-next").click( function(){
             if(blockButtonNext == true) return;
             pageOfPagingate = pageOfPagingate + 1;
+            searchBooks($("#text-search").val());
+        });
+
+        $("#pagination-last").click( function(){
+            if(blockButtonLast == true) return;
+            pageOfPagingate = totalPages - 1;
             searchBooks($("#text-search").val());
         });
 
@@ -751,6 +770,10 @@
         function resetPaginationBar(){
             blockButtonPrevious = false;
             blockButtonNext = false;
+            blockButtonFirst = false;
+            blockButtonLast = false;
+            $("#pagination-first").show();
+            $("#pagination-first").removeClass("disabled");
             $("#pagination-previous").show();
             $("#pagination-previous").removeClass("disabled");
             $("#pagination-left").show();
@@ -761,6 +784,8 @@
             $("#pagination-right").removeClass("active");
             $("#pagination-next").show();
             $("#pagination-next").removeClass("disabled");
+            $("#pagination-last").show();
+            $("#pagination-last").removeClass("disabled");
         }
 
         function showMessageNotFound(){
