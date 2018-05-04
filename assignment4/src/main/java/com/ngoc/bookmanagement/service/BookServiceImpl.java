@@ -252,5 +252,21 @@ public class BookServiceImpl implements BookService{
         return messageResponse;
     }
 
+    @Override 
+    public MessageResponse deleteBook(long bookId, HttpServletRequest request){
+        MessageResponse messageResponse;
+
+        log(request);
+        messageResponse = bookValidation.checkBookIsExist(bookId);
+        if(messageResponse != null)
+            return messageResponse;
+
+        bookRepository.deleteById(bookId);
+
+        messageResponse = new MessageResponse();
+        messageResponse.setCode(MessageResponseConstant.DELETE_BOOK_SUCCESS);
+
+        return messageResponse;
+    }
 
 }

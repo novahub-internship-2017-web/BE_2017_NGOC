@@ -268,6 +268,29 @@
             </div>
         </div>
     </div> 
+
+    <!-- Modal delete book -->
+    <div class="modal" id="deleteBookModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h2 style="text-align: center" id="form-title">Delete Book</h2>
+                    <p align="center">Do you want to delete book ?</p>
+                    <hr/>
+                    <div class="btn-action-delete-book" style="float: right;">
+                        <a class="btn btn-danger" style="color: white;" data-dismiss="modal" >Close</a>
+                        <a class="btn btn-success" style="color: white; margin-left: 5px;" id="btnAgreeDeleteBook">Yes</a>
+                    </div>
+                    <div style="clear: both;"></div>
+                </div>
+            </div>
+        </div>
+    </div> 
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
@@ -715,6 +738,7 @@
                 div_switch.appendChild(input_switch_status);
                 label_for_input_switch_status = document.createElement("label");
                 label_for_input_switch_status.setAttribute("for", "status-" + aBookResult.id);
+                label_for_input_switch_status.style = "cursor: not-allowed";
                 div_switch.appendChild(label_for_input_switch_status);
                 td_a_book_status.appendChild(div_switch);
             }
@@ -728,14 +752,51 @@
                 button_edit.setAttribute("data-toggle", "modal");
                 button_edit.setAttribute("data-target", "#exampleModal");
                 button_edit.className = "btn btn-primary btnEdit";
-                button_edit.id = "btnEdit-" + userId;
+                button_edit.id = "btnEdit-" + aBookResult.id;
                 button_edit.innerText = "Edit";
                 button_edit.setAttribute("onclick", "onClickEditButton(" + aBookResult.id  + ")");
                 td_a_book_actions.appendChild(button_edit);
+
+                button_detele = document.createElement("a");
+                button_detele.setAttribute("data-toggle", "modal");
+                button_detele.setAttribute("data-target", "#deleteBookModal");
+                button_detele.className = "btn btn-danger btnEdit";
+                button_detele.id = "btnDelete-" + aBookResult.id;
+                button_detele.innerText = "Delete";
+                button_detele.style = "margin-left: 5px;"
+                button_detele.setAttribute("onclick", "onClickDeleteButton(" + aBookResult.id + ")"); 
+                td_a_book_actions.appendChild(button_detele);
             }
 
             tr_a_book.appendChild(td_a_book_actions);
         }
+
+        bookIdChooseForDeleting = 0;
+
+        function onClickDeleteButton(bookId){
+            bookIdChooseForDeleting = bookId;
+        }
+
+        $("#btnAgreeDeleteBook").click(function (){
+            $.ajax({
+                type : 'DELETE',
+                contentType: "application/json",
+                url: window.location.origin + "/api/book/" + bookIdChooseForDeleting,
+                dataType: 'json',
+                timeout: 10000,
+                success: function (dataReceive) {
+                    $("#message-success").text("Delete book successfully");
+                    $("#deleteBookModal").modal('hide');
+                    showAlert();
+                    searchBooks($("#text-search").val());
+                    console.log("dataReceive : " + dataReceive);
+                },
+                error: function (e) {
+                    console.log("ERROR : " + dataReceive);
+                }
+            });
+        });
+
 
         function clearBookForm(){
             $("#title").val("");

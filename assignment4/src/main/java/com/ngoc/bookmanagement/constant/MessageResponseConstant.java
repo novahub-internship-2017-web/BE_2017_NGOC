@@ -19,6 +19,7 @@ public class MessageResponseConstant {
     public static final int UNLOCK_BOOK_SUCCESS = 22;
     public static final int GET_ALL_BOOKS_USER_SUCCESS = 23;
     public static final int GET_ALL_BOOKS_SUCCESS = 24;
+    public static final int DELETE_BOOK_SUCCESS = 27;
 
     public static final int COMMENT_IS_NOT_EXIST = 5;
     public static final int COMMENT_ERROR_VALIDATION = 7;

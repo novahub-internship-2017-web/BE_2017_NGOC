@@ -7,6 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Modifying;
+
+import javax.transaction.Transactional;
 
 @Repository
 public interface BookRepository extends PagingAndSortingRepository<Book, Long> {
@@ -40,4 +43,9 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Long> {
     Page<Book> getAllByUserIdAndEnabled(long userId, boolean enabled, Pageable pageable);
 
     Page<Book> getAllByAuthorLikeOrTitleLike(String author, String title, Pageable pageable);
+
+    @Modifying 
+    @Transactional
+    @Query("DELETE FROM Book WHERE id = :bookId")
+    void deleteById(@Param("bookId") long bookId);
 }

@@ -262,6 +262,20 @@ public class BookController {
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
 
+    @DeleteMapping(value = "/api/book/{bookId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> deleteBook(@PathVariable("bookId") long bookId,
+                                        HttpServletRequest request){
+        MessageResponse messageResponse;
+        User userLogin = userService.getUserLoginInSession(request);
+
+        if(!checkPermissionWhenDeletingBook(bookId, userLogin)){
+            messageResponse = new MessageResponse(MessageResponseConstant.ACCESS_DENIED);
+        } else {
+            messageResponse = bookService.deleteBook(bookId, request);
+        }
+        return new ResponseEntity<>(messageResponse, HttpStatus.OK);
+    }
+
     private boolean checkLogin(User userLogin){
         return (userLogin != null);
     }
@@ -312,4 +326,15 @@ public class BookController {
         return true;
     }
 
+    private boolean checkPermissionWhenDeletingBook(long bookId, User userLogin){
+        if(!checkLogin(userLogin))
+            return false;
+
+        Book book = bookRepository.findById(bookId).get();
+        if(book.getUserId() == userLogin.getId()){
+            return true;
+        } else {
+            return  userLogin.getRole().getName().equals(RoleConstant.ROLE_ADMIN);
+        }
+    }
 }

@@ -28,4 +28,6 @@ public interface BookService {
 
     MessageResponse unlockBook(long bookId, HttpServletRequest request);
 
+    MessageResponse deleteBook(long bookId, HttpServletRequest request);
+
 }
