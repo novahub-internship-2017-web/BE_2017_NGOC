@@ -40,12 +40,14 @@
 
     <div class="row" style="margin-top: 150px;">
         
+
+
         <div class="col-md-2"></div>
-        <div class="col-md-8">
-            <div style="text-align: center">
-                <a id="btn-all" class="btn btn-primary" style="color: white;">All</a>
-                <a id="btn-my-book" class="btn btn-primary" style="color: white;">My book</a> 
-                <a id="btn-add" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="color: white;">Add</a> 
+        <div class="col-md-8">            
+            <div style="text-align: center; margin-bottom: 10px;">
+                <a id="btn-all" style="display: inline; border-bottom: 2px solid red; cursor: pointer;">All</a>
+                <p id="btn-my-book" style="display: inline; cursor: pointer;">My book</p> 
+                
             </div>
 
             <div id="search-book">
@@ -134,7 +136,8 @@
                 </nav>
             </div>
         </div>
-        <div class="col-md-2">             
+        <div class="col-md-2">   
+            <a id="btn-add" class="btn btn-primary float-left" data-toggle="modal" data-target="#exampleModal" style="color: white; position: fixed; ">Add</a>           
         </div>
     </div>
 
@@ -574,16 +577,23 @@
         userId = [[${session.userLogin.id}]];
         urlRequestSearchBook = window.location.origin + "/api/books";
 
+        function resetUnderLine(){
+            $("#btn-all").css('border-bottom', 'none');
+            $("#btn-my-book").css('border-bottom', 'none');
+        }
+
         $("#btn-all").click(function(){
            urlRequestSearchBook = window.location.origin + "/api/books";
-
+           resetUnderLine();
+           $("#btn-all").css('border-bottom', '2px solid red');
             searchBooks();
         });
         
 
         $("#btn-my-book").click(function(){
             urlRequestSearchBook = window.location.origin + "/api/user/" + userId + "/books";
-            
+            resetUnderLine();
+            $("#btn-my-book").css('border-bottom', '2px solid red');
             searchBooks();
         });        
 
