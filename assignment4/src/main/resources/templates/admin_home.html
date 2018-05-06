@@ -1161,7 +1161,7 @@
 
             div_row_add_comment = document.createElement("div");
             div_row_add_comment.className = "row";
-            div_comment.appendChild(div_row_add_comment);
+            div_comment.insertBefore(div_row_add_comment, div_comment.firstChild);
 
             div_col_lg_1 = document.createElement("div");
             div_col_lg_1.className = "col-lg-1";
@@ -1212,7 +1212,7 @@
             $.ajax({
                 type: "GET",
                 contentType: "application/json",
-                url: window.location.origin + "/api/book/" + bookId + "/comments" + "?sort=updatedAt,desc",
+                url: window.location.origin + "/api/book/" + bookId + "/comments" + "?sort=updatedAt,asc",
                 dataType: 'json',
                 timeout: 10000,
                 success: function (dataReceive) {
