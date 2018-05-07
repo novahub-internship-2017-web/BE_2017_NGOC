@@ -17,10 +17,10 @@
             <ul class="nav navbar-nav mr-auto"></ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="modal" data-target="#exampleModal" id="btn-sign-up">Sign up</a>
+                    <a class="nav-link" data-toggle="modal" data-target="#exampleModal" id="btn-sign-up" style="cursor: pointer;">Sign up</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="modal" data-target="#exampleModal" id="btn-sign-in">Sign in</a>
+                    <a class="nav-link" data-toggle="modal" data-target="#exampleModal" id="btn-sign-in" style="cursor: pointer;">Sign in</a>
                 </li>
             </ul>
         </div>
@@ -249,7 +249,6 @@
         arrowColAuthor = DEFAULT;
 
         $("#col-id").click(function(){
-            console.log("col-id");
             arrowColTitle = DEFAULT;
             arrowColAuthor = DEFAULT;
             arrowColId = chooseStateArrow(arrowColId);
@@ -259,7 +258,6 @@
         });
 
         $("#col-title").click(function(){
-            console.log("col-title");
             arrowColId = DEFAULT;
             arrowColAuthor = DEFAULT;
             arrowColTitle = chooseStateArrow(arrowColTitle);  
@@ -269,7 +267,6 @@
         });
 
         $("#col-author").click(function(){
-            console.log("col-author");
             arrowColId = DEFAULT;
             arrowColTitle = DEFAULT;
             arrowColAuthor = chooseStateArrow(arrowColAuthor);
@@ -934,8 +931,6 @@
                     for(var index = 0; index < commentsList.length; index++){
                         addComment(commentsList[index]);
                     }
-
-                    console.log(commentsList);
                 },
                 error: function (e) {
                     console.log("ERROR : ", e.responseJSON.message);

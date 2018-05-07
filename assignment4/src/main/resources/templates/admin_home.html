@@ -16,16 +16,16 @@
             <ul class="nav navbar-nav mr-auto"></ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin/test" id="btn-edit-user" data-toggle="modal" data-target="#userEditFromModal">Profile</a>
+                    <a class="nav-link" href="/admin/test" id="btn-edit-user" data-toggle="modal" data-target="#userEditFromModal" style="cursor: pointer;">Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin/home" id="btn-books">Books</a>
+                    <a class="nav-link" href="/admin/home" id="btn-books" style="cursor: pointer;">Books</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin/test" id="btn-users">Users</a>
+                    <a class="nav-link" href="/admin/test" id="btn-users" style="cursor: pointer;">Users</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="btn-logout">Logout</a>
+                    <a class="nav-link" id="btn-logout" style="cursor: pointer;">Logout</a>
                 </li>
             </ul>
         </div>
@@ -359,7 +359,6 @@
                     $("#deleteBookModal").modal('hide');
                     showAlert();
                     searchBooks();
-                    console.log("dataReceive : " + dataReceive);
                 },
                 error: function (e) {
                     console.log("ERROR : " + dataReceive);
@@ -377,7 +376,6 @@
         arrowColStatus = DEFAULT;
 
         $("#col-id").click(function(){
-            console.log("col-id");
             arrowColTitle = DEFAULT;
             arrowColAuthor = DEFAULT;
             arrowColStatus = DEFAULT;
@@ -388,7 +386,6 @@
         });
 
         $("#col-title").click(function(){
-            console.log("col-title");
             arrowColId = DEFAULT;
             arrowColAuthor = DEFAULT;
             arrowColStatus = DEFAULT;
@@ -399,7 +396,6 @@
         });
 
         $("#col-author").click(function(){
-            console.log("col-author");
             arrowColId = DEFAULT;
             arrowColTitle = DEFAULT;
             arrowColStatus = DEFAULT;
@@ -410,7 +406,6 @@
         });
 
         $("#col-status").click(function(){
-            console.log("col-status");
             arrowColId = DEFAULT;
             arrowColTitle = DEFAULT;
             arrowColAuthor = DEFAULT;
@@ -508,7 +503,6 @@
                 dataType: 'json',
                 timeout: 10000,
                 success: function (dataReceive) {
-                    console.log("SUCCESS : ", dataReceive.object);
                     $("#email").val(dataReceive.object.email);
                     $("#firstName").val(dataReceive.object.firstName);
                     $("#lastName").val(dataReceive.object.lastName);
@@ -882,7 +876,7 @@
             button_detele.className = "btn btn-danger btnEdit";
             button_detele.id = "btnDelete-" + aBookResult.id;
             button_detele.innerText = "Delete";
-            button_detele.style = "margin-left: 5px;"
+            button_detele.style = "margin-left: 5px; color: white;";
             button_detele.setAttribute("onclick", "onClickDeleteButton(" + aBookResult.id + ")"); 
             td_a_book_methods.appendChild(button_detele);
 
@@ -928,8 +922,6 @@
                     showAlert();
 
                     $("#status-book-" + bookList[bookIndex].id).prop('disabled', false);
-
-                    console.log("change enabled");
                 },
                 error: function (e) {
                     console.log("ERROR : " + dataReceive);
@@ -1221,8 +1213,6 @@
                     for(var index = 0; index < commentsList.length; index++){
                         addComment(commentsList[index]);
                     }
-
-                    console.log(commentsList);
                 },
                 error: function (e) {
                     console.log("ERROR : ", e.responseJSON.message);

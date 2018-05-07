@@ -16,10 +16,10 @@
             <ul class="nav navbar-nav mr-auto"></ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="nav-item">
-                    <a class="nav-link" id="btn-edit-user" data-toggle="modal" data-target="#userEditFromModal" >Edit user</a>
+                    <a class="nav-link" id="btn-edit-user" data-toggle="modal" data-target="#userEditFromModal" style="cursor: pointer;">Edit user</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="btn-logout">Logout</a>
+                    <a class="nav-link" id="btn-logout" style="cursor: pointer;">Logout</a>
                 </li>
             </ul>
         </div>
@@ -341,7 +341,6 @@
         arrowColStatus = DEFAULT;
 
         $("#col-id").click(function(){
-            console.log("col-id");
             arrowColTitle = DEFAULT;
             arrowColAuthor = DEFAULT;
             arrowColStatus = DEFAULT;
@@ -352,7 +351,6 @@
         });
 
         $("#col-title").click(function(){
-            console.log("col-title");
             arrowColId = DEFAULT;
             arrowColAuthor = DEFAULT;
             arrowColStatus = DEFAULT;
@@ -363,7 +361,6 @@
         });
 
         $("#col-author").click(function(){
-            console.log("col-author");
             arrowColId = DEFAULT;
             arrowColTitle = DEFAULT;
             arrowColStatus = DEFAULT;
@@ -781,16 +778,17 @@
                 button_edit.className = "btn btn-primary btnEdit";
                 button_edit.id = "btnEdit-" + aBookResult.id;
                 button_edit.innerText = "Edit";
+                button_edit.style = "color: white;";
                 button_edit.setAttribute("onclick", "onClickEditButton(" + aBookResult.id  + ")");
                 td_a_book_actions.appendChild(button_edit);
 
                 button_detele = document.createElement("a");
                 button_detele.setAttribute("data-toggle", "modal");
                 button_detele.setAttribute("data-target", "#deleteBookModal");
-                button_detele.className = "btn btn-danger btnEdit";
+                button_detele.className = "btn btn-danger btnDelete";
                 button_detele.id = "btnDelete-" + aBookResult.id;
                 button_detele.innerText = "Delete";
-                button_detele.style = "margin-left: 5px;"
+                button_detele.style = "margin-left: 5px; color: white;";
                 button_detele.setAttribute("onclick", "onClickDeleteButton(" + aBookResult.id + ")"); 
                 td_a_book_actions.appendChild(button_detele);
             }
@@ -816,7 +814,6 @@
                     $("#deleteBookModal").modal('hide');
                     showAlert();
                     searchBooks($("#text-search").val());
-                    console.log("dataReceive : " + dataReceive);
                 },
                 error: function (e) {
                     console.log("ERROR : " + dataReceive);
@@ -1042,8 +1039,6 @@
                     for(var index = 0; index < commentsList.length; index++){
                         addComment(commentsList[index]);
                     }
-
-                    console.log(commentsList);
                 },
                 error: function (e) {
                     console.log("ERROR : ", e.responseJSON.message);
@@ -1153,7 +1148,6 @@
                 dataType: 'json',
                 timeout: 10000,
                 success: function (dataReceive) {
-                    console.log("SUCCESS : ", dataReceive.object);
                     $("#email").val(dataReceive.object.email);
                     $("#firstName").val(dataReceive.object.firstName);
                     $("#lastName").val(dataReceive.object.lastName);
@@ -1201,7 +1195,6 @@
                             $("#userEditFromModal").modal('hide');
                             showAlert();
                         } else {
-                            console.log("loi");
                             $("#error-message-user").text("Current password is not true");
                             $("#alert-error-message-user").show();
                         }
