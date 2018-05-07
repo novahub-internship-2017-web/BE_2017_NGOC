@@ -168,13 +168,14 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public MessageResponse createBook(Book book, HttpServletRequest request) {
+    public MessageResponse createBook(Book book, HttpServletRequest request, boolean enabled) {
         MessageResponse messageResponse;
 
         log(request);
         User userLogin = (User) request.getSession().getAttribute("userLogin");
         book.setCreatedAt(new Date());
         book.setUpdatedAt(new Date());
+        book.setEnabled(enabled);
         book.setUserId(userLogin.getId());
         bookRepository.save(book);
 

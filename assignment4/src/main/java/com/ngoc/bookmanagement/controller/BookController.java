@@ -208,10 +208,17 @@ public class BookController {
         MessageResponse messageResponse;
         User userLogin = userService.getUserLoginInSession(request);
 
-        if(!checkLogin(userLogin))
+        if(!checkLogin(userLogin)){
             messageResponse = new MessageResponse(MessageResponseConstant.ACCESS_DENIED);
-        else
-            messageResponse = bookService.createBook(bookParam, request);
+            return new ResponseEntity<>(messageResponse, HttpStatus.OK);
+        }
+
+        if(userLogin.getRole().getName().equals(RoleConstant.ROLE_ADMIN)){
+            messageResponse = bookService.createBook(bookParam, request, true);
+        } else {
+            messageResponse = bookService.createBook(bookParam, request, false);
+        }
+
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
     }
 

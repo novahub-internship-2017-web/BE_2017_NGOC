@@ -20,7 +20,7 @@ public interface BookService {
 
     MessageResponse getAllBooksWithDisabledBookOfUser(String wordSeard, long userId, HttpServletRequest request, Pageable pageable);
 
-    MessageResponse createBook(Book book, HttpServletRequest request);
+    MessageResponse createBook(Book book, HttpServletRequest request, boolean enabled);
 
     MessageResponse updateBook(long bookId, Book book, HttpServletRequest request);
 
