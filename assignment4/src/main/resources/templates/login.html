@@ -26,6 +26,22 @@
         </div>
     </nav>
 
+    <div class="row fixed-top" style="margin-top: 65px;">
+        <div class="alert alert-success col-md-12" id="success-alert" align="center" style="display: none;"> 
+            <strong>Success! </strong>
+            <p style="display: inline;" id="message-success"> You have successfully signed up as a user.</p>
+        </div>
+    </div>
+
+
+
+    <div class="row fixed-top" style="margin-top: 65px;">
+        <div class="alert alert-danger col-md-12" id="connection-error-alert" align="center" style="display: none;"> 
+            <strong>Danger! </strong>
+            <p style="display: inline;" id="message-error-connection"> Connection error.</p>
+        </div>
+    </div>
+
     <div class="row" style="margin-top: 150px;">
         <div class="col-md-2"></div>
         <div class="col-md-8">
@@ -112,16 +128,7 @@
         </div>
     </div>
 
-    <div class="alert alert-success" id="alert-success-message" style="display: none; margin-top: 65px;">
-        <p style="text-align: center; margin-bottom: 0px;">
-            <strong>Success!</strong> You have successfully signed up as a user.
-        </p>
-    </div>
-    <div class="alert alert-danger" id="alert-connection-error-message" style="display: none; margin-top: 65px;">
-        <p style="text-align: center; margin-bottom: 0px;">
-            <strong>Danger!</strong> Connection error.
-        </p>
-    </div>
+    
 
 
     <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -447,8 +454,7 @@
                                             {                                                
                                                 clearForm();    
                                                 $("#exampleModal").modal('hide'); 
-                                                $("#alert-success-message").show();
-                                                $("#alert-error-message").hide();
+                                                showAlert();
                                             }
                                             break;
 
@@ -464,8 +470,7 @@
                                     }
                                                                    
                                 },
-                                error: function (e) {
-                                    // TODO: show message network 
+                                error: function (e) { 
                                     $("#alert-error-message").show();
                                     $("#alert-success-message").hide();
                                     $("#error-message").text("Connection error !!!");
@@ -573,6 +578,12 @@
         function showAlert() {
             $("#success-alert").fadeTo(1000, 500).slideUp(500, function(){
                 $("#success-alert").slideUp(500);
+            });   
+        }
+
+        function showErrorConnectAlert() {
+            $("#connection-error-alert").fadeTo(1000, 500).slideUp(500, function(){
+                $("#connection-error-alert").slideUp(500);
             });   
         }
 
@@ -734,6 +745,7 @@
                     pageOfPagingate = dataReceive.object.number;
                 },
                 error: function (e) {
+                    showErrorConnectAlert();
                 }
             });
         }
