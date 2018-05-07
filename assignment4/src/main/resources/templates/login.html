@@ -117,6 +117,11 @@
             <strong>Success!</strong> You have successfully signed up as a user.
         </p>
     </div>
+    <div class="alert alert-danger" id="alert-connection-error-message" style="display: none; margin-top: 65px;">
+        <p style="text-align: center; margin-bottom: 0px;">
+            <strong>Danger!</strong> Connection error.
+        </p>
+    </div>
 
 
     <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -240,6 +245,7 @@
     </style>
 
     <script type="text/javascript">
+
         const DEFAULT = 0 
         const ARROW_UP = 1;
         const ARROW_DOWN = 2;
@@ -460,6 +466,9 @@
                                 },
                                 error: function (e) {
                                     // TODO: show message network 
+                                    $("#alert-error-message").show();
+                                    $("#alert-success-message").hide();
+                                    $("#error-message").text("Connection error !!!");
                                 }
                             });
                         }
@@ -512,7 +521,7 @@
                                 error: function (e) {
                                     $("#alert-error-message").show();
                                     $("#alert-success-message").hide();
-                                    $("#error-message").text(e.responseJSON.message.trim());
+                                    $("#error-message").text("Connection error !!!");
                                 }
                             });
                         }
@@ -725,7 +734,6 @@
                     pageOfPagingate = dataReceive.object.number;
                 },
                 error: function (e) {
-                    console.log("ERROR : ", e);
                 }
             });
         }
@@ -933,7 +941,6 @@
                     }
                 },
                 error: function (e) {
-                    console.log("ERROR : ", e.responseJSON.message);
                 }
             });
         }   
