@@ -150,13 +150,19 @@
                             <h2 style="text-align: center" id="form-title">User Edit</h2>
                         </div>      
                         <div class="alert alert-success" id="alert-success-message" style="display: none;">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                             <p style="text-align: center; margin-bottom: 0px;">
                                 <strong>Success!</strong> <span id="success-message"></span>.
                             </p>
                         </div>
-                        <div class="alert alert-danger" id="alert-error-message" style="display: none;">
+                        <div class="alert alert-danger" id="alert-error-message-user" style="display: none;">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                             <p style="text-align: center; margin-bottom: 0px;">
-                                <strong>Danger!</strong> <span id="error-message"></span>.
+                                <strong>Danger!</strong> <span id="error-message-user"></span>.
                             </p>
                         </div>
                         <div class="from-group">
@@ -177,13 +183,17 @@
                             </label>
                         </div>
                         <div id="changing-password-form" style="display: none;">
-                            <div class="form-group" style="margin-bottom: 0px;">
-                                <label class="col-form-label">Password : </label>
+                            <div class="form-group" style="margin-bottom: 0px; display: none;" id="current-password-form-group">
+                                <label class="col-form-label">Current Password : </label>
                                 <input type="password" name="password" id="password" class="form-control" />
                             </div>
                             <div class="form-group">
+                                <label class="col-form-label">New password : </label>
+                                <input type="password" name="newPassword" id="newPassword" class="form-control" />
+                            </div>
+                            <div class="form-group">
                                 <label class="col-form-label">Confirm password : </label>
-                                <input type="password" name="repassword" id="repassword" class="form-control" />
+                                <input type="password" name="reNewPassword" id="reNewPassword" class="form-control" />
                             </div>
                         </div>
                         <div class="form-group" style="margin-top: 15px">
@@ -251,6 +261,8 @@
     </style>
 
     <script type="text/javascript">
+        const OK = 0;
+
         const DEFAULT = 0 
         const ARROW_UP = 1;
         const ARROW_DOWN = 2;
@@ -750,12 +762,30 @@
 
       var userIdPost;
 
-      // $("#btn-edit-user").click(function(){
-      //   userIdPost = userLoginId;
-      //   getUser(userId);
-      // });
+      isEditUserLogin = false;
+
+      function clearUserEditForm(){
+        $("#email").val("");
+        $("#firstName").val("");
+        $("#lastName").val("");
+        $("#password").val("");
+        $("#newPassword").val("");
+        $("#reNewPassword").val("");
+      }
+
+      $("#btn-edit-user").click(function(){
+        clearUserEditForm();
+        $("#current-password-form-group").show();
+        $("#current-password-form-group").prop("disabled", false);
+        isEditUserLogin = true;
+        getUser(userId);
+      });
 
       function onClickEditUserButton(userId){
+        clearUserEditForm();
+        $("#current-password-form-group").hide();
+        $("#current-password-form-group").prop("disabled", true);
+        isEditUserLogin = false;
         userIdPost = userId;
         getUser(userId);
       }      
@@ -796,11 +826,20 @@
         var dataEditUser;
 
         if ($("#checkbox-choice-change-password").is(":checked")){
-            dataEditUser = JSON.stringify({
-                "firstName" : this.firstName.value,
-                "lastName" : this.lastName.value,
-                "password" : this.password.value
-            });
+            if(isEditUserLogin){
+                dataEditUser = JSON.stringify({
+                    "firstName" : this.firstName.value,
+                    "lastName" : this.lastName.value,
+                    "password" : this.password.value,
+                    "newPassword" : this.newPassword.value
+                });
+            } else {
+                dataEditUser = JSON.stringify({
+                    "firstName" : this.firstName.value,
+                    "lastName" : this.lastName.value,
+                    "newPassword" : this.password.value
+                });
+            }
         } else {
             dataEditUser = JSON.stringify({
                 "firstName": this.firstName.value,
@@ -808,32 +847,51 @@
             });
         }
 
+        urlEditUserProfile = window.location.origin + "/admin/api/user/" + userIdPost;
+
+        if(isEditUserLogin)
+            urlEditUserProfile = window.location.origin + "/api/user/" + userLoginId;
+
         if($("#user-profile-form").valid()) {
             $.ajax({
                 type: "PUT",
                 contentType: "application/json",
-                url: window.location.origin + "/admin/api/user/" + userIdPost,
+                url: urlEditUserProfile,
                 data: dataEditUser,
                 dataType: 'json',
                 timeout: 10000,
                 success: function (dataReceive) {
-                    for(var userIndex = 0; userIndex < usersList.length; userIndex++){
-                      if(usersList[userIndex].id == userIdPost){
-                        usersList[userIndex].firstName = $("#firstName").val();
-                        usersList[userIndex].lastName = $("#lastName").val();
-                        $("#first-name-" + userIdPost).text(usersList[userIndex].firstName);
-                        $("#last-name-" + userIdPost).text(usersList[userIndex].lastName);
-                        $('#message-success').text("Edit user successfully.");
-                        showAlert();
-                        $("#userEditFromModal").modal('hide');
-                      }
-                    }
+                    if(isEditUserLogin){
+                        console.log(1);
+                        if(dataReceive.code === OK){  
+                        console.log(2);                          
+                            $("#message-success").text("Update user successfully");
+                            $("#userEditFromModal").modal('hide');
+                            showAlert();
+                        } else {
+                            console.log(3);
+                            $("#error-message-user").text("Current password is not true");
+                            $("#alert-error-message-user").show();
+                        }
+                    } else {
+                        for(var userIndex = 0; userIndex < usersList.length; userIndex++){
+                          if(usersList[userIndex].id == userIdPost){
+                            usersList[userIndex].firstName = $("#firstName").val();
+                            usersList[userIndex].lastName = $("#lastName").val();
+                            $("#first-name-" + userIdPost).text(usersList[userIndex].firstName);
+                            $("#last-name-" + userIdPost).text(usersList[userIndex].lastName);
+                            $('#message-success').text("Update user successfully.");
+                            showAlert();
+                            $("#userEditFromModal").modal('hide');
+                          }
+                        }
 
-                    $("#message").text("Update user successfully");
+                        $("#message").text("Update user successfully");
+                    }
                 },
                 error: function (e) {
-                    console.log("ERROR : ", e.responseJSON.message);
-                    $("#message").text(e.responseJSON.message);
+                    $("#error-message-user").text("Connection error");
+                    $("#alert-error-message-user").show();
                 }
 
                 //TODO : handle message when success and error
@@ -853,29 +911,35 @@
                       $(element).css("border-color", "#5cb85c");
                   },
               rules:{
-                  email : {
-                      required: true,
-                      email: true
-                  },
-                  password: {
-                      required: true
-                  },
-                  repassword: {
-                      equalTo: "#password"
-                  }
-              },
-              messages :{
-                  email : {
-                      required: "Email is not empty",
-                      email: "Your email address must be in the format of name@domain.com"
-                  },
-                  password: {
-                      required: "Password is not empty"
-                  },
-                  repassword: {
-                      equalTo: "Password does not match the confirm password"
-                  }
-              }
+                    email : {
+                        required: true,
+                        email: true
+                    },
+                    password: {
+                        required: true
+                    },
+                    newPassword: {
+                        required: true
+                    },
+                    reNewPassword: {
+                        equalTo: "#newPassword"
+                    }
+                },
+                messages :{
+                    email : {
+                        required: "Email is not empty",
+                        email: "Your email address must be in the format of name@domain.com"
+                    },
+                    password: {
+                        required: "Password is not empty"
+                    },
+                    newPassword: {
+                        required: "New password is not empty"
+                    },
+                    reNewPassword: {
+                        equalTo: "New password does not match the confirm password"
+                    }
+                }
           });
         });
 
