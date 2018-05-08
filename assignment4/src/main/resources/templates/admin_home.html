@@ -7,7 +7,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <a class="navbar-brand" href="/"><i class="fa fa-home" style="font-size: 26px"></i> Home</a>
+        <a class="navbar-brand" href="javascript:void(0);"><i class="fa fa-home" style="font-size: 26px"></i> Home</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -38,10 +38,14 @@
         </div>
     </div>
 
-    <div class="row" style="margin-top: 150px;">
-        
+    <div class="row fixed-top" style="margin-top: 65px;">
+        <div class="alert alert-danger col-md-12" id="connection-error-alert" align="center" style="display: none;"> 
+            <strong>Danger! </strong>
+            <p style="display: inline;" id="message-error-connection"> Connection error.</p>
+        </div>
+    </div>
 
-
+    <div class="row" style="margin-top: 150px;">      
         <div class="col-md-2"></div>
         <div class="col-md-8">            
             <div style="text-align: center; margin-bottom: 10px;">
@@ -112,25 +116,25 @@
                 <nav id="pagination-group"  aria-label="....">
                     <ul class="pagination">
                         <li class="page-item" id="pagination-first">
-                            <a class="page-link" href="#">First</a>
+                            <a class="page-link" href="javascript:void(0);">First</a>
                         </li>
                         <li class="page-item" id="pagination-previous">
-                            <a class="page-link" href="#" tabindex="-1">Previous</a>
+                            <a class="page-link" href="javascript:void(0);">Previous</a>
                         </li>
                         <li class="page-item" id="pagination-left">
-                            <a class="page-link" href="#" id="pagination-left-number">1</a>
+                            <a class="page-link" href="javascript:void(0);" id="pagination-left-number">1</a>
                         </li>
                         <li class="page-item" id="pagination-middle">
-                            <a class="page-link" href="#" id="pagination-middle-number">2</a>
+                            <a class="page-link" href="javascript:void(0);" id="pagination-middle-number">2</a>
                         </li>
                         <li class="page-item" id="pagination-right">
-                            <a class="page-link" href="#" id="pagination-right-number">3</a>
+                            <a class="page-link" href="javascript:void(0);" id="pagination-right-number">3</a>
                         </li>
                         <li class="page-item" id="pagination-next">
-                            <a class="page-link" href="#">Next</a>
+                            <a class="page-link" href="javascript:void(0);">Next</a>
                         </li>      
                         <li class="page-item" id="pagination-last">
-                            <a class="page-link" href="#">Last</a>
+                            <a class="page-link" href="javascript:void(0);">Last</a>
                         </li> 
                     </ul>
                 </nav>
@@ -160,6 +164,9 @@
                             </p>
                         </div>
                         <div class="alert alert-danger" id="alert-error-message-user" style="display: none;">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                             <p style="text-align: center; margin-bottom: 0px;">
                                 <strong>Danger!</strong> <span id="error-message-user"></span>.
                             </p>
@@ -218,12 +225,15 @@
                         <div class="form-group">
                             <h2 style="text-align: center" id="form-title-book">Book Edit</h2>
                         </div>      
-                        <div class="alert alert-success" id="alert-success-message-book" style="display: none;">
+                        <div class="alert alert-success" id="alert-success-message-book" style="display: none;">                       
                             <p style="text-align: center; margin-bottom: 0px;">
                                 <strong>Success!</strong> <span id="success-message-book"></span>.
                             </p>
                         </div>
                         <div class="alert alert-danger" id="alert-error-message-book" style="display: none;">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                             <p style="text-align: center; margin-bottom: 0px;">
                                 <strong>Danger!</strong> <span id="error-message-book"></span>.
                             </p>
@@ -521,6 +531,12 @@
             });   
         }
 
+        function showErrorConnectAlert() {
+            $("#connection-error-alert").fadeTo(1000, 500).slideUp(500, function(){
+                $("#connection-error-alert").slideUp(500);
+            });   
+        }
+
         var hasSortOrSizeChanged = true;
 
         function onChangeSelect(){
@@ -728,7 +744,7 @@
                     pageOfPagingate = dataReceive.object.number;
                 },
                 error: function (e) {
-                    console.log("ERROR : ", e);
+                    showErrorConnectAlert();
                 }
             });
         }
@@ -924,7 +940,7 @@
                     $("#status-book-" + bookList[bookIndex].id).prop('disabled', false);
                 },
                 error: function (e) {
-                    console.log("ERROR : " + dataReceive);
+                    showErrorConnectAlert();
                     $("#status-book-" + bookList[bookIndex].id).prop('disabled', false);
                 }
             });
@@ -987,10 +1003,9 @@
                         }
                     },
                     error: function (e) {
-                        $("#message").text(e.responseJSON.message);
+                        $("#error-message-user").text("Connection error");
+                        $("#alert-error-message-user").show();
                     }
-
-                    //TODO : handle message when success and error
                 });
             }
         }
@@ -1091,7 +1106,8 @@
                         }
                     },
                     error: function (e) {
-                        console.log("ERROR : " + dataReceive);
+                        $("#error-message-book").text("Connection error.");
+                        $("#alert-error-message-book").show();
                     }
                 });
             }
@@ -1155,13 +1171,13 @@
             div_row_add_comment.className = "row";
             div_comment.insertBefore(div_row_add_comment, div_comment.firstChild);
 
-            div_col_lg_1 = document.createElement("div");
-            div_col_lg_1.className = "col-lg-1";
-            div_col_lg_1.innerText = "ava";
-            div_row_add_comment.appendChild(div_col_lg_1);
+            // div_col_lg_1 = document.createElement("div");
+            // div_col_lg_1.className = "col-lg-1";
+            // div_col_lg_1.innerText = "ava";
+            // div_row_add_comment.appendChild(div_col_lg_1);
 
             div_col_lg_11 = document.createElement("div");
-            div_col_lg_11.className = "col-lg-11";
+            div_col_lg_11.className = "col-lg-12";
             div_row_add_comment.appendChild(div_col_lg_11);
 
             div_header_comment = document.createElement("div");
@@ -1215,7 +1231,7 @@
                     }
                 },
                 error: function (e) {
-                    console.log("ERROR : ", e.responseJSON.message);
+                    showErrorConnectAlert();
                 }
             });
         }   
@@ -1337,7 +1353,7 @@
                     $("#comment-input").val("");
                 },
                 error: function (e) {
-                    console.log("ERROR : " + dataReceive);
+                    showErrorConnectAlert();
                 }
             });
         }
@@ -1364,7 +1380,7 @@
                     window.location.replace(window.location.origin + "/login");
                 },
                 error: function (e) {
-                    console.log("ERROR : ", e.responseJSON.message);
+                    showErrorConnectAlert();
                 }
             });
         }             

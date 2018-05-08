@@ -7,7 +7,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <a class="navbar-brand" href="/"><i class="fa fa-home" style="font-size: 26px"></i> Home</a>
+        <a class="navbar-brand" href="javascript:void(0);"><i class="fa fa-home" style="font-size: 26px"></i> Home</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -15,6 +15,9 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="nav navbar-nav mr-auto"></ul>
             <ul class="nav navbar-nav navbar-right">
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/test" id="btn-edit-user" data-toggle="modal" data-target="#userEditFromModal" style="cursor: pointer;">Profile</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/admin/home" id="btn-books" style="cursor: pointer;">Books</a>
                 </li>
@@ -400,7 +403,8 @@
 
     <!-- search book -->
     <script>     
-      var userId = 1;          
+      var userId = 1; 
+      var userLoginId = [[${session.userLogin.id}]];         
       var urlRequestSearchUser = window.location.origin + "/api/users";
       var usersList;
       var pageOfPagingate = 0;
@@ -745,6 +749,11 @@
       }
 
       var userIdPost;
+
+      // $("#btn-edit-user").click(function(){
+      //   userIdPost = userLoginId;
+      //   getUser(userId);
+      // });
 
       function onClickEditUserButton(userId){
         userIdPost = userId;

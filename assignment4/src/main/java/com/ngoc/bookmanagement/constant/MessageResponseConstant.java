@@ -34,7 +34,4 @@ public class MessageResponseConstant {
     public static final int USER_PASSWORD_IS_NOT_TRUE = 26;
 
     public static final int ACCESS_DENIED = 403;
-
-
-    // TODO: add sepecific code OK
 }
