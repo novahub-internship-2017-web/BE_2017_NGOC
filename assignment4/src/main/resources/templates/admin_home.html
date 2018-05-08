@@ -159,12 +159,15 @@
                             <h2 style="text-align: center" id="form-title">User Edit</h2>
                         </div>      
                         <div class="alert alert-success" id="alert-success-message-user" style="display: none;">
+                            <button type="button" class="close" onclick="$('#alert-success-message-user').hide()" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                             <p style="text-align: center; margin-bottom: 0px;">
                                 <strong>Success!</strong> <span id="success-message-user"></span>.
                             </p>
                         </div>
                         <div class="alert alert-danger" id="alert-error-message-user" style="display: none;">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <button type="button" class="close" onclick="$('#alert-error-message-user').hide()" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             <p style="text-align: center; margin-bottom: 0px;">
@@ -225,13 +228,16 @@
                         <div class="form-group">
                             <h2 style="text-align: center" id="form-title-book">Book Edit</h2>
                         </div>      
-                        <div class="alert alert-success" id="alert-success-message-book" style="display: none;">                       
+                        <div class="alert alert-success" id="alert-success-message-book" style="display: none;">  
+                            <button type="button" class="close" onclick="$('#alert-success-message-book').hide();" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>                     
                             <p style="text-align: center; margin-bottom: 0px;">
                                 <strong>Success!</strong> <span id="success-message-book"></span>.
                             </p>
                         </div>
                         <div class="alert alert-danger" id="alert-error-message-book" style="display: none;">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <button type="button" class="close" onclick="$('#alert-error-message-book').hide();" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             <p style="text-align: center; margin-bottom: 0px;">
