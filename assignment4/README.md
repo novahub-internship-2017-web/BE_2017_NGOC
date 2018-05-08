@@ -22,21 +22,32 @@ The website have two type of users (admin, user, guest). The website has one and
 ## Guide start project  
 Clone this repository using:  
 ```
-git clone https://github.com/novahub-internship-2017-web/BE_2017_NGOC/edit/master/assignment4 
+git clone https://github.com/novahub-internship-2017-web/BE_2017_NGOC
 ```  
-Open folder assignment3  
-Run file script db.sql
-Run project by command : mvn install clean && mvn spring-boot:run
+Open folder assignment4 or run command line :  
+```
+cd assignment4  
+```
+Run file script db.sql  
+Run project by command line :
+```
+mvn install clean && mvn spring-boot:run
+```
 ### Note   
 Users:
-* administrator
+* role admin
   > User: admin@gmail.com  
   > Password: password
-* guest:  
+* role user:  
   > User: ngoc@gmail.com  
   > Password: password  
   <-------------------------->  
   > User: hai@gmail.com  
   > Password: password  
   <-------------------------->  
+  > User: huong@gmail.com  
+  > Password: password  
+  <-------------------------->  
+  > User: hung@gmail.com  
+  > Password: password
 
