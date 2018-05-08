@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 public class LoginController {
 
-    @GetMapping(value =  "/login")
+    @GetMapping(value =  {"/login","/"})
     public ModelAndView loginGet(){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("login");
