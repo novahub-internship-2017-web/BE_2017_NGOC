@@ -921,6 +921,7 @@
                                 $("#message-success").text("Add new book successfully");
                                 $("#exampleModal").modal('hide');
                                 showAlert();
+                                searchBooks($("#text-search").val());
                             }
                             break;
 
@@ -940,6 +941,7 @@
                                 $("#message-success").text("Edit book successfully");
                                 $("#exampleModal").modal('hide');
                                 showAlert();
+                                searchBooks($("#text-search").val());
                             }
                             break;
                         }

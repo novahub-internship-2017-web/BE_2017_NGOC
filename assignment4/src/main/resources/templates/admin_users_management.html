@@ -874,19 +874,22 @@
                             $("#alert-error-message-user").show();
                         }
                     } else {
-                        for(var userIndex = 0; userIndex < usersList.length; userIndex++){
-                          if(usersList[userIndex].id == userIdPost){
-                            usersList[userIndex].firstName = $("#firstName").val();
-                            usersList[userIndex].lastName = $("#lastName").val();
-                            $("#first-name-" + userIdPost).text(usersList[userIndex].firstName);
-                            $("#last-name-" + userIdPost).text(usersList[userIndex].lastName);
-                            $('#message-success').text("Update user successfully.");
-                            showAlert();
-                            $("#userEditFromModal").modal('hide');
-                          }
-                        }
-
+                        // for(var userIndex = 0; userIndex < usersList.length; userIndex++){
+                        //   if(usersList[userIndex].id == userIdPost){
+                        //     usersList[userIndex].firstName = $("#firstName").val();
+                        //     usersList[userIndex].lastName = $("#lastName").val();
+                        //     $("#first-name-" + userIdPost).text(usersList[userIndex].firstName);
+                        //     $("#last-name-" + userIdPost).text(usersList[userIndex].lastName);
+                        //     $('#message-success').text("Update user successfully.");
+                        //     showAlert();
+                        //     $("#userEditFromModal").modal('hide');
+                        //   }
+                        // }
+                        $('#message-success').text("Update user successfully.");
+                        showAlert();
+                        $("#userEditFromModal").modal('hide');
                         $("#message").text("Update user successfully");
+                        searchUsers($("#text-search").val());
                     }
                 },
                 error: function (e) {
